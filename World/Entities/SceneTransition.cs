@@ -8,13 +8,15 @@ namespace UnceasingFear.Domain.World.Entities
 {
     public class SceneTransition : Entity
     {
-        public TileId TriggerTile { get; }
+        public TileCoord TriggerTile { get; }
         public SceneId TargetScene { get; }
+        public WorldPosition NextSceneTile { get; }
 
-        public SceneTransition(TileId triggerTile, SceneId targetScene)
+        public SceneTransition(TileCoord triggerTile, SceneId targetScene, WorldPosition nextSceneTile)
         {
             TriggerTile = triggerTile;
             TargetScene = targetScene;
+            NextSceneTile = nextSceneTile;
         }
     }
 }

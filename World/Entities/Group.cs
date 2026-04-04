@@ -8,22 +8,38 @@ using UnceasingFear.Domain.World.Events;
 
 namespace UnceasingFear.Domain.World.Entities
 {
-    public class EnemyGroup : Entity
+    public class Group : Entity
     {
-        public EnemyGroupId Id { get; }
-        public TileId SpawnTile { get; }
-        public EnemyTemplate EnemyTemplateName { get; }
+        public GroupId Id { get; }
+        public Template TemplateName { get; }
         public MovementPattern MovementPattern { get; }
         public AggroRange AggroRange { get; }
         public MovementSpeed Speed { get; }
         public WorldPosition CurrentPosition { get; private set; }
         public bool IsDefeated { get; private set; }
+        public Group(
+            GroupId id,
+            Template templateName,
+            MovementPattern movementPattern,
+            AggroRange aggroRange,
+            MovementSpeed speed,
+            WorldPosition startPosition)
+        {
+            Id = id;
+            TemplateName = templateName;
+            MovementPattern = movementPattern;
+            AggroRange = aggroRange;
+            Speed = speed;
+            CurrentPosition = startPosition;
+            IsDefeated = false;
+        }
+
         public void MoveTo(WorldPosition position) 
             => CurrentPosition = position;
         public void Defeat()
         {
             IsDefeated = true;
-            AddDomainEvent(new EnemyGroupDefeatedEvent(Id, SpawnTile));
+            AddDomainEvent(new GroupDefeatedEvent(Id, CurrentPosition));
         }
 
         public bool IsAggroedBy(WorldPosition playerPosition)

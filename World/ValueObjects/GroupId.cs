@@ -4,9 +4,9 @@ using System.Text;
 
 namespace UnceasingFear.Domain.World.ValueObjects
 {
-    public readonly record struct EnemyGroupId(string Value)
+    public readonly record struct GroupId(string Value)
     {
-        public static EnemyGroupId From(string name) => new(name);
+        public static GroupId From(string name) => new(name);
         public override string ToString() => Value;
     }
 }
