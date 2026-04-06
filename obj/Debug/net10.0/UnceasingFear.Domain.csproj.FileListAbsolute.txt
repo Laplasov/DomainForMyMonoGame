@@ -12,3 +12,4 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Do
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net10.0\UnceasingFear.Domain.pdb
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net10.0\UnceasingFear.Domain.genruntimeconfig.cache
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net10.0\ref\UnceasingFear.Domain.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net10.0\UnceasingFear.Domain.sourcelink.json

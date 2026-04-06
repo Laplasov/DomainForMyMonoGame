@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using UnceasingFear.Domain.Shared;
-using UnceasingFear.Domain.World.ValueObjects;
 
-namespace UnceasingFear.Domain.World.Entities
+namespace UnceasingFear.Domain.World.ValueObjects
 {
-    public class SceneTransition : Entity
+    public readonly record struct SceneTransition
     {
         public TileCoord TriggerTile { get; }
         public SceneId TargetScene { get; }

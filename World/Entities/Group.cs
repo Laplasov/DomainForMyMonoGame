@@ -13,6 +13,7 @@ namespace UnceasingFear.Domain.World.Entities
         public GroupId Id { get; }
         public Template TemplateName { get; }
         public MovementPattern MovementPattern { get; }
+        public WorldPosition SpawnPosition { get; }
         public AggroRange AggroRange { get; }
         public MovementSpeed Speed { get; }
         public WorldPosition CurrentPosition { get; private set; }
@@ -30,6 +31,7 @@ namespace UnceasingFear.Domain.World.Entities
             MovementPattern = movementPattern;
             AggroRange = aggroRange;
             Speed = speed;
+            SpawnPosition = startPosition;
             CurrentPosition = startPosition;
             IsDefeated = false;
         }
@@ -41,8 +43,34 @@ namespace UnceasingFear.Domain.World.Entities
             IsDefeated = true;
             AddDomainEvent(new GroupDefeatedEvent(Id, CurrentPosition));
         }
-
-        public bool IsAggroedBy(WorldPosition playerPosition)
+        public bool TryAggro(WorldPosition playerPosition)
+        {
+            if (!IsAggroedBy(playerPosition)) return false;
+            AddDomainEvent(new GroupAggroedEvent(Id, playerPosition));
+            return true;
+        }
+        private bool IsAggroedBy(WorldPosition playerPosition)
             => !IsDefeated && AggroRange.IsInRange(CurrentPosition, playerPosition);
+        private Velocity ComputeTerritorialVelocity(WorldPosition playerPosition)
+        {
+            if (AggroRange.IsInRange(SpawnPosition, playerPosition))
+                return Velocity.Toward(CurrentPosition, playerPosition, Speed);
+
+            if (CurrentPosition.DistanceTo(SpawnPosition) > 2f)
+                return Velocity.Toward(CurrentPosition, SpawnPosition, Speed);
+
+            return Velocity.Zero;
+        }
+
+        public Velocity ComputeVelocity(WorldPosition playerPosition)
+        {
+            return MovementPattern switch
+            {
+                MovementPattern.Chase => Velocity.Toward(CurrentPosition, playerPosition, Speed),
+                MovementPattern.Stationary => Velocity.Zero,
+                MovementPattern.Territorial => ComputeTerritorialVelocity(playerPosition),
+                _ => Velocity.Zero
+            };
+        }
     }
 }

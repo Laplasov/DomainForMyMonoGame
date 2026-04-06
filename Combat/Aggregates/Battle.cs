@@ -45,16 +45,6 @@ namespace UnceasingFear.Domain.Combat.Aggregates
         public Unit? GetUnit(UnitId id)
             => _units.FirstOrDefault(u => u.Id == id);
 
-        public BattleState DetermineNextState(Unit nextActor)
-        {
-            if (IsVictory) 
-                return new BattleState.Victory();
-            if (IsDefeat) 
-                return new BattleState.Lost();
-
-            return nextActor.IsAlly ? new BattleState.PlayerTurn() : new BattleState.EnemyTurn();
-        }
-
         public AbilityResult ApplyAbility(Unit actor, int abilityIndex, IEnumerable<Unit> resolvedTargets)
         {
             if (!_units.Contains(actor))

@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml.Linq;
 using UnceasingFear.Domain.Shared;
 using UnceasingFear.Domain.World.Entities;
+using UnceasingFear.Domain.World.Events;
 using UnceasingFear.Domain.World.ValueObjects;
 
 namespace UnceasingFear.Domain.World.Aggregates
@@ -34,10 +35,28 @@ namespace UnceasingFear.Domain.World.Aggregates
 
         public void AddGroup(Group group)
             => _groups.Add(group);
-        public SceneTransition? FindTriggeredTransition(TileCoord playerTile)
-            => _transitions.FirstOrDefault(t => t.TriggerTile == playerTile);
+
+        public void PlayerEntered(WorldPosition position)
+            => AddDomainEvent(new PlayerEnteredSceneEvent(Id, position));
+
+        public SceneTransition? TryTriggerTransition(TileCoord playerTile)
+        {
+            var transition = FindTriggeredTransition(playerTile);
+            if (transition.HasValue)
+                AddDomainEvent(new SceneTransitionTriggeredEvent(Id, transition.Value.TargetScene));
+            return transition;
+        }
+        private SceneTransition? FindTriggeredTransition(TileCoord playerTile)
+        {
+            return _transitions
+                .Where(t => t.TriggerTile == playerTile)
+                .Select(t => (SceneTransition?)t)
+                .FirstOrDefault();
+        }
+
         public IEnumerable<Group> GetAggroedGroups(WorldPosition playerPosition)
-            => _groups.Where(g => g.IsAggroedBy(playerPosition));
+            => _groups.Where(g => g.TryAggro(playerPosition));
+
         public Group? FindGroupAtTile(WorldPosition tile)
             => _groups.FirstOrDefault(g => g.CurrentPosition == tile);
         public Group? FindGroupAtTile(TileCoord tile)

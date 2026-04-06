@@ -1,0 +1,15 @@
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\bin\Debug\net8.0\UnceasingFear.Domain.exe
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\bin\Debug\net8.0\UnceasingFear.Domain.deps.json
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\bin\Debug\net8.0\UnceasingFear.Domain.runtimeconfig.json
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\bin\Debug\net8.0\UnceasingFear.Domain.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\bin\Debug\net8.0\UnceasingFear.Domain.pdb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\UnceasingFear.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\UnceasingFear.Domain.AssemblyInfoInputs.cache
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\UnceasingFear.Domain.AssemblyInfo.cs
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\UnceasingFear.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\UnceasingFear.Domain.sourcelink.json
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\UnceasingFear.Domain.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\refint\UnceasingFear.Domain.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\UnceasingFear.Domain.pdb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\UnceasingFear.Domain.genruntimeconfig.cache
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Domain\obj\Debug\net8.0\ref\UnceasingFear.Domain.dll
