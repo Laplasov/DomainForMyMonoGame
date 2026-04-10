@@ -11,7 +11,7 @@ namespace UnceasingFear.Domain.World.Entities
     public class Group : Entity
     {
         public GroupId Id { get; }
-        public Template TemplateName { get; }
+        public Template Template { get; }
         public MovementPattern MovementPattern { get; }
         public WorldPosition SpawnPosition { get; }
         public AggroRange AggroRange { get; }
@@ -20,14 +20,14 @@ namespace UnceasingFear.Domain.World.Entities
         public bool IsDefeated { get; private set; }
         public Group(
             GroupId id,
-            Template templateName,
+            Template template,
             MovementPattern movementPattern,
             AggroRange aggroRange,
             MovementSpeed speed,
             WorldPosition startPosition)
         {
             Id = id;
-            TemplateName = templateName;
+            Template = template;
             MovementPattern = movementPattern;
             AggroRange = aggroRange;
             Speed = speed;

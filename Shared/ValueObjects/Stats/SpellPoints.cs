@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UnceasingFear.Domain.Combat.ValueObjects.Stats
+namespace UnceasingFear.Domain.Shared.ValueObjects.Stats
 {
     public readonly record struct SpellPoints
     {

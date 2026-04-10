@@ -4,5 +4,5 @@ using System.Text;
 
 namespace UnceasingFear.Domain.World.Enums
 {
-    public enum MovementPattern { Stationary, Patrol, Territorial, Chase }
+    public enum MovementPattern { Stationary, Patrol, Territorial, Chase, PlayerControlled }
 }

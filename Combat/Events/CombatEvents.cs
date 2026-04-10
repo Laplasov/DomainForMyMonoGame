@@ -1,6 +1,6 @@
 ﻿using UnceasingFear.Domain.Combat.ValueObjects;
-using UnceasingFear.Domain.Combat.ValueObjects.Stats;
 using UnceasingFear.Domain.Shared.Events;
+using UnceasingFear.Domain.Shared.ValueObjects.Stats;
 
 namespace UnceasingFear.Domain.Combat.Events
 {

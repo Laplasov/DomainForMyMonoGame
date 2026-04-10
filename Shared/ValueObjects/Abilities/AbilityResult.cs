@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UnceasingFear.Domain.Combat.ValueObjects.Abilities
+namespace UnceasingFear.Domain.Shared.ValueObjects.Abilities
 {
     public abstract record AbilityResult
     {

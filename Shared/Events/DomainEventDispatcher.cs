@@ -2,11 +2,16 @@
 namespace UnceasingFear.Domain.Shared.Events
 {
     public interface IDomainEvent { }
-    public class DomainEventDispatcher
+    public interface IEventDispatcher { 
+        public void Subscribe<T>(Action<T> handler); 
+        public void Dispatch(IDomainEvent e); 
+    }
+
+    public class DomainEventDispatcher : IEventDispatcher
     {
         private readonly Dictionary<Type, List<Action<IDomainEvent>>> _handlers = new();
 
-        public void Subscribe<T>(Action<T> handler) where T : IDomainEvent
+        void IEventDispatcher.Subscribe<T>(Action<T> handler)
         {
             var type = typeof(T);
             if (!_handlers.ContainsKey(type))

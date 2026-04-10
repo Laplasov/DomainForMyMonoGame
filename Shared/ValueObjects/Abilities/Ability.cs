@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnceasingFear.Domain.Combat.Enums;
-using UnceasingFear.Domain.Combat.ValueObjects.Stats;
-using static UnceasingFear.Domain.Combat.ValueObjects.Abilities.AbilityResult;
+using UnceasingFear.Domain.Shared.ValueObjects.Stats;
+using static UnceasingFear.Domain.Shared.ValueObjects.Abilities.AbilityResult;
 
-namespace UnceasingFear.Domain.Combat.ValueObjects.Abilities
+namespace UnceasingFear.Domain.Shared.ValueObjects.Abilities
 {
     public readonly record struct Ability
     {

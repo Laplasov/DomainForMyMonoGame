@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnceasingFear.Domain.Combat.Enums;
 
-namespace UnceasingFear.Domain.Combat.ValueObjects.Abilities
+namespace UnceasingFear.Domain.Shared.ValueObjects.Abilities
 {
     public readonly record struct AbilityEffect
     {

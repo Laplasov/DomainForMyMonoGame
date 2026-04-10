@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using UnceasingFear.Domain.Combat.ValueObjects.Abilities;
 
 namespace UnceasingFear.Domain.Combat.ValueObjects
 {

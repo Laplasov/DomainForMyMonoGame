@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnceasingFear.Domain.Combat.Entities;
-using UnceasingFear.Domain.Combat.ValueObjects.Abilities;
+using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 
 namespace UnceasingFear.Domain.Combat.Services
 {

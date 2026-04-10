@@ -1,8 +1,8 @@
 ﻿
 using UnceasingFear.Domain.Combat.Entities;
 using UnceasingFear.Domain.Combat.ValueObjects;
-using UnceasingFear.Domain.Combat.ValueObjects.Abilities;
 using UnceasingFear.Domain.Shared;
+using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 using static UnceasingFear.Domain.Combat.Events.CombatEvents;
 
 namespace UnceasingFear.Domain.Combat.Aggregates

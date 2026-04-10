@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnceasingFear.Domain.Combat.Entities;
 using UnceasingFear.Domain.Combat.Enums;
-using UnceasingFear.Domain.Combat.ValueObjects.Abilities;
+using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 
 namespace UnceasingFear.Domain.Combat.Services
 {
@@ -22,8 +22,8 @@ namespace UnceasingFear.Domain.Combat.Services
             // Apply range rules (you write these — you know your slot layout)
             return ability.Range switch
             {
-                TargetRange.Melee => potential.Where(u => u.SlotIndex == selectedSlot && u.SlotIndex < 3), // Front row only
-                TargetRange.Range => potential.Where(u => u.SlotIndex == selectedSlot),
+                TargetRange.Melee => potential.Where(u => u.Profile.SlotIndex == selectedSlot && u.Profile.SlotIndex < 3), // Front row only
+                TargetRange.Range => potential.Where(u => u.Profile.SlotIndex == selectedSlot),
                 TargetRange.All => potential,
                 _ => Enumerable.Empty<Unit>()
             };

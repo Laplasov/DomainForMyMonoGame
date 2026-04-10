@@ -5,9 +5,10 @@ using System.Text;
 using System.Xml.Linq;
 using UnceasingFear.Domain.Combat.Enums;
 using UnceasingFear.Domain.Combat.ValueObjects;
-using UnceasingFear.Domain.Combat.ValueObjects.Abilities;
-using UnceasingFear.Domain.Combat.ValueObjects.Stats;
 using UnceasingFear.Domain.Shared;
+using UnceasingFear.Domain.Shared.ValueObjects;
+using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
+using UnceasingFear.Domain.Shared.ValueObjects.Stats;
 using static UnceasingFear.Domain.Combat.Events.CombatEvents;
 
 namespace UnceasingFear.Domain.Combat.Entities
@@ -15,26 +16,20 @@ namespace UnceasingFear.Domain.Combat.Entities
     public class Unit : Entity
     {
         public UnitId Id { get; }
-        public string Name { get; }
+        public string Name => Profile.Name;
         public bool IsAlly { get; }
-        public int SlotIndex { get; private set; }
-
-        public UnitStats Stats { get; private set; }
-        public IReadOnlyList<Ability> Abilities { get; private set; }
+        public UnitProfile Profile { get; private set; }
         public TurnProgress TurnProgress { get; private set; }
 
-        public bool IsAlive => Stats.IsAlive;
+        public bool IsAlive => Profile.Stats.IsAlive;
         public bool CanAct => TurnProgress.IsReady && IsAlive;
 
-        public Unit(UnitId id, string name, bool isAlly, UnitStats stats, IEnumerable<Ability> abilities, TurnProgress? turnProgress = null)
+        public Unit(UnitId id, bool isAlly, UnitProfile profile, TurnProgress? turnProgress = null)
         {
             Id = id;
-            Name = name; 
-            IsAlly = isAlly; 
-            Stats = stats;
-
+            IsAlly = isAlly;
+            Profile = profile;
             TurnProgress = turnProgress ?? new TurnProgress();
-            Abilities = abilities?.TakeLast(4).ToList() ?? new();
         }
         public void AdvanceGauge(float baseAmount, float speedModifier = 1f)
         {
@@ -45,62 +40,41 @@ namespace UnceasingFear.Domain.Combat.Entities
 
         public void ConsumeTurn()
             => TurnProgress = TurnProgress.Consume();
-        public void AssignToSlot(int slotIndex)
+        public void AssignToSlot(int slotIndex) 
+            => Profile = Profile.AssignToSlot(slotIndex);
+        public void TakeDamage(int amount)
         {
-            if (slotIndex < 0 || slotIndex >= 6) 
-                throw new ArgumentException("Invalid slot index");
-            SlotIndex = slotIndex;
+            Profile = Profile.TakeDamage(amount);
+
+            AddDomainEvent(new UnitDamagedEvent(Id, Name, amount, Profile.Stats.Health));
+
+            if (!IsAlive) 
+                AddDomainEvent(new UnitDiedEvent(Id, Name, IsAlly));
         }
         public AbilityResult UseAbility(int index)
         {
             if (!CanAct)
                 return new AbilityResult.Failure("Unit cannot act yet");
 
-            if (index < 0 || index >= Abilities.Count)
+            if (index < 0 || index >= Profile.Abilities.Count)
                 return new AbilityResult.Failure("Invalid ability slot");
 
-            var ability = Abilities[index];
+            var ability = Profile.Abilities[index];
 
             foreach (var cost in ability.Costs)
             {
-                if (!CanPay(cost))
+                if (!Profile.CanPay(cost))
                     return new AbilityResult.Failure($"Cannot pay {cost.Stat}");
             }
 
             foreach (var cost in ability.Costs)
-                PayCost(cost);
+                Profile = Profile.PayCost(cost);
 
-            var effect = ability.CalculateEffect(Stats);
+            var effect = ability.CalculateEffect(Profile.Stats);
 
             AddDomainEvent(new AbilityUsedEvent(Id, ability.Id, ability.Name));
 
             return new AbilityResult.Success(effect);
         }
-        private bool CanPay(Cost cost) => cost.Stat switch
-        {
-            CostType.HP => Stats.Health.Current >= cost.Value,
-            CostType.SP => Stats.SpellPoints.Current >= cost.Value,
-            _ => true
-        };
-
-        private void PayCost(Cost cost)
-        {
-            switch (cost.Stat)
-            {
-                case CostType.HP: Stats = Stats.WithDamage((int)cost.Value); break;
-                case CostType.SP: Stats = Stats.WithSpendSP((int)cost.Value); break;
-            }
-        }
-        
-        public void TakeDamage(int amount)
-        {
-            Stats = Stats.WithDamage(amount);
-
-            AddDomainEvent(new UnitDamagedEvent(Id, Name, amount, Stats.Health));
-
-            if (!IsAlive) 
-                AddDomainEvent(new UnitDiedEvent(Id, Name, IsAlly));
-        }
-        
     }
 }
