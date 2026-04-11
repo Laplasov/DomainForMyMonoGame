@@ -3,7 +3,8 @@ namespace UnceasingFear.Domain.Shared.Events
 {
     public interface IDomainEvent { }
     public interface IEventDispatcher { 
-        public void Subscribe<T>(Action<T> handler); 
+        public void Subscribe<T>(Action<T> handler);
+        public void Unsubscribe<T>();
         public void Dispatch(IDomainEvent e); 
     }
 
@@ -18,7 +19,7 @@ namespace UnceasingFear.Domain.Shared.Events
                 _handlers[type] = new();
             _handlers[type].Add(e => handler((T)e));
         }
-
+        public void Unsubscribe<T>() => _handlers.Remove(typeof(T)); 
         public void Dispatch(IDomainEvent e)
         {
             if (_handlers.TryGetValue(e.GetType(), out var handlers))

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnceasingFear.Domain.Combat.Entities;
 using UnceasingFear.Domain.Shared.Events;
+using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 using UnceasingFear.Domain.World.Entities;
 using UnceasingFear.Domain.World.ValueObjects;
 
@@ -12,5 +14,4 @@ namespace UnceasingFear.Domain.World.Events
     public record GroupAggroedEvent(GroupId GroupId, WorldPosition PlayerPosition) : IDomainEvent;
     public record GroupDefeatedEvent(GroupId GroupId, WorldPosition SpawnTile) : IDomainEvent;
     public record SceneTransitionTriggeredEvent(SceneId From, SceneId To) : IDomainEvent;
-
 }
