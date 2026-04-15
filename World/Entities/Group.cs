@@ -69,6 +69,7 @@ namespace UnceasingFear.Domain.World.Entities
                 MovementPattern.Chase => Velocity.Toward(CurrentPosition, playerPosition, Speed),
                 MovementPattern.Stationary => Velocity.Zero,
                 MovementPattern.Territorial => ComputeTerritorialVelocity(playerPosition),
+                MovementPattern.PlayerControlled => Velocity.FromInput(playerPosition.X, playerPosition.Y, Speed),
                 _ => Velocity.Zero
             };
         }
