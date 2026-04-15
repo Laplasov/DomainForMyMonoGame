@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "UnceasingFear.Application/1.0.0": {
+        "dependencies": {
+          "UnceasingFear.Domain": "1.0.0"
+        },
+        "runtime": {
+          "UnceasingFear.Application.dll": {}
+        }
+      },
+      "UnceasingFear.Domain/1.0.0": {
+        "runtime": {
+          "UnceasingFear.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "UnceasingFear.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnceasingFear.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

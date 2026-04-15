@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="UnceasingFear.Application/UnceasingFear.Application.csproj" Id="f57864a3-7f55-4778-bfad-99079017edd1" />
+  <Project Path="UnceasingFear.Appplication/UnceasingFear.csproj" Id="794ae15d-5dc9-41cd-9d92-0c36d7f30b18" />
+  <Project Path="UnceasingFear.Domain/UnceasingFear.Domain.csproj" />
+</Solution>
