@@ -1,62 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnceasingFear.Application.Combat.Snapshots;
+﻿using UnceasingFear.Application.Combat.Snapshots;
+using UnceasingFear.Application.Commands;
 using UnceasingFear.Domain.Combat.Aggregates;
 using UnceasingFear.Domain.Combat.Entities;
 using UnceasingFear.Domain.Combat.Services;
 using UnceasingFear.Domain.Combat.ValueObjects;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.Shared.ValueObjects;
-using static UnceasingFear.Domain.Combat.Events.CombatEvents;
 using static UnceasingFear.Domain.Combat.ValueObjects.BattleState;
 
 namespace UnceasingFear.Application.Combat
 {
+    public record struct SelectAbilityEventCommand(int TargetSlot, int AbilitySlot);
     public class BattleApplicationService
     {
         private readonly Battle _battle;
         private readonly ITurnOrderService _turnOrder;
         private readonly ITargetResolver _targetResolver;
-        private readonly IEventDispatcher _dispatcher;
+        public IEventDispatcher EventDispatcher { get; }
+        public ICommandDispatcher CommandDispatcher { get; }
 
         private Unit? _currentActor;
         public bool IsWaitingForPlayerInput =>
             _currentActor != null && _currentActor.IsAlly;
-
-        public BattleApplicationService(
-            IReadOnlyList<UnitProfile> allyProfiles,
-            IReadOnlyList<UnitProfile> enemyProfiles,
-            ITurnOrderService turnOrder,
-            ITargetResolver targetResolver,
-            IEventDispatcher dispatcher)
+        public BattleApplicationService(IReadOnlyList<UnitProfile> allyProfiles, IReadOnlyList<UnitProfile> enemyProfiles, IEventDispatcher dispatcher, ICommandDispatcher commandDispatcher)
         {
-            _turnOrder = turnOrder;
-            _targetResolver = targetResolver;
-            _dispatcher = dispatcher;
+            _turnOrder = new TurnOrderService();
+            _targetResolver = new TargetResolver();
             _battle = new Battle();
 
-            int allySlot = 0;
+            EventDispatcher = dispatcher;
+            CommandDispatcher = commandDispatcher;
+
             foreach (var profile in allyProfiles)
             {
-                var unit = new Unit(UnitId.New(), true, profile.AssignToSlot(allySlot));
+                var unit = new Unit(UnitId.New(), true, profile);
                 _battle.AddUnit(unit);
-                allySlot++;
             }
 
-            int enemySlot = 0;
             foreach (var profile in enemyProfiles)
             {
-                var unit = new Unit(UnitId.New(), false, profile.AssignToSlot(enemySlot));
+                var unit = new Unit(UnitId.New(), false, profile);
                 _battle.AddUnit(unit);
-                enemySlot++;
             }
 
-            _dispatcher.Subscribe<SelectAbilityEventCommand>(OnAbilitySelected);
+            CommandDispatcher.Register<SelectAbilityEventCommand>(OnAbilitySelected);
             PublishPendingEvents();
         }
+
+
 
         public void Update(float deltaTime)
         {
@@ -69,6 +60,7 @@ namespace UnceasingFear.Application.Combat
                     ProcessEnemyTurn(_currentActor);
                     return;
                 }
+
             }
 
             _turnOrder.AdvanceGauges(_battle.Units, deltaTime);
@@ -84,7 +76,7 @@ namespace UnceasingFear.Application.Combat
 
             if (_battle.State is Victory || _battle.State is Lost)
             {
-                _dispatcher.Unsubscribe<SelectAbilityEventCommand>();
+                CommandDispatcher.Unsubscribe<SelectAbilityEventCommand>();
                 _currentActor = null;
             }
         }
@@ -118,11 +110,11 @@ namespace UnceasingFear.Application.Combat
         private void PublishPendingEvents()
         {
             foreach (var e in _battle.PullDomainEvents())
-                _dispatcher.Dispatch(e);
+                EventDispatcher.Dispatch(e);
 
             foreach (var unit in _battle.Units)
                 foreach (var e in unit.PullDomainEvents())
-                    _dispatcher.Dispatch(e);
+                    EventDispatcher.Dispatch(e);
         }
 
         // Read model for presentation layer — no domain types exposed

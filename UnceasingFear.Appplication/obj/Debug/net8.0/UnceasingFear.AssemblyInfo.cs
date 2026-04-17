@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UnceasingFear")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8b42b22adf57b1c81d795ef647a7887b7acff8a")]
 [assembly: System.Reflection.AssemblyProductAttribute("UnceasingFear")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UnceasingFear")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

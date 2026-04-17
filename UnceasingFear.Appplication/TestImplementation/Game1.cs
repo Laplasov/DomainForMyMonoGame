@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.World;
+using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.Entities;
@@ -18,9 +20,9 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     public IEventDispatcher EventDispatcher { get; } = new DomainEventDispatcher();
+    public ICommandDispatcher CommandDispatcher { get; } = new CommandDispatcher();
 
     // Domain objects
-    private Scene _scene;
     private Vector2 _playerPosition;
     private const float PlayerSpeed = 200f;
 
@@ -31,11 +33,10 @@ public class Game1 : Game
 
     TileMapMetadata _metadata;
 
-    private Group _playerGroup;
-
     bool _isBattle = false;
     BattleInstance _battle;
 
+    private WorldSnapshot _worldSnapshot;
 
     private WorldApplicationService _appServiceWorld;
 
@@ -59,7 +60,7 @@ public class Game1 : Game
             LayerScale: 1f
         );
 
-        _scene = new Scene(
+        var scene = new Scene(
             id: SceneId.From("TestScene"),
             mapMetadata: _metadata
         );
@@ -68,11 +69,11 @@ public class Game1 : Game
         // Add test groups
         var group1 = GroupFactory.CreateGroup1Goblin();
         var group2 = GroupFactory.CreateGroup2Slime();
-        _playerGroup = GroupFactory.CreateGroupPlayer();
+        var playerGroup = GroupFactory.CreateGroupPlayer();
 
-        _scene.AddGroup(group1);
-        _scene.AddGroup(group2);
-        _scene.AddGroup(_playerGroup);
+        scene.AddGroup(group1);
+        scene.AddGroup(group2);
+        scene.AddGroup(playerGroup);
 
         // Add test transition
         var transition = new SceneTransition(
@@ -80,19 +81,19 @@ public class Game1 : Game
             targetScene: SceneId.From("NextScene"),
             nextSceneTile: new WorldPosition(600, 600)
         );
-        _scene.AddTransition(transition);
+        scene.AddTransition(transition);
 
         // Initialize player
-        _playerPosition = new Vector2(_playerGroup.SpawnPosition.X, _playerGroup.SpawnPosition.Y);
+        _playerPosition = new Vector2(playerGroup.SpawnPosition.X, playerGroup.SpawnPosition.Y);
 
         EventDispatcher.Subscribe<SharedEvents.EnterBattleEvent>(e =>
         {
             _isBattle = true;
-            _battle = new BattleInstance(_graphics, _spriteBatch, this, EventDispatcher, e.AllyProfiles, e.EnemyProfiles);
+            _battle = new BattleInstance(_graphics, _spriteBatch, this, EventDispatcher, CommandDispatcher);
         });
 
 
-        _appServiceWorld = new WorldApplicationService(_scene, _playerGroup, EventDispatcher);
+        _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher);
 
         base.Initialize();
     }
@@ -105,8 +106,8 @@ public class Game1 : Game
         _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
         _whitePixel.SetData(new[] { Color.White });
 
+        _worldSnapshot = _appServiceWorld.GetSnapshot();
         UpdateRectangles();
-
     }
 
     protected override void Update(GameTime gameTime)
@@ -134,13 +135,14 @@ public class Game1 : Game
         if (keyboard.IsKeyDown(Keys.A)) _playerPosition.X -= PlayerSpeed * delta;
         if (keyboard.IsKeyDown(Keys.D)) _playerPosition.X += PlayerSpeed * delta;
 
-        _appServiceWorld.UpdatePositions(_playerPosition.X, _playerPosition.Y, delta);
+        CommandDispatcher.Dispatch(new MovePlayerCommand(_playerPosition.X, _playerPosition.Y, delta));
+
         if (keyboard.IsKeyDown(Keys.C))
         {
-            _appServiceWorld.UpdateTransition();
-            _scene = _appServiceWorld.CurrentScene;
+            CommandDispatcher.Dispatch(new RequestTransitionCommand());
         }
 
+        _worldSnapshot = _appServiceWorld.GetSnapshot();
         UpdateRectangles();
     }
     protected override void Draw(GameTime gameTime)
@@ -159,20 +161,20 @@ public class Game1 : Game
         _spriteBatch.Begin();
 
         // Draw transitions (yellow tiles)
-        foreach (var transition in _scene.Transitions)
+        foreach (var transition in _worldSnapshot.TransitionTiles)
         {
-            var tileCenter = _scene.MapMetadata.TileToWorld(transition.TriggerTile);
+            var tileCenter = _metadata.TileToWorld(transition);
             var transitionRect = new Rectangle(
-                (int)tileCenter.X - _scene.MapMetadata.TileWidth / 2,
-                (int)tileCenter.Y - _scene.MapMetadata.TileHeight / 2,
-                _scene.MapMetadata.TileWidth,
-                _scene.MapMetadata.TileHeight
+                (int)tileCenter.X - _metadata.TileWidth / 2,
+                (int)tileCenter.Y - _metadata.TileHeight / 2,
+                _metadata.TileWidth,
+                _metadata.TileHeight
             );
             _spriteBatch.Draw(_whitePixel, transitionRect, Color.Yellow * 0.5f);
         }
 
         // Draw groups (red rectangles)
-        foreach (var group in _scene.Groups)
+        foreach (var group in _worldSnapshot.Groups)
         {
             var rect = new Rectangle(
                 (int)group.CurrentPosition.X - 25,
@@ -186,10 +188,9 @@ public class Game1 : Game
         _spriteBatch.Draw(_whitePixel, _playerRect, Color.Green);
 
         // Draw aggro range circles (optional visual)
-        foreach (var group in _scene.Groups)
+        foreach (var group in _worldSnapshot.Groups)
         {
-            var aggroed = group.TryAggro(new WorldPosition(_playerPosition.X, _playerPosition.Y));
-            if (aggroed)
+            if (group.IsAggroed)
             {
                 // Draw aggro indicator
                 var indicatorRect = new Rectangle(
@@ -208,7 +209,7 @@ public class Game1 : Game
     private void UpdateRectangles()
     {
         _groupRects.Clear();
-        foreach (var group in _scene.Groups)
+        foreach (var group in _worldSnapshot.Groups)
         {
             _groupRects.Add(new Rectangle(
                 (int)group.CurrentPosition.X - 25,

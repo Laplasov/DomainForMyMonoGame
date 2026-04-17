@@ -19,3 +19,4 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Ap
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Application\obj\Debug\net8.0\UnceasingFear.Application.pdb
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Application\obj\Debug\net8.0\UnceasingFear.Application.genruntimeconfig.cache
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Application\obj\Debug\net8.0\ref\UnceasingFear.Application.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Application\obj\Debug\net8.0\UnceasingFear.Application.sourcelink.json

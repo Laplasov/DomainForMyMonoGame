@@ -12,6 +12,5 @@ namespace UnceasingFear.Domain.Combat.Events
         public record AbilityUsedEvent(UnitId UnitId, string AbilityId, string AbilityName) : IDomainEvent;
         public record BattleStateChangedEvent(BattleState From, BattleState To) : IDomainEvent;
         public record UnitJoinedBattleEvent(UnitId UnitId, string Name, bool IsAlly) : IDomainEvent;
-        public record SelectAbilityEventCommand(int TargetSlot, int AbilitySlot) : IDomainEvent;
     }
 }

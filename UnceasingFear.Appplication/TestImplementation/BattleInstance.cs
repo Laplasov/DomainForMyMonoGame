@@ -1,22 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnceasingFear.Application.Combat;
-using UnceasingFear.Domain.Combat.Aggregates;
-using UnceasingFear.Domain.Combat.Entities;
-using UnceasingFear.Domain.Combat.Services;
-using UnceasingFear.Domain.Combat.ValueObjects;
+using UnceasingFear.Application.Combat.Snapshots;
+using UnceasingFear.Application.Commands;
+using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.Shared.ValueObjects;
-using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
-using UnceasingFear.Domain.World.Events;
-using static UnceasingFear.Domain.Combat.Events.CombatEvents;
-using static UnceasingFear.Domain.Combat.ValueObjects.BattleState;
 
 namespace UnceasingFear.TestImplementation
 {
@@ -24,54 +15,38 @@ namespace UnceasingFear.TestImplementation
     {
         private readonly GraphicsDeviceManager _graphics;
         private readonly SpriteBatch _spriteBatch;
-        private readonly IEventDispatcher _dispatcher;
         private readonly Game _game1;
         private readonly Texture2D _whitePixel;
 
         private readonly BattleApplicationService _battleService;
 
-        // Domain
-        private readonly Battle _battle;
-        private readonly ITurnOrderService _turnOrder;
-        private readonly ITargetResolver _targetResolver;
-        private Unit? _currentActor;
-
-
-        // Battle data
-        private IReadOnlyList<UnitProfile> _allyProfiles;
-        private IReadOnlyList<UnitProfile> _enemyProfiles;
+        private readonly IEventDispatcher _dispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
 
         // Slot positions (calculated once)
         private Rectangle[] _allySlotRects = new Rectangle[6];
         private Rectangle[] _enemySlotRects = new Rectangle[6];
 
+        private BattleSnapshot _battleSnapshot;
+
         public BattleInstance(GraphicsDeviceManager graphics, 
             SpriteBatch spriteBatch, 
             Game game1, 
             IEventDispatcher dispatcher,
-            IReadOnlyList<UnitProfile> allyProfiles, 
-            IReadOnlyList<UnitProfile> enemyProfiles)
+            ICommandDispatcher commandDispatcher
+            )
         {
             _graphics = graphics;
             _spriteBatch = spriteBatch;
             _game1 = game1;
-            _allyProfiles = allyProfiles;
-            _enemyProfiles = enemyProfiles;
             _dispatcher = dispatcher;
+            _commandDispatcher = commandDispatcher;
 
             _whitePixel = new Texture2D(_game1.GraphicsDevice, 1, 1);
             _whitePixel.SetData(new[] { Color.White });
 
-            _turnOrder = new TurnOrderService();
-            _targetResolver = new TargetResolver();
-            _battle = new Battle();
-
-            _battleService = new BattleApplicationService(
-            allyProfiles,
-            enemyProfiles,
-            new TurnOrderService(),
-            new TargetResolver(),
-            dispatcher);
+            _battleService = new BattleApplicationService(dispatcher, commandDispatcher);
+            _battleSnapshot = _battleService.GetSnapshot();
 
             // Calculate slot positions once
             InitializeSlotPositions();
@@ -112,10 +87,12 @@ namespace UnceasingFear.TestImplementation
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
-                return;
+                _game1.Exit();
 
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _battleService.Update(delta);
+
+            _battleSnapshot = _battleService.GetSnapshot();
         }
 
         public void Draw(GameTime gameTime)
@@ -130,40 +107,35 @@ namespace UnceasingFear.TestImplementation
                 _spriteBatch.Draw(_whitePixel, _enemySlotRects[i], Color.DarkRed * 0.5f);
             }
 
-            // 2. Draw units in their CORRECT slots based on SlotIndex property
-            if (_allyProfiles != null)
+            foreach (var unit in _battleSnapshot.Units)
             {
-                foreach (var profile in _allyProfiles)
+                // Select correct slot array based on faction
+                var rects = unit.IsAlly ? _allySlotRects : _enemySlotRects;
+                int arrayIndex = unit.SlotIndex;
+
+                // Visual state: alive/dead + faction color
+                var baseColor = unit.IsAlly ? Color.Lime : Color.OrangeRed;
+                var color = unit.IsAlive ? baseColor : Color.Gray;
+
+                if (arrayIndex >= 0 && arrayIndex < 6)
                 {
-                    // Convert 1-based SlotIndex to 0-based array index
-                    int arrayIndex = profile.SlotIndex - 1;
+                    // ✅ Use 'rects' instead of hardcoded '_allySlotRects'
+                    var slotRect = rects[arrayIndex - 1];
+                    var unitRect = new Rectangle(
+                        slotRect.X + 8,
+                        slotRect.Y + 8,
+                        slotRect.Width - 16,
+                        slotRect.Height - 16);
 
-                    if (arrayIndex >= 0 && arrayIndex < 6)
+                    _spriteBatch.Draw(_whitePixel, unitRect, color);
+
+                    // Optional: HP bar overlay
+                    if (unit.IsAlive && unit.MaxHp > 0)
                     {
-                        var unitRect = new Rectangle(
-                            _allySlotRects[arrayIndex].X + 8,
-                            _allySlotRects[arrayIndex].Y + 8,
-                            _allySlotRects[arrayIndex].Width - 16,
-                            _allySlotRects[arrayIndex].Height - 16);
-                        _spriteBatch.Draw(_whitePixel, unitRect, Color.Lime);
-                    }
-                }
-            }
-
-            if (_enemyProfiles != null)
-            {
-                foreach (var profile in _enemyProfiles)
-                {
-                    int arrayIndex = profile.SlotIndex - 1;
-
-                    if (arrayIndex >= 0 && arrayIndex < 6)
-                    {
-                        var unitRect = new Rectangle(
-                            _enemySlotRects[arrayIndex].X + 8,
-                            _enemySlotRects[arrayIndex].Y + 8,
-                            _enemySlotRects[arrayIndex].Width - 16,
-                            _enemySlotRects[arrayIndex].Height - 16);
-                        _spriteBatch.Draw(_whitePixel, unitRect, Color.OrangeRed);
+                        float hpPercent = (float)unit.CurrentHp / unit.MaxHp;
+                        var hpBar = new Rectangle(unitRect.X, unitRect.Y - 4,
+                            (int)(unitRect.Width * hpPercent), 3);
+                        _spriteBatch.Draw(_whitePixel, hpBar, Color.Red);
                     }
                 }
             }
