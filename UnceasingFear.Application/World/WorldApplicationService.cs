@@ -4,6 +4,8 @@ using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.Entities;
 using UnceasingFear.Domain.World.ValueObjects;
+using static UnceasingFear.Application.Commands.SharedCommands;
+using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
 namespace UnceasingFear.Application.World
 {
@@ -17,6 +19,9 @@ namespace UnceasingFear.Application.World
         private Group _currentPlayer;
         public Scene CurrentScene => _scene;
         public WorldPosition PlayerPosition => _currentPlayer.CurrentPosition;
+
+        bool _battleTriggered = false;
+
         public IEventDispatcher EventDispatcher { get; }
         public ICommandDispatcher CommandDispatcher { get; }
         public WorldApplicationService(Scene scene, Group currentPlayer, IEventDispatcher eventDispatcher, ICommandDispatcher commandDispatcher)
@@ -28,6 +33,8 @@ namespace UnceasingFear.Application.World
 
             CommandDispatcher.Register<MovePlayerCommand>(UpdatePositions);
             CommandDispatcher.Register<RequestTransitionCommand>(UpdateTransition);
+
+            EventDispatcher.Subscribe<OutOfBattleEvent>(_ => _battleTriggered = false);
         }
 
         public void UpdatePositions(MovePlayerCommand cmd)
@@ -44,9 +51,8 @@ namespace UnceasingFear.Application.World
                 var groupTile = _scene.MapMetadata.WorldToTile(group.CurrentPosition);
                 if (groupTile == _currentTileCoordPlayer && group != _currentPlayer)
                 {
-                    EventDispatcher.Dispatch(new SharedEvents.EnterBattleEvent(
-                        _currentPlayer.Template.Profiles,
-                        group.Template.Profiles));
+                    EventDispatcher.Dispatch(new EnterBattleEvent(_currentPlayer.Template.Profiles, group.Template.Profiles));
+                    _battleTriggered = true;
                     return;
                 }
 
@@ -78,7 +84,8 @@ namespace UnceasingFear.Application.World
             _scene.Id,
             PlayerPosition,
             _scene.Groups.Select(g => new GroupSnapshot(g.Id, g.CurrentPosition, g.IsDefeated, g.TryAggro(PlayerPosition))).ToList(),
-            _scene.Transitions.Select(t => t.TriggerTile).ToList()
+            _scene.Transitions.Select(t => t.TriggerTile).ToList(),
+            _battleTriggered
         );
     }
 }

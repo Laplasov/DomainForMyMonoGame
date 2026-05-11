@@ -11,7 +11,8 @@ namespace UnceasingFear.Application.World.Snapshots
             SceneId CurrentScene,
             WorldPosition PlayerPosition,
             IReadOnlyList<GroupSnapshot> Groups,
-            IReadOnlyList<TileCoord> TransitionTiles
+            IReadOnlyList<TileCoord> TransitionTiles,
+            bool BattleTriggered
         );
     public record struct GroupSnapshot(
         GroupId Id,

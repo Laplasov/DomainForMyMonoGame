@@ -1,13 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
 using UnceasingFear.Application.Combat;
 using UnceasingFear.Application.Combat.Snapshots;
 using UnceasingFear.Application.Commands;
-using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Shared.Events;
-using UnceasingFear.Domain.Shared.ValueObjects;
 
 namespace UnceasingFear.TestImplementation
 {
@@ -29,23 +26,19 @@ namespace UnceasingFear.TestImplementation
 
         private BattleSnapshot _battleSnapshot;
 
-        public BattleInstance(GraphicsDeviceManager graphics, 
-            SpriteBatch spriteBatch, 
-            Game game1, 
-            IEventDispatcher dispatcher,
-            ICommandDispatcher commandDispatcher
-            )
+        public BattleInstance(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Game game1, BattleServiceProvider battleServiceProvider)
         {
             _graphics = graphics;
             _spriteBatch = spriteBatch;
             _game1 = game1;
-            _dispatcher = dispatcher;
-            _commandDispatcher = commandDispatcher;
+
+            _dispatcher = battleServiceProvider.EventDispatcher;
+            _commandDispatcher = battleServiceProvider.CommandDispatcher;
+            _battleService = battleServiceProvider.ActiveService;
 
             _whitePixel = new Texture2D(_game1.GraphicsDevice, 1, 1);
             _whitePixel.SetData(new[] { Color.White });
 
-            _battleService = new BattleApplicationService(dispatcher, commandDispatcher);
             _battleSnapshot = _battleService.GetSnapshot();
 
             // Calculate slot positions once
@@ -111,7 +104,7 @@ namespace UnceasingFear.TestImplementation
             {
                 // Select correct slot array based on faction
                 var rects = unit.IsAlly ? _allySlotRects : _enemySlotRects;
-                int arrayIndex = unit.SlotIndex;
+                int arrayIndex = unit.SlotIndex - 1;
 
                 // Visual state: alive/dead + faction color
                 var baseColor = unit.IsAlly ? Color.Lime : Color.OrangeRed;
@@ -120,7 +113,7 @@ namespace UnceasingFear.TestImplementation
                 if (arrayIndex >= 0 && arrayIndex < 6)
                 {
                     // ✅ Use 'rects' instead of hardcoded '_allySlotRects'
-                    var slotRect = rects[arrayIndex - 1];
+                    var slotRect = rects[arrayIndex];
                     var unitRect = new Rectangle(
                         slotRect.X + 8,
                         slotRect.Y + 8,

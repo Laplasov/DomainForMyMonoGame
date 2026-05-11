@@ -2,4 +2,6 @@
   <Project Path="UnceasingFear.Application/UnceasingFear.Application.csproj" Id="f57864a3-7f55-4778-bfad-99079017edd1" />
   <Project Path="UnceasingFear.Appplication/UnceasingFear.csproj" Id="794ae15d-5dc9-41cd-9d92-0c36d7f30b18" />
   <Project Path="UnceasingFear.Domain/UnceasingFear.Domain.csproj" />
+  <Project Path="UnceasingFear.Persistence/UnceasingFear.Persistence.csproj" Id="d1d35e48-06c2-43dd-a059-f5d90544eda4" />
+  <Project Path="UnceasingFear.Presentation/UnceasingFear.Presentation.csproj" Id="0f03aee3-803a-4b6a-afdb-5f7570615560" />
 </Solution>

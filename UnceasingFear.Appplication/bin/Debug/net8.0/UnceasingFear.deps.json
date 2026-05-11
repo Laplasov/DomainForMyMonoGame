@@ -10,7 +10,9 @@
         "dependencies": {
           "MonoGame.Framework.DesktopGL": "3.8.4.1",
           "UnceasingFear.Application": "1.0.0",
-          "UnceasingFear.Domain": "1.0.0"
+          "UnceasingFear.Domain": "1.0.0",
+          "UnceasingFear.Persistence": "1.0.0",
+          "UnceasingFear.Presentation": "1.0.0"
         },
         "runtime": {
           "UnceasingFear.dll": {}
@@ -133,6 +135,31 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "UnceasingFear.Persistence/1.0.0": {
+        "dependencies": {
+          "UnceasingFear.Application": "1.0.0",
+          "UnceasingFear.Domain": "1.0.0"
+        },
+        "runtime": {
+          "UnceasingFear.Persistence.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "UnceasingFear.Presentation/1.0.0": {
+        "dependencies": {
+          "MonoGame.Framework.DesktopGL": "3.8.4.1",
+          "UnceasingFear.Application": "1.0.0",
+          "UnceasingFear.Domain": "1.0.0"
+        },
+        "runtime": {
+          "UnceasingFear.Presentation.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -176,6 +203,16 @@
       "sha512": ""
     },
     "UnceasingFear.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnceasingFear.Persistence/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnceasingFear.Presentation/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

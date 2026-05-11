@@ -22,11 +22,19 @@ namespace UnceasingFear.Application.Combat
         private Unit? _currentActor;
         public bool IsWaitingForPlayerInput =>
             _currentActor != null && _currentActor.IsAlly;
-        public BattleApplicationService(IReadOnlyList<UnitProfile> allyProfiles, IReadOnlyList<UnitProfile> enemyProfiles, IEventDispatcher dispatcher, ICommandDispatcher commandDispatcher)
+        public BattleApplicationService(
+            IReadOnlyList<UnitProfile> allyProfiles, 
+            IReadOnlyList<UnitProfile> enemyProfiles, 
+            IEventDispatcher dispatcher, 
+            ICommandDispatcher commandDispatcher, 
+            TurnOrderService turnOrderService,
+            TargetResolver targetResolver,
+            Battle battle
+            )
         {
-            _turnOrder = new TurnOrderService();
-            _targetResolver = new TargetResolver();
-            _battle = new Battle();
+            _turnOrder = turnOrderService;
+            _targetResolver = targetResolver;
+            _battle = battle;
 
             EventDispatcher = dispatcher;
             CommandDispatcher = commandDispatcher;

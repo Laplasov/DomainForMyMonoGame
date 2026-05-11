@@ -4,12 +4,6 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Ap
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\obj\Debug\net8.0\UnceasingFear.AssemblyInfo.cs
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\obj\Debug\net8.0\UnceasingFear.csproj.CoreCompileInputs.cache
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\obj\Debug\net8.0\mgcb.tool.restore
-C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Application.deps.json
-C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Application.runtimeconfig.json
-C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Domain.deps.json
-C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Domain.runtimeconfig.json
-C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Domain.exe
-C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Application.exe
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.exe
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.deps.json
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.runtimeconfig.json
@@ -42,3 +36,7 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Ap
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\obj\Debug\net8.0\UnceasingFear.genruntimeconfig.cache
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\obj\Debug\net8.0\ref\UnceasingFear.dll
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\obj\Debug\net8.0\UnceasingFear.sourcelink.json
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Persistence.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Persistence.pdb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Presentation.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Presentation.pdb

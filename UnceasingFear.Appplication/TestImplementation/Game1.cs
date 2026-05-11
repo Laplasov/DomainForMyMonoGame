@@ -1,17 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
+using UnceasingFear.Application.Combat;
 using UnceasingFear.Application.Commands;
+using UnceasingFear.Application.Repository;
 using UnceasingFear.Application.World;
 using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.Entities;
+using UnceasingFear.Domain.World.Enums;
 using UnceasingFear.Domain.World.ValueObjects;
+using UnceasingFear.Persistence;
+using UnceasingFear.Presentation.Render;
 
 namespace UnceasingFear.TestImplementation;
 
@@ -33,12 +36,14 @@ public class Game1 : Game
 
     TileMapMetadata _metadata;
 
-    bool _isBattle = false;
     BattleInstance _battle;
 
     private WorldSnapshot _worldSnapshot;
 
     private WorldApplicationService _appServiceWorld;
+    private BattleServiceProvider _battleServiceProvider;
+
+    private WorldView _worldView;
 
     public Game1()
     {
@@ -48,56 +53,25 @@ public class Game1 : Game
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
     }
-
+    
     protected override void Initialize()
     {
-        // Create domain scene
-        _metadata = new TileMapMetadata(
-            Width: 20,
-            Height: 20,
-            TileWidth: 64,
-            TileHeight: 64,
-            LayerScale: 1f
-        );
+        ISceneProvider SceneProvider = new SceneProviderTest();
 
-        var scene = new Scene(
-            id: SceneId.From("TestScene"),
-            mapMetadata: _metadata
-        );
+        Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
+        Group playerGroup = scene.Groups.First(g => g.MovementPattern == MovementPattern.PlayerControlled);
 
-
-        // Add test groups
-        var group1 = GroupFactory.CreateGroup1Goblin();
-        var group2 = GroupFactory.CreateGroup2Slime();
-        var playerGroup = GroupFactory.CreateGroupPlayer();
-
-        scene.AddGroup(group1);
-        scene.AddGroup(group2);
-        scene.AddGroup(playerGroup);
-
-        // Add test transition
-        var transition = new SceneTransition(
-            triggerTile: new TileCoord(5, 4),   // world center ~(352, 288)
-            targetScene: SceneId.From("NextScene"),
-            nextSceneTile: new WorldPosition(600, 600)
-        );
-        scene.AddTransition(transition);
-
-        // Initialize player
+        _metadata = scene.MapMetadata;
         _playerPosition = new Vector2(playerGroup.SpawnPosition.X, playerGroup.SpawnPosition.Y);
 
-        EventDispatcher.Subscribe<SharedEvents.EnterBattleEvent>(e =>
-        {
-            _isBattle = true;
-            _battle = new BattleInstance(_graphics, _spriteBatch, this, EventDispatcher, CommandDispatcher);
-        });
-
+        _battleServiceProvider = new BattleServiceProvider();
+        _battleServiceProvider.Initialize(EventDispatcher, CommandDispatcher);
 
         _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher);
 
         base.Initialize();
     }
-
+    
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -106,13 +80,15 @@ public class Game1 : Game
         _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
         _whitePixel.SetData(new[] { Color.White });
 
+        _worldView = new WorldView(_spriteBatch, GraphicsDevice, _whitePixel, _metadata);
+
         _worldSnapshot = _appServiceWorld.GetSnapshot();
         UpdateRectangles();
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if(!_isBattle)
+        if(!_worldSnapshot.BattleTriggered)
             UpdateWorld(gameTime);
         else
             _battle.Update(gameTime);
@@ -143,12 +119,17 @@ public class Game1 : Game
         }
 
         _worldSnapshot = _appServiceWorld.GetSnapshot();
+
+        if (_worldSnapshot.BattleTriggered)
+            _battle = new BattleInstance(_graphics, _spriteBatch, this, _battleServiceProvider);
+
         UpdateRectangles();
     }
     protected override void Draw(GameTime gameTime)
     {
-        if (!_isBattle)
-            DrawWorld(gameTime);
+
+        if (!_worldSnapshot.BattleTriggered)
+            _worldView.Draw(_worldSnapshot);  //DrawWorld(gameTime);
         else
             _battle.Draw(gameTime);
 
