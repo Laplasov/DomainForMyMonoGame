@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
 using UnceasingFear.Application.Combat;
+using UnceasingFear.Application.Combat.Snapshots;
 using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.Repository;
 using UnceasingFear.Application.World;
@@ -15,6 +16,7 @@ using UnceasingFear.Domain.World.Enums;
 using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Persistence;
 using UnceasingFear.Presentation.Render;
+using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
 namespace UnceasingFear.TestImplementation;
 
@@ -29,21 +31,14 @@ public class Game1 : Game
     private Vector2 _playerPosition;
     private const float PlayerSpeed = 200f;
 
-    // Visual helpers
-    private Texture2D _whitePixel;
-    private Rectangle _playerRect;
-    private List<Rectangle> _groupRects = new();
-
-    TileMapMetadata _metadata;
-
-    BattleInstance _battle;
-
     private WorldSnapshot _worldSnapshot;
+    private BattleSnapshot _battleSnapshot;
 
     private WorldApplicationService _appServiceWorld;
     private BattleServiceProvider _battleServiceProvider;
 
     private WorldView _worldView;
+    private BattleView _battleView;
 
     public Game1()
     {
@@ -61,7 +56,6 @@ public class Game1 : Game
         Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
         Group playerGroup = scene.Groups.First(g => g.MovementPattern == MovementPattern.PlayerControlled);
 
-        _metadata = scene.MapMetadata;
         _playerPosition = new Vector2(playerGroup.SpawnPosition.X, playerGroup.SpawnPosition.Y);
 
         _battleServiceProvider = new BattleServiceProvider();
@@ -75,33 +69,28 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // Create 1x1 white texture for drawing rectangles
-        _whitePixel = new Texture2D(GraphicsDevice, 1, 1);
-        _whitePixel.SetData(new[] { Color.White });
-
-        _worldView = new WorldView(_spriteBatch, GraphicsDevice, _whitePixel, _metadata);
+        _worldView = new WorldView(_spriteBatch, GraphicsDevice);
+        _battleView = new BattleView(_spriteBatch, _graphics);
 
         _worldSnapshot = _appServiceWorld.GetSnapshot();
-        UpdateRectangles();
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if(!_worldSnapshot.BattleTriggered)
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+            Keyboard.GetState().IsKeyDown(Keys.Escape))
+            Exit();
+
+        if (!_worldSnapshot.BattleTriggered)
             UpdateWorld(gameTime);
         else
-            _battle.Update(gameTime);
+            UpdateBattle(gameTime);
 
         base.Update(gameTime);
     }
 
     protected void UpdateWorld(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
-
         // Player movement
         var keyboard = Keyboard.GetState();
         var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -114,91 +103,34 @@ public class Game1 : Game
         CommandDispatcher.Dispatch(new MovePlayerCommand(_playerPosition.X, _playerPosition.Y, delta));
 
         if (keyboard.IsKeyDown(Keys.C))
-        {
             CommandDispatcher.Dispatch(new RequestTransitionCommand());
-        }
 
         _worldSnapshot = _appServiceWorld.GetSnapshot();
-
-        if (_worldSnapshot.BattleTriggered)
-            _battle = new BattleInstance(_graphics, _spriteBatch, this, _battleServiceProvider);
-
-        UpdateRectangles();
     }
+
+    public void UpdateBattle(GameTime gameTime)
+    {
+        var keyboard = Keyboard.GetState();
+        float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        _battleServiceProvider.ActiveService.Update(delta);
+
+        _battleSnapshot = _battleServiceProvider.ActiveService.GetSnapshot();
+
+        if (keyboard.IsKeyDown(Keys.C))
+        {
+            CommandDispatcher.Dispatch(new EndBattleCommand());
+            _worldSnapshot = _appServiceWorld.GetSnapshot();
+        }
+
+    }
+
     protected override void Draw(GameTime gameTime)
     {
-
         if (!_worldSnapshot.BattleTriggered)
-            _worldView.Draw(_worldSnapshot);  //DrawWorld(gameTime);
-        else
-            _battle.Draw(gameTime);
+            _worldView.Draw(_worldSnapshot);
+        else if (_battleSnapshot.Units != null)
+            _battleView.Draw(_battleSnapshot);
 
         base.Draw(gameTime);
     }
-    protected void DrawWorld(GameTime gameTime)
-    {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
-
-        _spriteBatch.Begin();
-
-        // Draw transitions (yellow tiles)
-        foreach (var transition in _worldSnapshot.TransitionTiles)
-        {
-            var tileCenter = _metadata.TileToWorld(transition);
-            var transitionRect = new Rectangle(
-                (int)tileCenter.X - _metadata.TileWidth / 2,
-                (int)tileCenter.Y - _metadata.TileHeight / 2,
-                _metadata.TileWidth,
-                _metadata.TileHeight
-            );
-            _spriteBatch.Draw(_whitePixel, transitionRect, Color.Yellow * 0.5f);
-        }
-
-        // Draw groups (red rectangles)
-        foreach (var group in _worldSnapshot.Groups)
-        {
-            var rect = new Rectangle(
-                (int)group.CurrentPosition.X - 25,
-                (int)group.CurrentPosition.Y - 25,
-                50, 50
-            );
-            _spriteBatch.Draw(_whitePixel, rect, Color.Red);
-        }
-
-        // Draw player (green rectangle)
-        _spriteBatch.Draw(_whitePixel, _playerRect, Color.Green);
-
-        // Draw aggro range circles (optional visual)
-        foreach (var group in _worldSnapshot.Groups)
-        {
-            if (group.IsAggroed)
-            {
-                // Draw aggro indicator
-                var indicatorRect = new Rectangle(
-                    (int)group.CurrentPosition.X - 30,
-                    (int)group.CurrentPosition.Y - 30,
-                    60, 60
-                );
-                _spriteBatch.Draw(_whitePixel, indicatorRect, Color.Orange * 0.3f);
-            }
-        }
-
-        _spriteBatch.End();
-
-    }
-
-    private void UpdateRectangles()
-    {
-        _groupRects.Clear();
-        foreach (var group in _worldSnapshot.Groups)
-        {
-            _groupRects.Add(new Rectangle(
-                (int)group.CurrentPosition.X - 25,
-                (int)group.CurrentPosition.Y - 25,
-                50, 50
-            ));
-        }
-    }
-
-
 }

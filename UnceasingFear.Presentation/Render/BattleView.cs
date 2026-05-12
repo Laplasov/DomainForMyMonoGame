@@ -1,52 +1,39 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using UnceasingFear.Application.Combat;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnceasingFear.Application.Combat.Snapshots;
-using UnceasingFear.Application.Commands;
-using UnceasingFear.Domain.Shared.Events;
 
-namespace UnceasingFear.TestImplementation
+namespace UnceasingFear.Presentation.Render
 {
-    public class BattleInstance
+    public class BattleView
     {
-        private readonly GraphicsDeviceManager _graphics;
         private readonly SpriteBatch _spriteBatch;
-        private readonly Game _game1;
-        private readonly Texture2D _whitePixel;
+        private readonly GraphicsDeviceManager _graphics;
 
-        private readonly BattleApplicationService _battleService;
-
-        private readonly IEventDispatcher _dispatcher;
-        private readonly ICommandDispatcher _commandDispatcher;
+        private Texture2D _whitePixel;
 
         // Slot positions (calculated once)
         private Rectangle[] _allySlotRects = new Rectangle[6];
         private Rectangle[] _enemySlotRects = new Rectangle[6];
 
-        private BattleSnapshot _battleSnapshot;
+        private bool init = false;
 
-        public BattleInstance(GraphicsDeviceManager graphics, SpriteBatch spriteBatch, Game game1, BattleServiceProvider battleServiceProvider)
+        public BattleView(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
-            _graphics = graphics;
             _spriteBatch = spriteBatch;
-            _game1 = game1;
+            _graphics = graphics;
 
-            _dispatcher = battleServiceProvider.EventDispatcher;
-            _commandDispatcher = battleServiceProvider.CommandDispatcher;
-            _battleService = battleServiceProvider.ActiveService;
-
-            _whitePixel = new Texture2D(_game1.GraphicsDevice, 1, 1);
+            _whitePixel = new Texture2D(_graphics.GraphicsDevice, 1, 1);
             _whitePixel.SetData(new[] { Color.White });
-
-            _battleSnapshot = _battleService.GetSnapshot();
-
-            // Calculate slot positions once
-            InitializeSlotPositions();
         }
-
         private void InitializeSlotPositions()
         {
+            init = true;
+
             int slotSize = 64;
             int spacing = 16;
             int startX = 50;
@@ -76,20 +63,10 @@ namespace UnceasingFear.TestImplementation
             }
         }
 
-        public void Update(GameTime gameTime)
+        public void Draw(BattleSnapshot snapshot)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            Keyboard.GetState().IsKeyDown(Keys.Escape))
-                _game1.Exit();
+            if (!init) InitializeSlotPositions();
 
-            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _battleService.Update(delta);
-
-            _battleSnapshot = _battleService.GetSnapshot();
-        }
-
-        public void Draw(GameTime gameTime)
-        {
             _graphics.GraphicsDevice.Clear(Color.DarkSlateGray);
             _spriteBatch.Begin();
 
@@ -100,7 +77,7 @@ namespace UnceasingFear.TestImplementation
                 _spriteBatch.Draw(_whitePixel, _enemySlotRects[i], Color.DarkRed * 0.5f);
             }
 
-            foreach (var unit in _battleSnapshot.Units)
+            foreach (var unit in snapshot.Units)
             {
                 // Select correct slot array based on faction
                 var rects = unit.IsAlly ? _allySlotRects : _enemySlotRects;

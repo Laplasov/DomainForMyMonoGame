@@ -11,19 +11,22 @@ namespace UnceasingFear.Application.World
 {
     public record struct MovePlayerCommand(float InputX, float InputY, float DeltaTime);
     public record struct RequestTransitionCommand();
+    public record struct EndBattleCommand();
 
     public class WorldApplicationService
     {
         private Scene _scene;
         private TileCoord _currentTileCoordPlayer;
         private Group _currentPlayer;
+        private Group? _activeEnemy;
         public Scene CurrentScene => _scene;
         public WorldPosition PlayerPosition => _currentPlayer.CurrentPosition;
-
-        bool _battleTriggered = false;
+        
+        private bool _battleTriggered = false;
 
         public IEventDispatcher EventDispatcher { get; }
         public ICommandDispatcher CommandDispatcher { get; }
+
         public WorldApplicationService(Scene scene, Group currentPlayer, IEventDispatcher eventDispatcher, ICommandDispatcher commandDispatcher)
         {
             _scene = scene;
@@ -33,11 +36,17 @@ namespace UnceasingFear.Application.World
 
             CommandDispatcher.Register<MovePlayerCommand>(UpdatePositions);
             CommandDispatcher.Register<RequestTransitionCommand>(UpdateTransition);
+            CommandDispatcher.Register<EndBattleCommand>(EndBattle);
 
             EventDispatcher.Subscribe<OutOfBattleEvent>(_ => _battleTriggered = false);
         }
+        private void EndBattle(EndBattleCommand cmd)
+        {
+            _activeEnemy?.Defeat();
+            _battleTriggered = false;
+        }
 
-        public void UpdatePositions(MovePlayerCommand cmd)
+        private void UpdatePositions(MovePlayerCommand cmd)
         {
             var playerInput = new WorldPosition(cmd.InputX, cmd.InputY);
             _currentPlayer.MoveTo(playerInput);
@@ -51,6 +60,7 @@ namespace UnceasingFear.Application.World
                 var groupTile = _scene.MapMetadata.WorldToTile(group.CurrentPosition);
                 if (groupTile == _currentTileCoordPlayer && group != _currentPlayer)
                 {
+                    _activeEnemy = group;
                     EventDispatcher.Dispatch(new EnterBattleEvent(_currentPlayer.Template.Profiles, group.Template.Profiles));
                     _battleTriggered = true;
                     return;
@@ -63,7 +73,7 @@ namespace UnceasingFear.Application.World
             }
         }
 
-        public void UpdateTransition(RequestTransitionCommand cmd)
+        private void UpdateTransition(RequestTransitionCommand cmd)
         {
             var transition = _scene.TryTriggerTransition(_currentTileCoordPlayer);
 
@@ -83,6 +93,7 @@ namespace UnceasingFear.Application.World
         public WorldSnapshot GetSnapshot() => new(
             _scene.Id,
             PlayerPosition,
+            _scene.MapMetadata,
             _scene.Groups.Select(g => new GroupSnapshot(g.Id, g.CurrentPosition, g.IsDefeated, g.TryAggro(PlayerPosition))).ToList(),
             _scene.Transitions.Select(t => t.TriggerTile).ToList(),
             _battleTriggered

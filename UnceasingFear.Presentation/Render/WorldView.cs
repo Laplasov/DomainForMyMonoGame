@@ -13,16 +13,15 @@ namespace UnceasingFear.Presentation.Render
     public class WorldView
     {
         private readonly SpriteBatch _spriteBatch;
-        private readonly Texture2D _whitePixel;
-        private readonly TileMapMetadata _metadata;
         private readonly GraphicsDevice _graphicsDevice;
+        private readonly Texture2D _whitePixel;
 
-        public WorldView(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Texture2D whitePixel, TileMapMetadata metadata)
+        public WorldView(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
         {
             _spriteBatch = spriteBatch;
             _graphicsDevice = graphicsDevice;
-            _whitePixel = whitePixel;
-            _metadata = metadata;
+            _whitePixel = new Texture2D(graphicsDevice, 1, 1);
+            _whitePixel.SetData(new[] { Color.White });
         }
 
         public void Draw(WorldSnapshot snapshot)
@@ -33,11 +32,11 @@ namespace UnceasingFear.Presentation.Render
 
             foreach (var tile in snapshot.TransitionTiles)
             {
-                var center = _metadata.TileToWorld(tile);
+                var center = snapshot.TileMapMetadata.TileToWorld(tile);
                 var rect = new Rectangle(
-                    (int)center.X - _metadata.TileWidth / 2,
-                    (int)center.Y - _metadata.TileHeight / 2,
-                    _metadata.TileWidth, _metadata.TileHeight);
+                    (int)center.X - snapshot.TileMapMetadata.TileWidth / 2,
+                    (int)center.Y - snapshot.TileMapMetadata.TileHeight / 2,
+                    snapshot.TileMapMetadata.TileWidth, snapshot.TileMapMetadata.TileHeight);
                 _spriteBatch.Draw(_whitePixel, rect, Color.Yellow * 0.5f);
             }
 

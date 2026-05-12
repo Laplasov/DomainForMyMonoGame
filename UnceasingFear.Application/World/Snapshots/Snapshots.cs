@@ -10,6 +10,7 @@ namespace UnceasingFear.Application.World.Snapshots
     public record struct WorldSnapshot(
             SceneId CurrentScene,
             WorldPosition PlayerPosition,
+            TileMapMetadata TileMapMetadata,
             IReadOnlyList<GroupSnapshot> Groups,
             IReadOnlyList<TileCoord> TransitionTiles,
             bool BattleTriggered
