@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnceasingFear.Application.Combat;
 using UnceasingFear.Application.Combat.Snapshots;
@@ -15,6 +16,7 @@ using UnceasingFear.Domain.World.Entities;
 using UnceasingFear.Domain.World.Enums;
 using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Persistence;
+using UnceasingFear.Persistence.XML;
 using UnceasingFear.Presentation.Render;
 using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
@@ -51,7 +53,7 @@ public class Game1 : Game
     
     protected override void Initialize()
     {
-        ISceneProvider SceneProvider = new SceneProviderTest();
+        ISceneProvider SceneProvider = new XmlSceneProvider(Path.Combine("Content", "DB"));
 
         Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
         Group playerGroup = scene.Groups.First(g => g.MovementPattern == MovementPattern.PlayerControlled);

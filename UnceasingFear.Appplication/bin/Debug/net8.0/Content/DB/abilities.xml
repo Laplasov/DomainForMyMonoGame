@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Abilities>
+    <Ability id="base_attack" name="BaseAttack" description="Simple attack"
+                range="Melee" target="Enemy">
+        <Scales />
+        <Costs />
+        <StatusEffects />
+    </Ability>
+</Abilities>

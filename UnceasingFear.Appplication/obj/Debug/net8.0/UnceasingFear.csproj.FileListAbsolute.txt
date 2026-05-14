@@ -40,3 +40,7 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Ap
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Persistence.pdb
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Presentation.dll
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\UnceasingFear.Presentation.pdb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\Content\DB\groups.xml
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\Content\DB\scenes.xml
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\Content\DB\templates.xml
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Appplication\bin\Debug\net8.0\Content\DB\abilities.xml

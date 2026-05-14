@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Scenes>
+
+	<Scene id="TestScene">
+		<TileMapMetadata width="20" height="20" tileWidth="64" tileHeight="64" layerScale="1" />
+		<GroupRefs>
+			<GroupRef id="Goblin" />
+			<GroupRef id="Slime" />
+			<GroupRef id="Player" />
+		</GroupRefs>
+		<Transitions>
+			<Transition>
+				<TriggerTile x="5" y="4" />
+				<TargetScene>NextScene</TargetScene>
+				<NextSceneTile x="600" y="600" />
+			</Transition>
+		</Transitions>
+	</Scene>
+
+</Scenes>

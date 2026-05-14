@@ -3,20 +3,124 @@
   "WorkspaceRootPath": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.appplication\\unceasingfear.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|solutionrelative:unceasingfear.appplication\\unceasingfear.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\xmlsceneprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\xmlsceneprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.appplication\\testimplementation\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|solutionrelative:unceasingfear.appplication\\testimplementation\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\unceasingfear.persistence.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\unceasingfear.persistence.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\xmlscenerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\xmlscenerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.appplication\\content\\db\\abilities.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|solutionrelative:unceasingfear.appplication\\content\\db\\abilities.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\xmlabilityrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\xmlabilityrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xmlsceneloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xmlsceneloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\mappers\\scenexmlmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\mappers\\scenexmlmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\xmltemplaterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\xmltemplaterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\xmlgrouprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\xmlgrouprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\mappers\\groupxmlmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\mappers\\groupxmlmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\mappers\\templatexmlmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\mappers\\templatexmlmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\xml\\mappers\\abilityxmlmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\xml\\mappers\\abilityxmlmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.application\\repository\\isceneprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|solutionrelative:unceasingfear.application\\repository\\isceneprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\entities\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\entities\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\aggregates\\scene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\aggregates\\scene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\valueobjects\\unitprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\shared\\valueobjects\\unitprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.appplication\\content\\db\\scenes.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|solutionrelative:unceasingfear.appplication\\content\\db\\scenes.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.appplication\\content\\db\\groups.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|solutionrelative:unceasingfear.appplication\\content\\db\\groups.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\combat\\entities\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\combat\\entities\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\combat\\aggregates\\battle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\combat\\aggregates\\battle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.appplication\\content\\db\\groups.xml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|solutionrelative:unceasingfear.appplication\\content\\db\\groups.xml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.appplication\\content\\db\\scenes.xml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|solutionrelative:unceasingfear.appplication\\content\\db\\scenes.xml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\valueobjects\\abilities\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\shared\\valueobjects\\abilities\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\shared\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\valueobjects\\tilemapmetadata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\valueobjects\\tilemapmetadata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\valueobjects\\scenetransition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\valueobjects\\scenetransition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\sceneprovidertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\sceneprovidertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\groupfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\groupfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\sceneprovidertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\sceneprovidertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.persistence\\unceasingfear.persistence.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D1D35E48-06C2-43DD-A059-F5D90544EDA4}|UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj|solutionrelative:unceasingfear.persistence\\unceasingfear.persistence.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0F03AEE3-803A-4B6A-AFDB-5F7570615560}|UnceasingFear.Presentation\\UnceasingFear.Presentation.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.presentation\\render\\worldview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,16 +143,8 @@
       "RelativeMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|solutionrelative:unceasingfear.application\\combat\\battleapplicationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\entities\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\entities\\group.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.application\\world\\snapshots\\snapshots.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|solutionrelative:unceasingfear.application\\world\\snapshots\\snapshots.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\combat\\aggregates\\battle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\combat\\aggregates\\battle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\events\\sharedevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -59,20 +155,8 @@
       "RelativeMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|solutionrelative:unceasingfear.application\\combat\\snapshots\\snapshots.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\aggregates\\scene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\aggregates\\scene.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0F03AEE3-803A-4B6A-AFDB-5F7570615560}|UnceasingFear.Presentation\\UnceasingFear.Presentation.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.presentation\\unceasingfear.presentation.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{0F03AEE3-803A-4B6A-AFDB-5F7570615560}|UnceasingFear.Presentation\\UnceasingFear.Presentation.csproj|solutionrelative:unceasingfear.presentation\\unceasingfear.presentation.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.appplication\\unceasingfear.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{794AE15D-5DC9-41CD-9D92-0C36D7F30B18}|UnceasingFear.Appplication\\UnceasingFear.csproj|solutionrelative:unceasingfear.appplication\\unceasingfear.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.application\\repository\\isceneprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|solutionrelative:unceasingfear.application\\repository\\isceneprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.application\\unceasingfear.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -91,24 +175,12 @@
       "RelativeMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|solutionrelative:unceasingfear.application\\commands\\sharedcommands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\valueobjects\\unitprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\shared\\valueobjects\\unitprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\events\\domaineventdispatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\shared\\events\\domaineventdispatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.application\\commands\\commanddispatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F57864A3-7F55-4778-BFAD-99079017EDD1}|UnceasingFear.Application\\UnceasingFear.Application.csproj|solutionrelative:unceasingfear.application\\commands\\commanddispatcher.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\shared\\entity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\valueobjects\\tilemapmetadata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\valueobjects\\tilemapmetadata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\combat\\events\\combatevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -125,10 +197,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\valueobjects\\worldposition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\valueobjects\\worldposition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\combat\\entities\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\combat\\entities\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\events\\worldevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -165,10 +233,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\valueobjects\\worldvo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\valueobjects\\worldvo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\valueobjects\\abilities\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\shared\\valueobjects\\abilities\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\shared\\valueobjects\\abilities\\scale.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -223,10 +287,6 @@
       "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\valueobjects\\groupid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\valueobjects\\scenetransition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\valueobjects\\scenetransition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|c:\\users\\yandere312\\desktop\\c#space\\unceasingfear\\unceasingfear\\unceasingfear.domain\\world\\valueobjects\\aggrorange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{710B4702-F134-DF33-EA0F-BEE718D56438}|UnceasingFear.Domain\\UnceasingFear.Domain.csproj|solutionrelative:unceasingfear.domain\\world\\valueobjects\\aggrorange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -254,7 +314,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -262,46 +322,352 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
+              "Title": "abilities.xml",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\abilities.xml",
+              "RelativeDocumentMoniker": "UnceasingFear.Appplication\\Content\\DB\\abilities.xml",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\abilities.xml",
+              "RelativeToolTip": "UnceasingFear.Appplication\\Content\\DB\\abilities.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2026-05-14T16:00:25.715Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "XmlSceneProvider.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlSceneProvider.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\XmlSceneProvider.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlSceneProvider.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\XmlSceneProvider.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T08:13:13.776Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Game1.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\TestImplementation\\Game1.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Appplication\\TestImplementation\\Game1.cs",
               "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\TestImplementation\\Game1.cs",
               "RelativeToolTip": "UnceasingFear.Appplication\\TestImplementation\\Game1.cs",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAiwHwAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAQwIkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-12T10:27:21.179Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "WorldApplicationService.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\World\\WorldApplicationService.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Application\\World\\WorldApplicationService.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\World\\WorldApplicationService.cs",
-              "RelativeToolTip": "UnceasingFear.Application\\World\\WorldApplicationService.cs",
-              "ViewState": "AgIAACsAAAAAAAAAAAAgwGYAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "XmlTemplateRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlTemplateRepository.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\XmlTemplateRepository.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlTemplateRepository.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\XmlTemplateRepository.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAawCQAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T09:10:17.621Z",
+              "WhenOpened": "2026-05-14T15:45:17.491Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "BattleView.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Presentation\\Render\\BattleView.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Presentation\\Render\\BattleView.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Presentation\\Render\\BattleView.cs",
-              "RelativeToolTip": "UnceasingFear.Presentation\\Render\\BattleView.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAwwHQAAAAAAAAAAAAAAA==",
+              "Title": "XmlAbilityRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlAbilityRepository.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\XmlAbilityRepository.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlAbilityRepository.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\XmlAbilityRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-11T07:23:29.06Z",
+              "WhenOpened": "2026-05-14T15:44:28.266Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "UnceasingFear.csproj",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\UnceasingFear.csproj",
+              "RelativeDocumentMoniker": "UnceasingFear.Appplication\\UnceasingFear.csproj",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\UnceasingFear.csproj",
+              "RelativeToolTip": "UnceasingFear.Appplication\\UnceasingFear.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-04-04T16:09:55.07Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "XmlSceneRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlSceneRepository.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\XmlSceneRepository.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlSceneRepository.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\XmlSceneRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T15:51:12.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "XmlSceneLoader.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XmlSceneLoader.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XmlSceneLoader.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XmlSceneLoader.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XmlSceneLoader.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T03:44:22.886Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "XmlGroupRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlGroupRepository.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\XmlGroupRepository.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\XmlGroupRepository.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\XmlGroupRepository.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAcwD8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T15:47:51.95Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SceneXmlMapper.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\Mappers\\SceneXmlMapper.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\Mappers\\SceneXmlMapper.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\Mappers\\SceneXmlMapper.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\Mappers\\SceneXmlMapper.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwCAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T15:55:19.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GroupXmlMapper.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\Mappers\\GroupXmlMapper.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\Mappers\\GroupXmlMapper.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\Mappers\\GroupXmlMapper.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\Mappers\\GroupXmlMapper.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwFkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T15:47:26.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TemplateXmlMapper.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\Mappers\\TemplateXmlMapper.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\Mappers\\TemplateXmlMapper.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\Mappers\\TemplateXmlMapper.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\Mappers\\TemplateXmlMapper.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAowEUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T15:46:32.067Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AbilityXmlMapper.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\Mappers\\AbilityXmlMapper.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Persistence\\XML\\Mappers\\AbilityXmlMapper.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\XML\\Mappers\\AbilityXmlMapper.cs",
+              "RelativeToolTip": "UnceasingFear.Persistence\\XML\\Mappers\\AbilityXmlMapper.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAmwD0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T15:46:11.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "scenes.xml",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\scenes.xml",
+              "RelativeDocumentMoniker": "UnceasingFear.Appplication\\Content\\DB\\scenes.xml",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\scenes.xml",
+              "RelativeToolTip": "UnceasingFear.Appplication\\Content\\DB\\scenes.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2026-05-14T15:38:47.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "groups.xml",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\groups.xml",
+              "RelativeDocumentMoniker": "UnceasingFear.Appplication\\Content\\DB\\groups.xml",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\groups.xml",
+              "RelativeToolTip": "UnceasingFear.Appplication\\Content\\DB\\groups.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2026-05-14T15:38:27.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "UnitProfile.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\UnitProfile.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\UnitProfile.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\UnitProfile.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\Shared\\ValueObjects\\UnitProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-09T00:44:08.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Scene.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Aggregates\\Scene.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\Aggregates\\Scene.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Aggregates\\Scene.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\World\\Aggregates\\Scene.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAuwCoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T15:17:58.827Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Group.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Entities\\Group.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\Entities\\Group.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Entities\\Group.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\World\\Entities\\Group.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwE0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T15:40:56.331Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ISceneProvider.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Repository\\ISceneProvider.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Application\\Repository\\ISceneProvider.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Repository\\ISceneProvider.cs",
+              "RelativeToolTip": "UnceasingFear.Application\\Repository\\ISceneProvider.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T04:56:34.677Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "groups.xml",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\groups.xml",
+              "RelativeDocumentMoniker": "UnceasingFear.Appplication\\Content\\DB\\groups.xml",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\groups.xml",
+              "RelativeToolTip": "UnceasingFear.Appplication\\Content\\DB\\groups.xml",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAADQAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2026-05-14T07:33:39.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "scenes.xml",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\scenes.xml",
+              "RelativeDocumentMoniker": "UnceasingFear.Appplication\\Content\\DB\\scenes.xml",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Content\\DB\\scenes.xml",
+              "RelativeToolTip": "UnceasingFear.Appplication\\Content\\DB\\scenes.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2026-05-14T07:33:16.373Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "TileMapMetadata.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\TileMapMetadata.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\TileMapMetadata.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\TileMapMetadata.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\World\\ValueObjects\\TileMapMetadata.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T15:47:25.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "SceneTransition.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\SceneTransition.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\SceneTransition.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\SceneTransition.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\World\\ValueObjects\\SceneTransition.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T15:40:57.253Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Unit.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Entities\\Unit.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Entities\\Unit.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Entities\\Unit.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\Combat\\Entities\\Unit.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAgwBQAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T19:31:54.117Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Entity.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\Entity.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\Entity.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\Entity.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\Shared\\Entity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-07T18:04:52.763Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Battle.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Aggregates\\Battle.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Aggregates\\Battle.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Aggregates\\Battle.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\Combat\\Aggregates\\Battle.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T19:38:03.468Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Ability.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Ability.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Ability.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Ability.cs",
+              "RelativeToolTip": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Ability.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T19:32:12.362Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
               "Title": "WorldView.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Presentation\\Render\\WorldView.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Presentation\\Render\\WorldView.cs",
@@ -309,38 +675,47 @@
               "RelativeToolTip": "UnceasingFear.Presentation\\Render\\WorldView.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAiwCwAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T15:19:22.675Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T15:19:22.675Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 31,
+              "Title": "BattleView.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Presentation\\Render\\BattleView.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Presentation\\Render\\BattleView.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Presentation\\Render\\BattleView.cs",
+              "RelativeToolTip": "UnceasingFear.Presentation\\Render\\BattleView.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAwwHQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-11T07:23:29.06Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
               "Title": "GroupFactory.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\GroupFactory.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Persistence\\GroupFactory.cs",
               "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\GroupFactory.cs",
               "RelativeToolTip": "UnceasingFear.Persistence\\GroupFactory.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAI0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAowI0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T04:20:21.2Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T04:20:21.2Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 27,
               "Title": "SceneProviderTest.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\SceneProviderTest.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Persistence\\SceneProviderTest.cs",
               "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\SceneProviderTest.cs",
               "RelativeToolTip": "UnceasingFear.Persistence\\SceneProviderTest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T04:57:31.395Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T04:57:31.395Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 29,
               "Title": "UnceasingFear.Persistence.csproj",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj",
               "RelativeDocumentMoniker": "UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj",
@@ -353,7 +728,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 33,
               "Title": "BattleServiceProvider.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Combat\\BattleServiceProvider.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Application\\Combat\\BattleServiceProvider.cs",
@@ -361,12 +736,23 @@
               "RelativeToolTip": "UnceasingFear.Application\\Combat\\BattleServiceProvider.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T16:32:03.566Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-17T16:32:03.566Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 32,
+              "Title": "WorldApplicationService.cs",
+              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\World\\WorldApplicationService.cs",
+              "RelativeDocumentMoniker": "UnceasingFear.Application\\World\\WorldApplicationService.cs",
+              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\World\\WorldApplicationService.cs",
+              "RelativeToolTip": "UnceasingFear.Application\\World\\WorldApplicationService.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAgwGYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T09:10:17.621Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
               "Title": "BattleApplicationService.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Combat\\BattleApplicationService.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Application\\Combat\\BattleApplicationService.cs",
@@ -374,25 +760,11 @@
               "RelativeToolTip": "UnceasingFear.Application\\Combat\\BattleApplicationService.cs",
               "ViewState": "AgIAAFoAAAAAAAAAAAAQwJQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T09:10:21.489Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-12T09:10:21.489Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Group.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Entities\\Group.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\Entities\\Group.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Entities\\Group.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\World\\Entities\\Group.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAA1wCgAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T15:40:56.331Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 35,
               "Title": "Snapshots.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\World\\Snapshots\\Snapshots.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Application\\World\\Snapshots\\Snapshots.cs",
@@ -400,25 +772,11 @@
               "RelativeToolTip": "UnceasingFear.Application\\World\\Snapshots\\Snapshots.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T14:04:54.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-16T14:04:54.06Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Battle.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Aggregates\\Battle.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Aggregates\\Battle.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Aggregates\\Battle.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\Combat\\Aggregates\\Battle.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAIwAkAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-27T19:38:03.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 36,
               "Title": "SharedEvents.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\Events\\SharedEvents.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\Events\\SharedEvents.cs",
@@ -426,12 +784,11 @@
               "RelativeToolTip": "UnceasingFear.Domain\\Shared\\Events\\SharedEvents.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwA0AAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-09T13:52:14.642Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-09T13:52:14.642Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 37,
               "Title": "Snapshots.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Combat\\Snapshots\\Snapshots.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Application\\Combat\\Snapshots\\Snapshots.cs",
@@ -439,24 +796,11 @@
               "RelativeToolTip": "UnceasingFear.Application\\Combat\\Snapshots\\Snapshots.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T14:01:10.338Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-16T14:01:10.338Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Scene.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Aggregates\\Scene.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\Aggregates\\Scene.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Aggregates\\Scene.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\World\\Aggregates\\Scene.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T15:17:58.827Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 38,
               "Title": "UnceasingFear.Presentation.csproj",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Presentation\\UnceasingFear.Presentation.csproj",
               "RelativeDocumentMoniker": "UnceasingFear.Presentation\\UnceasingFear.Presentation.csproj",
@@ -469,20 +813,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "UnceasingFear.csproj",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\UnceasingFear.csproj",
-              "RelativeDocumentMoniker": "UnceasingFear.Appplication\\UnceasingFear.csproj",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\UnceasingFear.csproj",
-              "RelativeToolTip": "UnceasingFear.Appplication\\UnceasingFear.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-04-04T16:09:55.07Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 40,
               "Title": "UnceasingFear.Domain.csproj",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\UnceasingFear.Domain.csproj",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\UnceasingFear.Domain.csproj",
@@ -495,19 +826,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "ISceneProvider.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Repository\\ISceneProvider.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Application\\Repository\\ISceneProvider.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Repository\\ISceneProvider.cs",
-              "RelativeToolTip": "UnceasingFear.Application\\Repository\\ISceneProvider.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T04:56:34.677Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 39,
               "Title": "UnceasingFear.Application.csproj",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\UnceasingFear.Application.csproj",
               "RelativeDocumentMoniker": "UnceasingFear.Application\\UnceasingFear.Application.csproj",
@@ -520,7 +839,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 41,
               "Title": "SceneId.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\SceneId.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\SceneId.cs",
@@ -532,7 +851,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 42,
               "Title": "SharedCommands.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Commands\\SharedCommands.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Application\\Commands\\SharedCommands.cs",
@@ -544,7 +863,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 43,
               "Title": "DomainEventDispatcher.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\Events\\DomainEventDispatcher.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\Events\\DomainEventDispatcher.cs",
@@ -556,19 +875,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "UnitProfile.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\UnitProfile.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\UnitProfile.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\UnitProfile.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\Shared\\ValueObjects\\UnitProfile.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-09T00:44:08.5Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 44,
               "Title": "CommandDispatcher.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\Commands\\CommandDispatcher.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Application\\Commands\\CommandDispatcher.cs",
@@ -580,31 +887,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "Entity.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\Entity.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\Entity.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\Entity.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\Shared\\Entity.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T18:04:52.763Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "TileMapMetadata.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\TileMapMetadata.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\TileMapMetadata.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\TileMapMetadata.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\World\\ValueObjects\\TileMapMetadata.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T15:47:25.215Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 45,
               "Title": "CombatEvents.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Events\\CombatEvents.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Events\\CombatEvents.cs",
@@ -616,7 +899,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 46,
               "Title": "TileCoord.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\TileCoord.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\TileCoord.cs",
@@ -628,7 +911,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 48,
               "Title": "WorldPosition.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\WorldPosition.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\WorldPosition.cs",
@@ -640,7 +923,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 47,
               "Title": "Velocity.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\Velocity.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\Velocity.cs",
@@ -652,7 +935,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 73,
               "Title": "WorldService.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Application\\WorldService.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Application\\WorldService.cs",
@@ -663,7 +946,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 74,
               "Title": "Game1.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Game1.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Appplication\\Game1.cs",
@@ -674,7 +957,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 49,
               "Title": "WorldEvents.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Events\\WorldEvents.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\Events\\WorldEvents.cs",
@@ -686,19 +969,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "Unit.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Entities\\Unit.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Entities\\Unit.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Entities\\Unit.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\Combat\\Entities\\Unit.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAgwFAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-26T19:31:54.117Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 50,
               "Title": "TurnOrderService.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Services\\TurnOrderService.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Services\\TurnOrderService.cs",
@@ -710,7 +981,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 51,
               "Title": "TargetResolver.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Services\\TargetResolver.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Services\\TargetResolver.cs",
@@ -722,7 +993,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 52,
               "Title": "ITargetResolver.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Services\\ITargetResolver.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Services\\ITargetResolver.cs",
@@ -734,7 +1005,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 53,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\Program.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Appplication\\Program.cs",
@@ -746,7 +1017,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 75,
               "Title": "GroupFactory.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Appplication\\GroupFactory.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Appplication\\GroupFactory.cs",
@@ -757,7 +1028,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 54,
               "Title": "StateService.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Services\\StateService.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Services\\StateService.cs",
@@ -769,7 +1040,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 55,
               "Title": "BattleState.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\ValueObjects\\BattleState.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\ValueObjects\\BattleState.cs",
@@ -781,7 +1052,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 56,
               "Title": "ITurnOrderService.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Services\\ITurnOrderService.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Services\\ITurnOrderService.cs",
@@ -793,7 +1064,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 57,
               "Title": "WorldVO.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\WorldVO.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\WorldVO.cs",
@@ -805,19 +1076,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "Ability.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Ability.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Ability.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Ability.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Ability.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-26T19:32:12.362Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 58,
               "Title": "Scale.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Scale.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Scale.cs",
@@ -829,7 +1088,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 59,
               "Title": "AbilityEnums.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Enums\\AbilityEnums.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Enums\\AbilityEnums.cs",
@@ -841,7 +1100,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 60,
               "Title": "UnitStats.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Stats\\UnitStats.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Stats\\UnitStats.cs",
@@ -853,7 +1112,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 61,
               "Title": "UnitId.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\ValueObjects\\UnitId.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\ValueObjects\\UnitId.cs",
@@ -865,7 +1124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 65,
               "Title": "Health.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Stats\\Health.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Stats\\Health.cs",
@@ -877,7 +1136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 64,
               "Title": "Status.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Status.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Status.cs",
@@ -889,7 +1148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 63,
               "Title": "AbilityResult.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\AbilityResult.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\AbilityResult.cs",
@@ -901,7 +1160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 62,
               "Title": "AbilityEffect.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\AbilityEffect.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\AbilityEffect.cs",
@@ -913,7 +1172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 67,
               "Title": "Cost.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Cost.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Abilities\\Cost.cs",
@@ -925,7 +1184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 66,
               "Title": "SpellPoints.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Shared\\ValueObjects\\Stats\\SpellPoints.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Shared\\ValueObjects\\Stats\\SpellPoints.cs",
@@ -937,7 +1196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 68,
               "Title": "TurnProgress.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\ValueObjects\\TurnProgress.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\ValueObjects\\TurnProgress.cs",
@@ -949,7 +1208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 69,
               "Title": "WorldEnums.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\Enums\\WorldEnums.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\Enums\\WorldEnums.cs",
@@ -961,7 +1220,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 70,
               "Title": "GroupId.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\GroupId.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\GroupId.cs",
@@ -973,19 +1232,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
-              "Title": "SceneTransition.cs",
-              "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\SceneTransition.cs",
-              "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\SceneTransition.cs",
-              "ToolTip": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\SceneTransition.cs",
-              "RelativeToolTip": "UnceasingFear.Domain\\World\\ValueObjects\\SceneTransition.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T15:40:57.253Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 71,
               "Title": "AggroRange.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\World\\ValueObjects\\AggroRange.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\World\\ValueObjects\\AggroRange.cs",
@@ -997,7 +1244,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 72,
               "Title": "IStateService.cs",
               "DocumentMoniker": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\Combat\\Services\\IStateService.cs",
               "RelativeDocumentMoniker": "UnceasingFear.Domain\\Combat\\Services\\IStateService.cs",
