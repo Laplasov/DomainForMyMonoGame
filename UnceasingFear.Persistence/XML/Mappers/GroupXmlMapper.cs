@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.Entities;
 using UnceasingFear.Domain.World.Enums;
 using UnceasingFear.Domain.World.ValueObjects;
@@ -39,11 +40,6 @@ namespace UnceasingFear.Persistence.Xml.Mappers
             var aggroRange = float.Parse(el.Element("AggroRange")!.Value);
             var speed = float.Parse(el.Element("Speed")!.Value);
 
-            var spawnEl = el.Element("SpawnPosition")!;
-            var spawn = new WorldPosition(
-                float.Parse(spawnEl.Attribute("x")!.Value),
-                float.Parse(spawnEl.Attribute("y")!.Value));
-
             var template = ResolveTemplate(el, resolveTemplate);
 
             return new Group(
@@ -52,39 +48,50 @@ namespace UnceasingFear.Persistence.Xml.Mappers
                 movementPattern: movementPattern,
                 aggroRange: new AggroRange(aggroRange),
                 speed: new MovementSpeed(speed),
-                startPosition: spawn
+                startPosition: WorldPosition.Zero
             );
         }
 
         private static Template ResolveTemplate(XElement el, Func<string, Template> resolveTemplate)
         {
-            // All TemplateRefs on this group (may differ by slot)
             var refs = el.Elements("TemplateRef").ToList();
             if (refs.Count == 0)
                 throw new InvalidDataException($"Group '{el.Attribute("id")?.Value}' has no TemplateRef.");
 
-            // All refs should point to the same template id
             var templateId = refs[0].Attribute("id")!.Value;
             var fullTemplate = resolveTemplate(templateId);
 
-            // If only one ref and it has no slot, return template as-is
+            // If only one ref and no slot is specified, return the template as-is
             if (refs.Count == 1 && refs[0].Attribute("slot") == null)
                 return fullTemplate;
 
-            // Otherwise filter profiles to only the requested slots
-            var requestedSlots = refs
-                .Select(r => r.Attribute("slot") != null
-                    ? (int?)int.Parse(r.Attribute("slot")!.Value)
-                    : null)
-                .Where(s => s != null)
-                .Select(s => s!.Value)
-                .ToHashSet();
+            var newProfiles = new List<UnitProfile>();
 
-            var filteredProfiles = fullTemplate.Profiles
-                .Where(p => requestedSlots.Contains(p.SlotIndex))
-                .ToList();
+            // Map each <TemplateRef> to a profile from the template
+            for (int i = 0; i < refs.Count; i++)
+            {
+                var refEl = refs[i];
+                var slotAttr = refEl.Attribute("slot");
 
-            return new Template(fullTemplate.TemplateName, filteredProfiles);
+                // Get the corresponding profile from the template. 
+                // If there are more refs than profiles, cycle back to the first one.
+                var baseProfile = i < fullTemplate.Profiles.Count
+                    ? fullTemplate.Profiles[i]
+                    : fullTemplate.Profiles[0];
+
+                if (slotAttr != null && int.TryParse(slotAttr.Value, out int slotIndex))
+                {
+                    // ✅ Explicitly assign the slot from the XML to the profile
+                    newProfiles.Add(baseProfile.AssignToSlot(slotIndex));
+                }
+                else
+                {
+                    // Keep the original slot if none is specified in XML
+                    newProfiles.Add(baseProfile);
+                }
+            }
+
+            return new Template(fullTemplate.TemplateName, newProfiles);
         }
     }
 }

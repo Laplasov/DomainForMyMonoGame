@@ -13,7 +13,7 @@ namespace UnceasingFear.Domain.World.Entities
         public GroupId Id { get; }
         public Template Template { get; }
         public MovementPattern MovementPattern { get; }
-        public WorldPosition SpawnPosition { get; }
+        public WorldPosition SpawnPosition { get; private set; }
         public AggroRange AggroRange { get; }
         public MovementSpeed Speed { get; }
         public WorldPosition CurrentPosition { get; private set; }
@@ -35,7 +35,8 @@ namespace UnceasingFear.Domain.World.Entities
             CurrentPosition = startPosition;
             IsDefeated = false;
         }
-
+        public void ChangeSpawn(WorldPosition position)
+            => SpawnPosition = position;
         public void MoveTo(WorldPosition position) 
             => CurrentPosition = position;
         public void Defeat()

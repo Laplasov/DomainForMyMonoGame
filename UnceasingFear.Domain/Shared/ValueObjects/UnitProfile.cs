@@ -32,7 +32,7 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
         public UnitProfile TakeDamage(int amount) => this with { Stats = Stats.WithDamage(amount) };
         public UnitProfile AssignToSlot(int slotIndex)
         {
-            if (slotIndex < 0 || slotIndex >= 6)
+            if (slotIndex <= 0 || slotIndex > 6)
                 throw new ArgumentException("Invalid slot index");
             return this with { SlotIndex = slotIndex };
         }

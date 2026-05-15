@@ -4,15 +4,29 @@
 	<Scene id="TestScene">
 		<TileMapMetadata width="20" height="20" tileWidth="64" tileHeight="64" layerScale="1" />
 		<GroupRefs>
-			<GroupRef id="Goblin" />
-			<GroupRef id="Slime" />
-			<GroupRef id="Player" />
+			<GroupRef id="Goblin" spawnX="400" spawnY="300" />
+			<GroupRef id="Slime" spawnX="600" spawnY="400" />
+			<GroupRef id="Player" spawnX="200" spawnY="600" />
 		</GroupRefs>
 		<Transitions>
 			<Transition>
 				<TriggerTile x="5" y="4" />
 				<TargetScene>NextScene</TargetScene>
-				<NextSceneTile x="600" y="600" />
+				<NextSceneTile x="100" y="100" />
+			</Transition>
+		</Transitions>
+	</Scene>
+	<Scene id="NextScene">
+		<TileMapMetadata width="20" height="20" tileWidth="64" tileHeight="64" layerScale="1" />
+		<GroupRefs>
+			<GroupRef id="Goblin" spawnX="900" spawnY="600"  />
+			<GroupRef id="Slime" spawnX="700" spawnY="700" />
+		</GroupRefs>
+		<Transitions>
+			<Transition>
+				<TriggerTile x="8" y="8" />
+				<TargetScene>TestScene</TargetScene>
+				<NextSceneTile x="200" y="600" />
 			</Transition>
 		</Transitions>
 	</Scene>

@@ -42,6 +42,8 @@ public class Game1 : Game
     private WorldView _worldView;
     private BattleView _battleView;
 
+    private SceneId _lastSceneId;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -58,12 +60,13 @@ public class Game1 : Game
         Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
         Group playerGroup = scene.Groups.First(g => g.MovementPattern == MovementPattern.PlayerControlled);
 
-        _playerPosition = new Vector2(playerGroup.SpawnPosition.X, playerGroup.SpawnPosition.Y);
+        _playerPosition = new Vector2(playerGroup.CurrentPosition.X, playerGroup.CurrentPosition.Y);
+        _lastSceneId = scene.Id;
 
         _battleServiceProvider = new BattleServiceProvider();
         _battleServiceProvider.Initialize(EventDispatcher, CommandDispatcher);
 
-        _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher);
+        _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher, SceneProvider);
 
         base.Initialize();
     }
@@ -108,6 +111,13 @@ public class Game1 : Game
             CommandDispatcher.Dispatch(new RequestTransitionCommand());
 
         _worldSnapshot = _appServiceWorld.GetSnapshot();
+
+        if (_lastSceneId != _worldSnapshot.CurrentScene)
+        {
+            _playerPosition = new Vector2(_worldSnapshot.PlayerPosition.X, _worldSnapshot.PlayerPosition.Y);
+            _lastSceneId = _worldSnapshot.CurrentScene;
+        }
+
     }
 
     public void UpdateBattle(GameTime gameTime)

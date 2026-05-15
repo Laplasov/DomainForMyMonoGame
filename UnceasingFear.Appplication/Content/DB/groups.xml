@@ -5,25 +5,30 @@
 		<MovementPattern>Stationary</MovementPattern>
 		<AggroRange>250</AggroRange>
 		<Speed>6</Speed>
-		<SpawnPosition x="400" y="300" />
-		<TemplateRef id="Slime"/> 
+		<TemplateRef id="Goblin" slot="1"/>
+		<TemplateRef id="Goblin" slot="6"/>
+		<TemplateRef id="Goblin" slot="3"/>
+		<TemplateRef id="Goblin" slot="4"/>
 	</Group>
 
 	<Group id="Slime">
 		<MovementPattern>Chase</MovementPattern>
 		<AggroRange>250</AggroRange>
 		<Speed>6</Speed>
-		<SpawnPosition x="600" y="400" />
-		<TemplateRef id="Goblin"/> 
+		<TemplateRef id="Slime" slot="1"/>
+		<TemplateRef id="Slime" slot="6"/>
+		<TemplateRef id="Slime" slot="3"/>
+		<TemplateRef id="Slime" slot="4"/>
 	</Group>
 
 	<Group id="Player">
 		<MovementPattern>PlayerControlled</MovementPattern>
 		<AggroRange>0</AggroRange>
 		<Speed>200</Speed>
-		<SpawnPosition x="200" y="200" />
 		<TemplateRef id="Player" slot="1"/> 
-		<TemplateRef id="Player" slot="5"/> 
+		<TemplateRef id="Player" slot="6"/>
+		<TemplateRef id="Player" slot="3"/>
+		<TemplateRef id="Player" slot="4"/>
 	</Group>
 
 </Groups>

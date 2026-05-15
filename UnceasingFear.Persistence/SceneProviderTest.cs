@@ -34,9 +34,9 @@ namespace UnceasingFear.Persistence
             var group2 = GroupFactory.CreateGroup2Slime();
             var playerGroup = GroupFactory.CreateGroupPlayer();
 
-            scene.AddGroup(group1);
-            scene.AddGroup(group2);
-            scene.AddGroup(playerGroup);
+            //scene.AddGroup(group1);
+            //scene.AddGroup(group2);
+            //scene.AddGroup(playerGroup);
 
             // Add test transition
             var transition = new SceneTransition(

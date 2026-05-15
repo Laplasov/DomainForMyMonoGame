@@ -8,12 +8,6 @@
                     <AbilityRef id="base_attack"/>
                 </Abilities>
             </UnitProfile>
-            <UnitProfile name="Player">
-                <Stats maxHp="20" maxSp="10" physic="5" defense="3" magic="1" speed="15" />
-                <Abilities>
-                    <AbilityRef id="base_attack"/>
-                </Abilities>
-            </UnitProfile>
         </Profiles>
     </Template>
     <Template name="Slime">

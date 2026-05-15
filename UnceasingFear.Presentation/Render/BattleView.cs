@@ -22,6 +22,8 @@ namespace UnceasingFear.Presentation.Render
 
         private bool init = false;
 
+        private SpriteFont _debugFont;
+
         public BattleView(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
             _spriteBatch = spriteBatch;
@@ -108,7 +110,21 @@ namespace UnceasingFear.Presentation.Render
                         _spriteBatch.Draw(_whitePixel, hpBar, Color.Red);
                     }
                 }
+                if (arrayIndex >= 0 && arrayIndex < 6)
+                {
+                    var slotRect = rects[arrayIndex];
+
+                    // Draw slot number using bitmap digits (no font needed!)
+                    DebugTextDrawer.DrawNumber(
+                        _spriteBatch,
+                        _whitePixel,
+                        unit.SlotIndex,  // e.g., 1 or 5
+                        new Vector2(slotRect.X + 20, slotRect.Y + 20),
+                        Color.White,
+                        scale: 2);
+                }
             }
+
 
             _spriteBatch.End();
         }

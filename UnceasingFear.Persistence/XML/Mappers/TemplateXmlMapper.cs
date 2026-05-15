@@ -49,12 +49,12 @@ namespace UnceasingFear.Persistence.Xml.Mappers
             var name = el.Attribute("name")!.Value;
             var stats = StatsFromXml(el.Element("Stats")!);
             var abilities = el.Element("Abilities")!
-                              .Elements("AbilityRef")
-                              .Select(a => resolveAbility(a.Attribute("id")!.Value))
-                              .ToList();
+                .Elements("AbilityRef")
+                .Select(a => resolveAbility(a.Attribute("id")!.Value))
+                .ToList();
 
-            // slot is positional (0-based index) since the new XML omits the slot attribute
-            return UnitProfile.Create(name, index, stats, abilities);
+            // ✅ Use index + 1 so default slots are 1, 2, 3... matching BattleView's expectation
+            return UnitProfile.Create(name, index + 1, stats, abilities);
         }
 
         private static UnitStats StatsFromXml(XElement el) =>

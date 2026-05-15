@@ -1,4 +1,5 @@
 ﻿using UnceasingFear.Application.Commands;
+using UnceasingFear.Application.Repository;
 using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.World.Aggregates;
@@ -24,15 +25,17 @@ namespace UnceasingFear.Application.World
         
         private bool _battleTriggered = false;
 
+        private readonly ISceneProvider _sceneProvider;
         public IEventDispatcher EventDispatcher { get; }
         public ICommandDispatcher CommandDispatcher { get; }
 
-        public WorldApplicationService(Scene scene, Group currentPlayer, IEventDispatcher eventDispatcher, ICommandDispatcher commandDispatcher)
+        public WorldApplicationService(Scene scene, Group currentPlayer, IEventDispatcher eventDispatcher, ICommandDispatcher commandDispatcher, ISceneProvider sceneProvider)
         {
             _scene = scene;
             _currentPlayer = currentPlayer;
             EventDispatcher = eventDispatcher;
             CommandDispatcher = commandDispatcher;
+            _sceneProvider = sceneProvider;
 
             CommandDispatcher.Register<MovePlayerCommand>(UpdatePositions);
             CommandDispatcher.Register<RequestTransitionCommand>(UpdateTransition);
@@ -80,12 +83,17 @@ namespace UnceasingFear.Application.World
             if (transition != null)
             {
                 var target = transition.Value;
-                _scene = new Scene(
-                    id: target.TargetScene,
-                    mapMetadata: _scene.MapMetadata
-                );
-                _scene.AddGroup(_currentPlayer);
+
+                // ✅ Load the fully populated scene from repository
+                var newScene = _sceneProvider.GetById(target.TargetScene);
+                if (newScene == null) return; // Safety check
+
+                // ✅ Re-add player to the new scene (player isn't in XML)
+                newScene.AddGroup(_currentPlayer);
                 _currentPlayer.MoveTo(target.NextSceneTile);
+
+                // ✅ Switch to the new scene
+                _scene = newScene;
                 _scene.PlayerEntered(target.NextSceneTile);
             }
         }

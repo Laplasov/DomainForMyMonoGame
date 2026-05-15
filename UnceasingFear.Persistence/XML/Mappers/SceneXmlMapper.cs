@@ -26,8 +26,19 @@ namespace UnceasingFear.Persistence.Xml.Mappers
                     scene.Transitions.Select(TransitionToXml))
             );
         }
-        private static XElement GroupRefToXml(Group group) =>
-            new XElement("GroupRef", new XAttribute("id", group.Id.Value));
+        private static XElement GroupRefToXml(Group group)
+        {
+            var el = new XElement("GroupRef", new XAttribute("id", group.Id.Value));
+
+            // ✅ Only write spawnX/spawnY if it differs from the group's default SpawnPosition
+            // This keeps XML clean and avoids redundancy
+            if (group.CurrentPosition != group.SpawnPosition)
+            {
+                el.SetAttributeValue("spawnX", group.CurrentPosition.X);
+                el.SetAttributeValue("spawnY", group.CurrentPosition.Y);
+            }
+            return el;
+        }
 
         private static XElement MapMetadataToXml(TileMapMetadata m)
         {
@@ -62,17 +73,33 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         /// </summary>
         public static Scene FromXml(XElement el, Func<string, Group> resolveGroup)
         {
-            var id       = SceneId.From(el.Attribute("id")!.Value);
+            var id = SceneId.From(el.Attribute("id")!.Value);
             var metadata = MapMetadataFromXml(el.Element("TileMapMetadata")!);
-            var scene    = new Scene(id, metadata);
+            var scene = new Scene(id, metadata);
 
             foreach (var groupRef in el.Element("GroupRefs")!.Elements("GroupRef"))
             {
                 var groupId = groupRef.Attribute("id")!.Value;
-                scene.AddGroup(resolveGroup(groupId));
+                var group = resolveGroup(groupId); // Loads from groups.xml (position = 0,0)
+
+                // ✅ Parse scene-specific spawnX/spawnY from <GroupRef>
+                var xAttr = groupRef.Attribute("spawnX");
+                var yAttr = groupRef.Attribute("spawnY");
+
+                if (xAttr != null && yAttr != null &&
+                    float.TryParse(xAttr.Value, out float x) &&
+                    float.TryParse(yAttr.Value, out float y))
+                {
+                    // ✅ Immediately override CurrentPosition for THIS scene
+                    group.MoveTo(new WorldPosition(x, y));
+                    group.ChangeSpawn(new WorldPosition(x, y));
+                }
+
+                scene.AddGroup(group);
             }
 
-            foreach (var transEl in el.Element("Transitions")!.Elements("Transition"))
+            // ✅ Safely handle empty/missing <Transitions>
+            foreach (var transEl in el.Element("Transitions")?.Elements("Transition") ?? Enumerable.Empty<XElement>())
                 scene.AddTransition(TransitionFromXml(transEl));
 
             return scene;
