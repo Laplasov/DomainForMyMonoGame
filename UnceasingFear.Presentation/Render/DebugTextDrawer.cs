@@ -1,10 +1,11 @@
 ﻿// File: UnceasingFear.Presentation/Render/DebugTextDrawer.cs
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using UnceasingFear.Domain.World.ValueObjects;
 
 public static class DebugTextDrawer
 {
-    // 5x7 bitmap font for digits 0-9 (each row is one scanline)
+    // 5x7 bitmap font for digits 0-9
     private static readonly byte[][] DigitBits = new byte[10][]
     {
         new byte[] { 0b01110, 0b10001, 0b10001, 0b10001, 0b10001, 0b10001, 0b01110 }, // 0
@@ -48,5 +49,23 @@ public static class DebugTextDrawer
                 DrawDigit(sb, pixel, c - '0', new Vector2(x, pos.Y), color, scale);
             x += 6 * scale; // 5px width + 1px spacing
         }
+    }
+
+    // ✅ NEW: Draw "X,Y" coordinate pair
+    public static void DrawTileCoord(SpriteBatch sb, Texture2D pixel, TileCoord coord, Vector2 pos, Color color, int scale = 2)
+    {
+        DrawNumber(sb, pixel, coord.X, pos, color, scale);
+
+        // Draw comma separator
+        var commaSize = new Vector2(3 * scale, 7 * scale);
+        sb.Draw(pixel, new Rectangle(
+            (int)(pos.X + 6 * scale * coord.X.ToString().Length + 1),
+            (int)(pos.Y + 5 * scale),
+            (int)commaSize.X, (int)commaSize.Y), color);
+
+        // Draw Y coordinate
+        DrawNumber(sb, pixel, coord.Y, new Vector2(
+            pos.X + 6 * scale * coord.X.ToString().Length + 4 * scale,
+            pos.Y), color, scale);
     }
 }

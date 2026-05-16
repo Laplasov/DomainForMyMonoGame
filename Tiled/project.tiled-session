@@ -1,0 +1,33 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "C:/Users/Yandere312/Desktop/TestTileMap1.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "Все файлы (*)",
+    "fileStates": {
+        "C:/Users/Yandere312/Desktop/MonoGames/Test2/Project1/Content/GumProject/TileMaps/Tiled/Marks.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Yandere312/Desktop/MonoGames/Test2/Project1/Content/GumProject/TileMaps/Tiled/TileSet1.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Yandere312/Desktop/TestTileMap1.tmx": {
+            "scale": 0.6457031249999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 640.3871748336359,
+                "y": 444.47670901391416
+            }
+        }
+    },
+    "openFiles": [
+        "C:/Users/Yandere312/Desktop/TestTileMap1.tmx"
+    ],
+    "project": "project.tiled-project",
+    "recentFiles": [
+        "C:/Users/Yandere312/Desktop/TestTileMap1.tmx"
+    ]
+}

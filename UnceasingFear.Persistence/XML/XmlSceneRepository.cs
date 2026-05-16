@@ -28,16 +28,34 @@ namespace UnceasingFear.Persistence.Xml
             if (!File.Exists(_filePath))
                 throw new FileNotFoundException($"Scene data file not found: {_filePath}");
 
-            var doc     = XDocument.Load(_filePath);
+            var doc = XDocument.Load(_filePath);
             var sceneEl = doc.Root!
-                             .Elements("Scene")
-                             .FirstOrDefault(e => e.Attribute("id")?.Value == id.Value);
+                .Elements("Scene")
+                .FirstOrDefault(e => e.Attribute("id")?.Value == id.Value);
 
             if (sceneEl == null) return null;
 
-            return SceneXmlMapper.FromXml(sceneEl, groupId =>
-                _groupRepo.GetById(new GroupId(groupId)));
+            // ✅ 1. Pre-parse ALL TileMapMetadata from the document into a lookup
+            var metadataLookup = doc.Root!.Elements("Scene")
+                .ToDictionary(
+                    s => SceneId.From(s.Attribute("id")!.Value),
+                    s => ParseMapMetadata(s.Element("TileMapMetadata")!)
+                );
+
+            // ✅ 2. Pass the lookup to the scene mapper
+            return SceneXmlMapper.FromXml(sceneEl,
+                groupId => _groupRepo.GetById(new GroupId(groupId)),
+                metadataLookup);
         }
+
+        // Helper to parse metadata (move out of mapper to avoid duplication)
+        private static TileMapMetadata ParseMapMetadata(XElement el) => new TileMapMetadata(
+            Width: int.Parse(el.Attribute("width")!.Value),
+            Height: int.Parse(el.Attribute("height")!.Value),
+            TileWidth: int.Parse(el.Attribute("tileWidth")!.Value),
+            TileHeight: int.Parse(el.Attribute("tileHeight")!.Value),
+            LayerScale: float.Parse(el.Attribute("layerScale")!.Value)
+        );
 
         public void Save(Scene scene)
         {

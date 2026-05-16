@@ -71,64 +71,65 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         /// <paramref name="resolveGroup"/> is called for each GroupRef id
         /// so the repository can inject the already-loaded Group entities.
         /// </summary>
-        public static Scene FromXml(XElement el, Func<string, Group> resolveGroup)
+        public static Scene FromXml(
+            XElement el,
+            Func<string, Group> resolveGroup,
+            Dictionary<SceneId, TileMapMetadata> metadataLookup) // ✅ New parameter
         {
             var id = SceneId.From(el.Attribute("id")!.Value);
-            var metadata = MapMetadataFromXml(el.Element("TileMapMetadata")!);
+
+            // ✅ Use pre-parsed metadata instead of parsing inline
+            var metadata = metadataLookup[id];
             var scene = new Scene(id, metadata);
 
             foreach (var groupRef in el.Element("GroupRefs")!.Elements("GroupRef"))
             {
                 var groupId = groupRef.Attribute("id")!.Value;
-                var group = resolveGroup(groupId); // Loads from groups.xml (position = 0,0)
+                var group = resolveGroup(groupId);
 
-                // ✅ Parse scene-specific spawnX/spawnY from <GroupRef>
+                // Parse spawnX/spawnY as before
                 var xAttr = groupRef.Attribute("spawnX");
                 var yAttr = groupRef.Attribute("spawnY");
-
                 if (xAttr != null && yAttr != null &&
-                    float.TryParse(xAttr.Value, out float x) &&
-                    float.TryParse(yAttr.Value, out float y))
+                    int.TryParse(xAttr.Value, out int x) &&
+                    int.TryParse(yAttr.Value, out int y))
                 {
-                    // ✅ Immediately override CurrentPosition for THIS scene
-                    group.MoveTo(new WorldPosition(x, y));
-                    group.ChangeSpawn(new WorldPosition(x, y));
+                    var worldPos = metadata.TileToWorld(new TileCoord(x, y));
+                    group.MoveTo(worldPos);
+                    group.ChangeSpawn(worldPos);
                 }
 
                 scene.AddGroup(group);
             }
 
-            // ✅ Safely handle empty/missing <Transitions>
+            // ✅ Pass metadata lookup to transition parser
             foreach (var transEl in el.Element("Transitions")?.Elements("Transition") ?? Enumerable.Empty<XElement>())
-                scene.AddTransition(TransitionFromXml(transEl));
+                scene.AddTransition(TransitionFromXml(transEl, metadataLookup));
 
             return scene;
         }
-
-        private static TileMapMetadata MapMetadataFromXml(XElement el)
-        {
-            return new TileMapMetadata(
-                Width:      int.Parse(el.Attribute("width")!.Value),
-                Height:     int.Parse(el.Attribute("height")!.Value),
-                TileWidth:  int.Parse(el.Attribute("tileWidth")!.Value),
-                TileHeight: int.Parse(el.Attribute("tileHeight")!.Value),
-                LayerScale: float.Parse(el.Attribute("layerScale")!.Value)
-            );
-        }
-
-        private static SceneTransition TransitionFromXml(XElement el)
+        private static SceneTransition TransitionFromXml(XElement el, Dictionary<SceneId, TileMapMetadata> metadataLookup)
         {
             var triggerEl = el.Element("TriggerTile")!;
-            var nextEl    = el.Element("NextSceneTile")!;
+            var nextEl = el.Element("NextSceneTile")!;
+            var targetId = SceneId.From(el.Element("TargetScene")!.Value);
+
+            // ✅ 1. Parse as TILE coordinates (integers)
+            var tileCoord = new TileCoord(
+                int.Parse(nextEl.Attribute("x")!.Value),
+                int.Parse(nextEl.Attribute("y")!.Value));
+
+            // ✅ 2. Convert using the TARGET scene's TileMapMetadata
+            var worldPos = metadataLookup.TryGetValue(targetId, out var targetMeta)
+                ? targetMeta.TileToWorld(tileCoord) // Converts tile → world center
+                : new WorldPosition(tileCoord.X * 64f + 32f, tileCoord.Y * 64f + 32f); // Fallback if missing
 
             return new SceneTransition(
                 triggerTile: new TileCoord(
                     int.Parse(triggerEl.Attribute("x")!.Value),
                     int.Parse(triggerEl.Attribute("y")!.Value)),
-                targetScene: SceneId.From(el.Element("TargetScene")!.Value),
-                nextSceneTile: new WorldPosition(
-                    float.Parse(nextEl.Attribute("x")!.Value),
-                    float.Parse(nextEl.Attribute("y")!.Value))
+                targetScene: targetId,
+                nextSceneTile: worldPos
             );
         }
     }

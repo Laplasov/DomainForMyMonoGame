@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Sprites>
+	<WorldSprites>
+			<GroupSprite id="Generic"
+				 animation="Content\DB\ViewData\unit_animation_atlas.xml"
+				 texture="Content\Images\Character.png"></GroupSprite>
+			<GroupSprite id="Goblin"
+				 animation="Content\DB\ViewData\unit_animation_atlas.xml"
+				 texture="Content\Images\Character.png"></GroupSprite>
+			<GroupSprite id="Slime"
+				 animation="Content\DB\ViewData\unit_animation_atlas.xml"
+				 texture="Content\Images\Character.png"></GroupSprite>
+			<GroupSprite id="Player"
+				 animation="Content\DB\ViewData\unit_animation_atlas.xml"
+				 texture="Content\Images\Character.png"></GroupSprite>
+	</WorldSprites>
+	<BattleSprites>
+		<UnitSprite id="Generic"
+				 animation="Content\DB\ViewData\unit_animation_atlas.xml"
+				 texture="Content\Images\Character.png"></UnitSprite>
+		<UnitSprite id="Goblin"
+				 animation="Content\DB\ViewData\unit_animation_atlas.xml"
+				 texture="Content\Images\Character.png"></UnitSprite>
+		<UnitSprite id="Goblin"
+				 animation="Content\DB\ViewData\unit_animation_atlas.xml"
+				 texture="Content\Images\Character.png"></UnitSprite>
+		<UnitSprite id="Goblin"
+				 animation="Content\DB\ViewData\unit_animation_atlas.xml"
+				 texture="Content\Images\Character.png"></UnitSprite>
+	</BattleSprites>
+	<TileSets>
+		<TileSet sceneId="Generic"
+				 texture="Content\Images\TielMap.png"
+				 csv="Content\DB\ViewData\TilesData\test_tile_map.tmx"/>
+		<TileSet sceneId="TestScene" 
+				 texture="Content\Images\TielMap.png"
+				 csv="Content\DB\ViewData\TilesData\test_tile_map.tmx"/>
+		<TileSet sceneId="NextScene" 
+				 texture="Content\Images\TielMap.png"
+				 csv="Content\DB\ViewData\TilesData\test_tile_map.tmx"/>
+	</TileSets>
+</Sprites>
