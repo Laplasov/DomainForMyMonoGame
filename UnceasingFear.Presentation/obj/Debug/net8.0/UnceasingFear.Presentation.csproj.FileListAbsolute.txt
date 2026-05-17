@@ -17,3 +17,5 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Pr
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Presentation\obj\Debug\net8.0\refint\UnceasingFear.Presentation.dll
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Presentation\obj\Debug\net8.0\UnceasingFear.Presentation.pdb
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Presentation\obj\Debug\net8.0\ref\UnceasingFear.Presentation.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Presentation\bin\Debug\net8.0\MonoGameLibrary.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear.Presentation\bin\Debug\net8.0\MonoGameLibrary.pdb

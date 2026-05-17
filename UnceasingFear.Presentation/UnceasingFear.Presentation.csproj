@@ -10,6 +10,7 @@
 		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
 	</ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MonoGame Game Library\MonoGameLibrary.csproj" />
     <ProjectReference Include="..\UnceasingFear.Application\UnceasingFear.Application.csproj" />
     <ProjectReference Include="..\UnceasingFear.Domain\UnceasingFear.Domain.csproj" />
   </ItemGroup>

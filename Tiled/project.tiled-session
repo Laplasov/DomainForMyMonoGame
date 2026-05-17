@@ -5,6 +5,7 @@
     },
     "activeFile": "C:/Users/Yandere312/Desktop/TestTileMap1.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "Все файлы (*)",
     "fileStates": {
@@ -15,19 +16,39 @@
             "scaleInDock": 1
         },
         "C:/Users/Yandere312/Desktop/TestTileMap1.tmx": {
-            "scale": 0.6457031249999999,
+            "scale": 0.33,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 640.3871748336359,
-                "y": 444.47670901391416
+                "x": 545.4545454545455,
+                "y": 690.909090909091
             }
+        },
+        "main.tsx": {
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "marks.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
+    "last.exportedFilePath": "C:/Users/Yandere312/Desktop/C#Space/UnceasingFear/UnceasingFear/UnceasingFear/Content/DB/ViewData/TilesData",
+    "last.imagePath": "C:/Users/Yandere312/Desktop/C#Space/UnceasingFear/UnceasingFear/UnceasingFear/Content/Images",
+    "map.lastUsedExportFilter": "Все файлы (*)",
     "openFiles": [
-        "C:/Users/Yandere312/Desktop/TestTileMap1.tmx"
+        "C:/Users/Yandere312/Desktop/TestTileMap1.tmx",
+        "main.tsx",
+        "marks.tsx"
     ],
     "project": "project.tiled-project",
     "recentFiles": [
+        "marks.tsx",
+        "main.tsx",
         "C:/Users/Yandere312/Desktop/TestTileMap1.tmx"
-    ]
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
 }

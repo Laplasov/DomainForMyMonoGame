@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnceasingFear.Application.Combat.Snapshots;
+using UnceasingFear.Presentation.Data;
 
 namespace UnceasingFear.Presentation.Render
 {
@@ -22,12 +23,15 @@ namespace UnceasingFear.Presentation.Render
 
         private bool init = false;
 
-        private SpriteFont _debugFont;
+        private SpriteFactory _spriteFactory;
+        private readonly GameTime _gameTime;
 
-        public BattleView(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public BattleView(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, SpriteFactory spriteFactory, GameTime gameTime)
         {
             _spriteBatch = spriteBatch;
             _graphics = graphics;
+            _spriteFactory = spriteFactory;
+            _gameTime = gameTime;
 
             _whitePixel = new Texture2D(_graphics.GraphicsDevice, 1, 1);
             _whitePixel.SetData(new[] { Color.White });

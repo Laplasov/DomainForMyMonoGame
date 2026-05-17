@@ -161,6 +161,8 @@ public class TileMapLayered
                 // Calculate source rectangle in tileset
                 int tileX = (tileIndex % layer.TilesetColumns) * layer.TileWidth;
                 int tileY = (tileIndex / layer.TilesetColumns) * layer.TileHeight;
+
+
                 Rectangle sourceRect = new Rectangle(tileX, tileY, layer.TileWidth, layer.TileHeight);
 
                 // Calculate destination position

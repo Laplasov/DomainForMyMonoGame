@@ -1,20 +1,31 @@
-﻿// File: UnceasingFear.Presentation/Render/WorldView.cs
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame_Game_Library.Graphics;
+using MonoGame_Game_Library.TileLogic;
 using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.World.ValueObjects;
+using UnceasingFear.Presentation.Data;
 
 public class WorldView
 {
     private readonly SpriteBatch _spriteBatch;
     private readonly GraphicsDevice _graphicsDevice;
     private readonly Texture2D _whitePixel;
+    private readonly SpriteFactory _spriteFactory;
+    private readonly GameTime _gameTime;
 
-    public WorldView(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice)
+    private readonly Dictionary<string, AnimatedSprite> _groupSprites = new();
+    private TileMapLayered? _currentTilemap;
+    private string _currentSceneId = string.Empty;
+
+    public WorldView(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice,
+                     SpriteFactory spriteFactory, GameTime gameTime)
     {
         _spriteBatch = spriteBatch;
         _graphicsDevice = graphicsDevice;
+        _spriteFactory = spriteFactory;
+        _gameTime = gameTime;
+
         _whitePixel = new Texture2D(graphicsDevice, 1, 1);
         _whitePixel.SetData(new[] { Color.White });
     }
@@ -22,80 +33,101 @@ public class WorldView
     public void Draw(WorldSnapshot snapshot)
     {
         _graphicsDevice.Clear(Color.CornflowerBlue);
-        _spriteBatch.Begin();
 
-        // ✅ 1. Draw tile grid numbers (for debugging)
+        var sceneId = snapshot.CurrentScene.Value;
+        if (sceneId != _currentSceneId)
+        {
+            _currentTilemap = _spriteFactory.CreateTileMap(sceneId);
+            _currentSceneId = sceneId;
+        }
+
+        _spriteBatch.Begin(blendState: BlendState.NonPremultiplied);
+
+        var testTexture = _currentTilemap?.Layers["Ground"].Tileset;
+        if (testTexture != null)
+        {
+            // Draw tile 60: index 59, col=9, row=5
+            var sourceRect = new Rectangle(576, 320, 64, 64);
+            _spriteBatch.Draw(testTexture, new Vector2(100, 100), sourceRect, Color.White);
+        }
+
+        // 1. Ground layer
+        _currentTilemap?.DrawLayer(_spriteBatch, "Ground", Vector2.Zero);
+
+
+        // 2. Debug tile grid on top of ground, under entities
         DrawTileGrid(snapshot);
 
-        // 2. Draw transition tiles
+        // 3. Transition tiles
         foreach (var tile in snapshot.TransitionTiles)
         {
             var center = snapshot.TileMapMetadata.TileToWorld(tile);
             var rect = new Rectangle(
                 (int)center.X - snapshot.TileMapMetadata.TileWidth / 2,
                 (int)center.Y - snapshot.TileMapMetadata.TileHeight / 2,
-                snapshot.TileMapMetadata.TileWidth, snapshot.TileMapMetadata.TileHeight);
+                snapshot.TileMapMetadata.TileWidth,
+                snapshot.TileMapMetadata.TileHeight);
             _spriteBatch.Draw(_whitePixel, rect, Color.Yellow * 0.5f);
         }
 
-        // 3. Draw groups
+        // 4. Groups
         foreach (var group in snapshot.Groups)
         {
-            var rect = new Rectangle(
-                (int)group.CurrentPosition.X - 25,
-                (int)group.CurrentPosition.Y - 25, 50, 50);
-            _spriteBatch.Draw(_whitePixel, rect, Color.Red);
+            if (group.IsDefeated) continue;
+
+            var sprite = GetOrCreateSprite(group);
+            sprite.Update(_gameTime);
+
+            var position = new Vector2(
+                group.CurrentPosition.X - sprite.Width / 2f,
+                group.CurrentPosition.Y - sprite.Height / 2f);
+
+            sprite.Draw(_spriteBatch, position);
 
             if (group.IsAggroed)
             {
                 var indicator = new Rectangle(
                     (int)group.CurrentPosition.X - 30,
-                    (int)group.CurrentPosition.Y - 30, 60, 60);
+                    (int)group.CurrentPosition.Y - 30,
+                    60, 60);
                 _spriteBatch.Draw(_whitePixel, indicator, Color.Orange * 0.3f);
             }
         }
-
         _spriteBatch.End();
     }
 
-    // ✅ NEW: Draw tile coordinate numbers on the grid
     private void DrawTileGrid(WorldSnapshot snapshot)
     {
         var metadata = snapshot.TileMapMetadata;
-        int scaledW = (int)(metadata.TileWidth * metadata.LayerScale);
-        int scaledH = (int)(metadata.TileHeight * metadata.LayerScale);
 
-        // ✅ Show full grid (or adjust as needed)
-        int maxDisplayX = metadata.Width;   // Was: Math.Min(10, metadata.Width)
-        int maxDisplayY = metadata.Height;  // Was: Math.Min(10, metadata.Height)
-
-        // Optional: Reduce scale so numbers fit better on 20×20 grid
-        int textScale = 1; // Keep small for dense grids
-
-        for (int y = 0; y < maxDisplayY; y++)
+        for (int y = 0; y < metadata.Height; y++)
         {
-            for (int x = 0; x < maxDisplayX; x++)
+            for (int x = 0; x < metadata.Width; x++)
             {
                 var tileCenter = metadata.TileToWorld(new TileCoord(x, y));
-                var screenPos = new Vector2(
-                    tileCenter.X - 8,  // Slightly adjusted offset
-                    tileCenter.Y - 6);
+                var screenPos = new Vector2(tileCenter.X - 8, tileCenter.Y - 6);
 
-                // Draw with shadow for readability
                 DebugTextDrawer.DrawTileCoord(
                     _spriteBatch, _whitePixel,
                     new TileCoord(x, y),
                     screenPos + new Vector2(1, 1),
-                    Color.Black * 0.7f,  // Shadow
-                    scale: textScale);
+                    Color.Black * 0.7f, scale: 1);
 
                 DebugTextDrawer.DrawTileCoord(
                     _spriteBatch, _whitePixel,
                     new TileCoord(x, y),
                     screenPos,
-                    Color.White * 0.9f,  // Slightly dimmed main text
-                    scale: textScale);
+                    Color.White * 0.9f, scale: 1);
             }
         }
+    }
+    private AnimatedSprite GetOrCreateSprite(GroupSnapshot group)
+    {
+        if (!_groupSprites.TryGetValue(group.Id.Value, out var sprite))
+        {
+            sprite = _spriteFactory.CreateGroupSprite(group.Id.Value);
+            _groupSprites[group.Id.Value] = sprite;
+        }
+        return sprite;
     }
 }

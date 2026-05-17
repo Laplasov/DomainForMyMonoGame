@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas>
+    <Regions>
+        <Region name="down_1"  x="0" y="0" width="64" height="64"/>
+        <Region name="down_2"  x="64" y="0" width="64" height="64"/>
+        <Region name="down_3"  x="128" y="0" width="64" height="64"/>
+        <Region name="down_4"  x="192" y="0" width="64" height="64"/>
+        <Region name="down_5"  x="256" y="0" width="64" height="64"/>
+        <Region name="down_6"  x="320" y="0" width="64" height="64"/>
+        <Region name="down_7"  x="384" y="0" width="64" height="64" />
+        <Region name="down_8"  x="448" y="0" width="64" height="64"/>
+        <Region name="down_9"  x="512" y="0" width="64" height="64"/>
+        <Region name="down_10" x="576" y="0" width="64" height="64" />
+
+        <Region name="down_left_1" x="0" y="64" width="64" height="64" />
+        <Region name="down_left_2" x="64" y="64" width="64" height="64" />
+        <Region name="down_left_3" x="128" y="64" width="64" height="64" />
+        <Region name="down_left_4" x="192" y="64" width="64" height="64" />
+        <Region name="down_left_5" x="256" y="64" width="64" height="64" />
+        <Region name="down_left_6" x="320" y="64" width="64" height="64" />
+        <Region name="down_left_7" x="384" y="64" width="64" height="64" />
+        <Region name="down_left_8" x="448" y="64" width="64" height="64" />
+        <Region name="down_left_9" x="512" y="64" width="64" height="64" />
+        <Region name="down_left_10" x="576" y="64" width="64" height="64" />
+
+        <Region name="left_1" x="0" y="128" width="64" height="64" />
+        <Region name="left_2" x="64" y="128" width="64" height="64" />
+        <Region name="left_3" x="128" y="128" width="64" height="64" />
+        <Region name="left_4" x="192" y="128" width="64" height="64" />
+        <Region name="left_5" x="256" y="128" width="64" height="64" />
+        <Region name="left_6" x="320" y="128" width="64" height="64" />
+        <Region name="left_7" x="384" y="128" width="64" height="64" />
+        <Region name="left_8" x="448" y="128" width="64" height="64" />
+        <Region name="left_9" x="512" y="128" width="64" height="64" />
+        <Region name="left_10" x="576" y="128" width="64" height="64" />
+
+        <Region name="up_left_1" x="0" y="192" width="64" height="64" />
+        <Region name="up_left_2" x="64" y="192" width="64" height="64" />
+        <Region name="up_left_3" x="128" y="192" width="64" height="64" />
+        <Region name="up_left_4" x="192" y="192" width="64" height="64" />
+        <Region name="up_left_5" x="256" y="192" width="64" height="64" />
+        <Region name="up_left_6" x="320" y="192" width="64" height="64" />
+        <Region name="up_left_7" x="384" y="192" width="64" height="64" />
+        <Region name="up_left_8" x="448" y="192" width="64" height="64" />
+        <Region name="up_left_9" x="512" y="192" width="64" height="64" />
+        <Region name="up_left_10" x="576" y="192" width="64" height="64" />
+
+        <Region name="up_1"  x="0" y="256" width="64" height="64"/>
+        <Region name="up_2"  x="64" y="256" width="64" height="64"/>
+        <Region name="up_3"  x="128" y="256" width="64" height="64"/>
+        <Region name="up_4"  x="192" y="256" width="64" height="64"/>
+        <Region name="up_5"  x="256" y="256" width="64" height="64"/>
+        <Region name="up_6"  x="320" y="256" width="64" height="64"/>
+        <Region name="up_7"  x="384" y="256" width="64" height="64" />
+        <Region name="up_8"  x="448" y="256" width="64" height="64"/>
+        <Region name="up_9"  x="512" y="256" width="64" height="64"/>
+        <Region name="up_10" x="576" y="256" width="64" height="64" />
+
+        <Region name="up_right_1" x="0" y="320" width="64" height="64" />
+        <Region name="up_right_2" x="64" y="320" width="64" height="64" />
+        <Region name="up_right_3" x="128" y="320" width="64" height="64" />
+        <Region name="up_right_4" x="192" y="320" width="64" height="64" />
+        <Region name="up_right_5" x="256" y="320" width="64" height="64" />
+        <Region name="up_right_6" x="320" y="320" width="64" height="64" />
+        <Region name="up_right_7" x="384" y="320" width="64" height="64" />
+        <Region name="up_right_8" x="448" y="320" width="64" height="64" />
+        <Region name="up_right_9" x="512" y="320" width="64" height="64" />
+        <Region name="up_right_10" x="576" y="320" width="64" height="64" />
+
+        <Region name="down_right_1" x="0" y="384" width="64" height="64" />
+        <Region name="down_right_2" x="64" y="384" width="64" height="64" />
+        <Region name="down_right_3" x="128" y="384" width="64" height="64" />
+        <Region name="down_right_4" x="192" y="384" width="64" height="64" />
+        <Region name="down_right_5" x="256" y="384" width="64" height="64" />
+        <Region name="down_right_6" x="320" y="384" width="64" height="64" />
+        <Region name="down_right_7" x="384" y="384" width="64" height="64" />
+        <Region name="down_right_8" x="448" y="384" width="64" height="64" />
+        <Region name="down_right_9" x="512" y="384" width="64" height="64" />
+        <Region name="down_right_10" x="576" y="384" width="64" height="64" />
+
+        <Region name="right_1" x="0" y="448" width="64" height="64" />
+        <Region name="right_2" x="64" y="448" width="64" height="64" />
+        <Region name="right_3" x="128" y="448" width="64" height="64" />
+        <Region name="right_4" x="192" y="448" width="64" height="64" />
+        <Region name="right_5" x="256" y="448" width="64" height="64" />
+        <Region name="right_6" x="320" y="448" width="64" height="64" />
+        <Region name="right_7" x="384" y="448" width="64" height="64" />
+        <Region name="right_8" x="448" y="448" width="64" height="64" />
+        <Region name="right_9" x="512" y="448" width="64" height="64" />
+        <Region name="right_10" x="576" y="448" width="64" height="64" />
+
+    </Regions>
+
+    <Animations>
+        <Animation name="down" delay="100">
+            <Frame region="down_1" />
+            <Frame region="down_2" />
+            <Frame region="down_3" />
+            <Frame region="down_4" />
+            <Frame region="down_5" />
+            <Frame region="down_6" />
+            <Frame region="down_7" />
+            <Frame region="down_8" />
+            <Frame region="down_9" />
+            <Frame region="down_10" />
+        </Animation>
+
+        <Animation name="down_left" delay="100">
+            <Frame region="down_left_1" />
+            <Frame region="down_left_2" />
+            <Frame region="down_left_3" />
+            <Frame region="down_left_4" />
+            <Frame region="down_left_5" />
+            <Frame region="down_left_6" />
+            <Frame region="down_left_7" />
+            <Frame region="down_left_8" />
+            <Frame region="down_left_9" />
+            <Frame region="down_left_10" />
+        </Animation>
+
+        <Animation name="left" delay="100">
+            <Frame region="left_1" />
+            <Frame region="left_2" />
+            <Frame region="left_3" />
+            <Frame region="left_4" />
+            <Frame region="left_5" />
+            <Frame region="left_6" />
+            <Frame region="left_7" />
+            <Frame region="left_8" />
+            <Frame region="left_9" />
+            <Frame region="left_10" />
+        </Animation>
+
+        <Animation name="up_left" delay="100">
+            <Frame region="up_left_1" />
+            <Frame region="up_left_2" />
+            <Frame region="up_left_3" />
+            <Frame region="up_left_4" />
+            <Frame region="up_left_5" />
+            <Frame region="up_left_6" />
+            <Frame region="up_left_7" />
+            <Frame region="up_left_8" />
+            <Frame region="up_left_9" />
+            <Frame region="up_left_10" />
+        </Animation>
+
+        <Animation name="up" delay="100">
+            <Frame region="up_1" />
+            <Frame region="up_2" />
+            <Frame region="up_3" />
+            <Frame region="up_4" />
+            <Frame region="up_5" />
+            <Frame region="up_6" />
+            <Frame region="up_7" />
+            <Frame region="up_8" />
+            <Frame region="up_9" />
+            <Frame region="up_10" />
+        </Animation>
+
+        <Animation name="up_right" delay="100">
+            <Frame region="up_right_1" />
+            <Frame region="up_right_2" />
+            <Frame region="up_right_3" />
+            <Frame region="up_right_4" />
+            <Frame region="up_right_5" />
+            <Frame region="up_right_6" />
+            <Frame region="up_right_7" />
+            <Frame region="up_right_8" />
+            <Frame region="up_right_9" />
+            <Frame region="up_right_10" />
+        </Animation>
+
+        <Animation name="down_right" delay="100">
+            <Frame region="down_right_1" />
+            <Frame region="down_right_2" />
+            <Frame region="down_right_3" />
+            <Frame region="down_right_4" />
+            <Frame region="down_right_5" />
+            <Frame region="down_right_6" />
+            <Frame region="down_right_7" />
+            <Frame region="down_right_8" />
+            <Frame region="down_right_9" />
+            <Frame region="down_right_10" />
+        </Animation>
+
+        <Animation name="right" delay="100">
+            <Frame region="right_1" />
+            <Frame region="right_2" />
+            <Frame region="right_3" />
+            <Frame region="right_4" />
+            <Frame region="right_5" />
+            <Frame region="right_6" />
+            <Frame region="right_7" />
+            <Frame region="right_8" />
+            <Frame region="right_9" />
+            <Frame region="right_10" />
+        </Animation>
+
+    </Animations>
+</TextureAtlas>

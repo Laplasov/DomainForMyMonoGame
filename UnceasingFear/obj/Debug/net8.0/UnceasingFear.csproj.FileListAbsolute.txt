@@ -90,3 +90,12 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bi
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\UnceasingFear.pdb
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\obj\Debug\net8.0\UnceasingFear.genruntimeconfig.cache
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\obj\Debug\net8.0\ref\UnceasingFear.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\Images\Character.xnb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\Images\Marks.xnb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\Images\TielMap.xnb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\Images\UI.xnb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\MonoGameLibrary.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\MonoGameLibrary.pdb
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\DB\ViewData\TilesData\test_tile_map.tmx
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\DB\ViewData\sprite_map.xml
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\DB\ViewData\unit_animation_atlas.xml

@@ -17,6 +17,7 @@ using UnceasingFear.Domain.World.Enums;
 using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Persistence;
 using UnceasingFear.Persistence.XML;
+using UnceasingFear.Presentation.Data;
 using UnceasingFear.Presentation.Render;
 using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
@@ -42,6 +43,7 @@ public class Game1 : Game
     private BattleView _battleView;
 
     private SceneId _lastSceneId;
+    private GameTime _gameTime = new GameTime();
 
     public Game1()
     {
@@ -54,6 +56,7 @@ public class Game1 : Game
     
     protected override void Initialize()
     {
+
         ISceneProvider SceneProvider = new XmlSceneProvider(Path.Combine("Content", "DB"));
 
         Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
@@ -72,15 +75,19 @@ public class Game1 : Game
     
     protected override void LoadContent()
     {
+        var spriteRepo = new XmlSpriteRepository(Path.Combine("Content", "DB", "ViewData", "sprite_map.xml"));
+        var spriteFactory = new SpriteFactory(Content, spriteRepo);
+
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        _worldView = new WorldView(_spriteBatch, GraphicsDevice);
-        _battleView = new BattleView(_spriteBatch, _graphics);
+        _worldView = new WorldView(_spriteBatch, GraphicsDevice, spriteFactory, _gameTime);
+        _battleView = new BattleView(_spriteBatch, _graphics, spriteFactory, _gameTime);
 
         _worldSnapshot = _appServiceWorld.GetSnapshot();
     }
 
     protected override void Update(GameTime gameTime)
     {
+        _gameTime = gameTime;
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
