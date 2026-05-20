@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame_Game_Library.Graphics;
 using MonoGame_Game_Library.TileLogic;
 using System.Xml.Linq;
-using UnceasingFear.Presentation.Data;
+using UnceasingFear.Persistence.XML;
 
 namespace UnceasingFear.Presentation.Data
 {

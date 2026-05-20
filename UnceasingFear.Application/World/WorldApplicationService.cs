@@ -1,4 +1,5 @@
-﻿using UnceasingFear.Application.Commands;
+﻿using UnceasingFear.Application.Collision;
+using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.Repository;
 using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Shared.Events;

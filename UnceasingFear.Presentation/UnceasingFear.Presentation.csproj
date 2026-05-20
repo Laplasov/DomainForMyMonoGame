@@ -13,6 +13,7 @@
     <ProjectReference Include="..\MonoGame Game Library\MonoGameLibrary.csproj" />
     <ProjectReference Include="..\UnceasingFear.Application\UnceasingFear.Application.csproj" />
     <ProjectReference Include="..\UnceasingFear.Domain\UnceasingFear.Domain.csproj" />
+    <ProjectReference Include="..\UnceasingFear.Persistence\UnceasingFear.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

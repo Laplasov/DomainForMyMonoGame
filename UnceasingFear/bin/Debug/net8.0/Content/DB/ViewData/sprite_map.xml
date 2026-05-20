@@ -31,12 +31,12 @@
 	<TileSets>
 		<TileSet sceneId="Generic"
 				 texture="Images\TielMap"
-				 csv="DB\ViewData\TilesData\test_tile_map.tmx"/>
+				 csv="DB\TilesData\test_tile_map.tmx"/>
 		<TileSet sceneId="TestScene" 
 				 texture="Images\TielMap"
-				 csv="DB\ViewData\TilesData\test_tile_map.tmx"/>
+				 csv="DB\TilesData\test_tile_map.tmx"/>
 		<TileSet sceneId="NextScene" 
 				 texture="Images\TielMap"
-				 csv="DB\ViewData\TilesData\test_tile_map.tmx"/>
+				 csv="DB\TilesData\test_tile_map.tmx"/>
 	</TileSets>
 </Sprites>

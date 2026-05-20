@@ -186,7 +186,8 @@
           "MonoGame.Framework.DesktopGL": "3.8.0",
           "MonoGameLibrary": "1.0.0",
           "UnceasingFear.Application": "1.0.0",
-          "UnceasingFear.Domain": "1.0.0"
+          "UnceasingFear.Domain": "1.0.0",
+          "UnceasingFear.Persistence": "1.0.0"
         },
         "compile": {
           "bin/placeholder/UnceasingFear.Presentation.dll": {}

@@ -6,7 +6,7 @@ using UnceasingFear.Domain.World.Entities;
 using UnceasingFear.Domain.World.Enums;
 using UnceasingFear.Domain.World.ValueObjects;
 
-namespace UnceasingFear.TestImplementation
+namespace UnceasingFear.Persistence
 {
     public class GroupFactory
     {

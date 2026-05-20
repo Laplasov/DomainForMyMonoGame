@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnceasingFear.Application.Collision;
 using UnceasingFear.Application.Combat;
 using UnceasingFear.Application.Combat.Snapshots;
 using UnceasingFear.Application.Commands;
@@ -56,10 +57,12 @@ public class Game1 : Game
     
     protected override void Initialize()
     {
+        var spriteRepo = new XmlSpriteRepository(Path.Combine("Content", "DB", "ViewData", "sprite_map.xml"));
+        var spriteFactory = new SpriteFactory(Content, spriteRepo);
 
         ISceneProvider SceneProvider = new XmlSceneProvider(Path.Combine("Content", "DB"));
-
         Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
+
         Group playerGroup = scene.Groups.First(g => g.MovementPattern == MovementPattern.PlayerControlled);
 
         _playerPosition = new Vector2(playerGroup.CurrentPosition.X, playerGroup.CurrentPosition.Y);
@@ -67,21 +70,16 @@ public class Game1 : Game
 
         _battleServiceProvider = new BattleServiceProvider();
         _battleServiceProvider.Initialize(EventDispatcher, CommandDispatcher);
-
         _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher, SceneProvider);
 
-        base.Initialize();
-    }
-    
-    protected override void LoadContent()
-    {
-        var spriteRepo = new XmlSpriteRepository(Path.Combine("Content", "DB", "ViewData", "sprite_map.xml"));
-        var spriteFactory = new SpriteFactory(Content, spriteRepo);
-
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
         _worldView = new WorldView(_spriteBatch, GraphicsDevice, spriteFactory, _gameTime);
         _battleView = new BattleView(_spriteBatch, _graphics, spriteFactory, _gameTime);
 
+        base.Initialize();
+    }
+    protected override void LoadContent()
+    {
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
         _worldSnapshot = _appServiceWorld.GetSnapshot();
     }
 
@@ -123,7 +121,6 @@ public class Game1 : Game
             _playerPosition = new Vector2(_worldSnapshot.PlayerPosition.X, _worldSnapshot.PlayerPosition.Y);
             _lastSceneId = _worldSnapshot.CurrentScene;
         }
-
     }
 
     public void UpdateBattle(GameTime gameTime)

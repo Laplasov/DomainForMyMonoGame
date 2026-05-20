@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using UnceasingFear.Presentation.Data;
 
-namespace UnceasingFear.Presentation.Data
+namespace UnceasingFear.Persistence.XML
 {
     public class XmlSpriteRepository
     {

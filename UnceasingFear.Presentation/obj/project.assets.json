@@ -163,6 +163,20 @@
         "runtime": {
           "bin/placeholder/UnceasingFear.Domain.dll": {}
         }
+      },
+      "UnceasingFear.Persistence/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "UnceasingFear.Application": "1.0.0",
+          "UnceasingFear.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/UnceasingFear.Persistence.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UnceasingFear.Persistence.dll": {}
+        }
       }
     }
   },
@@ -334,6 +348,11 @@
       "type": "project",
       "path": "../UnceasingFear.Domain/UnceasingFear.Domain.csproj",
       "msbuildProject": "../UnceasingFear.Domain/UnceasingFear.Domain.csproj"
+    },
+    "UnceasingFear.Persistence/1.0.0": {
+      "type": "project",
+      "path": "../UnceasingFear.Persistence/UnceasingFear.Persistence.csproj",
+      "msbuildProject": "../UnceasingFear.Persistence/UnceasingFear.Persistence.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -342,7 +361,8 @@
       "MonoGame.Framework.DesktopGL >= 3.8.*",
       "MonoGameLibrary >= 1.0.0",
       "UnceasingFear.Application >= 1.0.0",
-      "UnceasingFear.Domain >= 1.0.0"
+      "UnceasingFear.Domain >= 1.0.0",
+      "UnceasingFear.Persistence >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -385,6 +405,9 @@
             },
             "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\UnceasingFear.Domain.csproj": {
               "projectPath": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Domain\\UnceasingFear.Domain.csproj"
+            },
+            "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj": {
+              "projectPath": "C:\\Users\\Yandere312\\Desktop\\C#Space\\UnceasingFear\\UnceasingFear\\UnceasingFear.Persistence\\UnceasingFear.Persistence.csproj"
             }
           }
         }

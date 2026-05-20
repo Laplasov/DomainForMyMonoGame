@@ -54,7 +54,7 @@
 		<Content Include="Content\DB\abilities.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="Content\DB\ViewData\TilesData\test_tile_map.tmx">
+		<Content Include="Content\DB\TilesData\test_tile_map.tmx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Include="Content\DB\ViewData\sprite_map.xml">
