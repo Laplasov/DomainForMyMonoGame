@@ -26,6 +26,8 @@ namespace UnceasingFear.Application.World
         
         private bool _battleTriggered = false;
 
+        public WorldPosition _lastPlayerPosition;
+
         private readonly ISceneProvider _sceneProvider;
         public IEventDispatcher EventDispatcher { get; }
         public ICommandDispatcher CommandDispatcher { get; }
@@ -37,6 +39,7 @@ namespace UnceasingFear.Application.World
             EventDispatcher = eventDispatcher;
             CommandDispatcher = commandDispatcher;
             _sceneProvider = sceneProvider;
+            _lastPlayerPosition = currentPlayer.CurrentPosition; 
 
             CommandDispatcher.Register<MovePlayerCommand>(UpdatePositions);
             CommandDispatcher.Register<RequestTransitionCommand>(UpdateTransition);
@@ -52,9 +55,22 @@ namespace UnceasingFear.Application.World
 
         private void UpdatePositions(MovePlayerCommand cmd)
         {
-            var playerInput = new WorldPosition(cmd.InputX, cmd.InputY);
-            _currentPlayer.MoveTo(playerInput);
-            _currentTileCoordPlayer = _scene.MapMetadata.WorldToTile(playerInput);
+            var finalPosition = _lastPlayerPosition;
+            var lastTile = _scene.MapMetadata.WorldToTile(_lastPlayerPosition);
+
+            var testPosX = new WorldPosition(_lastPlayerPosition.X + cmd.InputX, _lastPlayerPosition.Y);
+            var testTileX = _scene.MapMetadata.WorldToTile(testPosX);
+            if (_scene.Collision.IsWalkable(testTileX, lastTile).x)
+                finalPosition = new WorldPosition(testPosX.X, finalPosition.Y);
+
+            var testPosY = new WorldPosition(finalPosition.X, _lastPlayerPosition.Y + cmd.InputY);
+            var testTileY = _scene.MapMetadata.WorldToTile(testPosY);
+            if (_scene.Collision.IsWalkable(testTileY, lastTile).y)
+                finalPosition = new WorldPosition(finalPosition.X, testPosY.Y);
+
+            _lastPlayerPosition = finalPosition;
+            _currentPlayer.MoveTo(finalPosition);
+            _currentTileCoordPlayer = _scene.MapMetadata.WorldToTile(finalPosition);
 
             foreach (var group in _scene.Groups)
             {
@@ -70,7 +86,7 @@ namespace UnceasingFear.Application.World
                     return;
                 }
 
-                var velocity = group.ComputeVelocity(playerInput);
+                var velocity = group.ComputeVelocity(finalPosition);
                 if (velocity.IsZero) continue;
 
                 group.MoveTo(velocity.Apply(group.CurrentPosition, cmd.DeltaTime));
@@ -85,15 +101,15 @@ namespace UnceasingFear.Application.World
             {
                 var target = transition.Value;
 
-                // ✅ Load the fully populated scene from repository
                 var newScene = _sceneProvider.GetById(target.TargetScene);
-                if (newScene == null) return; // Safety check
+                if (newScene == null) return;
 
-                // ✅ Re-add player to the new scene (player isn't in XML)
+                newScene.RemoveGroup(_currentPlayer.Id);
                 newScene.AddGroup(_currentPlayer);
-                _currentPlayer.MoveTo(target.NextSceneTile);
 
-                // ✅ Switch to the new scene
+                _currentPlayer.MoveTo(target.NextSceneTile);
+                _lastPlayerPosition = target.NextSceneTile;
+
                 _scene = newScene;
                 _scene.PlayerEntered(target.NextSceneTile);
             }

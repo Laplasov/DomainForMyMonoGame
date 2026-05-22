@@ -23,7 +23,7 @@ namespace UnceasingFear.Persistence.Xml
             var cache = LoadAll();
             if (!cache.TryGetValue(id.Value, out var group))
                 throw new KeyNotFoundException($"Group '{id.Value}' not found in '{_filePath}'.");
-            return group;
+            return group.Clone();
         }
 
         public IReadOnlyDictionary<string, Group> LoadAll()

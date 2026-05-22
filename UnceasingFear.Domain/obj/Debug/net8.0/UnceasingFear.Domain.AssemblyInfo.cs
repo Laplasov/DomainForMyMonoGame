@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UnceasingFear.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8be859afce9c64065114b06918a2afbf3fbf67c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+297df1c635ed9a6868369da40ffc8e7dace4b5b9")]
 [assembly: System.Reflection.AssemblyProductAttribute("UnceasingFear.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UnceasingFear.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

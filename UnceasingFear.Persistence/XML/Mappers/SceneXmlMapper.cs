@@ -74,13 +74,14 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         public static Scene FromXml(
             XElement el,
             Func<string, Group> resolveGroup,
-            Dictionary<SceneId, TileMapMetadata> metadataLookup) // ✅ New parameter
+            Dictionary<SceneId, (TileMapMetadata Metadata, Collision Collision)> metadataLookup) // ✅ New parameter
         {
             var id = SceneId.From(el.Attribute("id")!.Value);
 
             // ✅ Use pre-parsed metadata instead of parsing inline
-            var metadata = metadataLookup[id];
-            var scene = new Scene(id, metadata);
+            //var metadata = metadataLookup[id];
+            var (metadata, collision) = metadataLookup[id];
+            var scene = new Scene(id, metadata, collision);
 
             foreach (var groupRef in el.Element("GroupRefs")!.Elements("GroupRef"))
             {
@@ -108,7 +109,7 @@ namespace UnceasingFear.Persistence.Xml.Mappers
 
             return scene;
         }
-        private static SceneTransition TransitionFromXml(XElement el, Dictionary<SceneId, TileMapMetadata> metadataLookup)
+        private static SceneTransition TransitionFromXml(XElement el, Dictionary<SceneId, (TileMapMetadata Metadata, Collision Collision)> metadataLookup)
         {
             var triggerEl = el.Element("TriggerTile")!;
             var nextEl = el.Element("NextSceneTile")!;
@@ -121,7 +122,7 @@ namespace UnceasingFear.Persistence.Xml.Mappers
 
             // ✅ 2. Convert using the TARGET scene's TileMapMetadata
             var worldPos = metadataLookup.TryGetValue(targetId, out var targetMeta)
-                ? targetMeta.TileToWorld(tileCoord) // Converts tile → world center
+                ? targetMeta.Metadata.TileToWorld(tileCoord) // Converts tile → world center
                 : new WorldPosition(tileCoord.X * 64f + 32f, tileCoord.Y * 64f + 32f); // Fallback if missing
 
             return new SceneTransition(

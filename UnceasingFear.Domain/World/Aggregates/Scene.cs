@@ -19,11 +19,12 @@ namespace UnceasingFear.Domain.World.Aggregates
         public IReadOnlyList<SceneTransition> Transitions => _transitions.AsReadOnly();
         public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
         public TileMapMetadata MapMetadata { get; }
-
-        public Scene(SceneId id, TileMapMetadata mapMetadata)
+        public Collision Collision { get; }
+        public Scene(SceneId id, TileMapMetadata mapMetadata, Collision collision)
         {
             Id = id;
             MapMetadata = mapMetadata;
+            Collision = collision;
         }
 
         public void AddTransition(SceneTransition transition)
@@ -35,6 +36,8 @@ namespace UnceasingFear.Domain.World.Aggregates
 
         public void AddGroup(Group group)
             => _groups.Add(group);
+        public void RemoveGroup(GroupId id)
+            => _groups.RemoveAll(g => g.Id == id);
 
         public void PlayerEntered(WorldPosition position)
             => AddDomainEvent(new PlayerEnteredSceneEvent(Id, position));

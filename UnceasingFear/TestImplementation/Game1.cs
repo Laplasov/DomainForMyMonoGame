@@ -31,7 +31,6 @@ public class Game1 : Game
     public IEventDispatcher EventDispatcher { get; } = new DomainEventDispatcher();
     public ICommandDispatcher CommandDispatcher { get; } = new CommandDispatcher();
 
-    private Vector2 _playerPosition;
     private const float PlayerSpeed = 200f;
 
     private WorldSnapshot _worldSnapshot;
@@ -46,6 +45,8 @@ public class Game1 : Game
     private SceneId _lastSceneId;
     private GameTime _gameTime = new GameTime();
 
+    private SpriteFactory _spriteFactory;
+
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -58,22 +59,19 @@ public class Game1 : Game
     protected override void Initialize()
     {
         var spriteRepo = new XmlSpriteRepository(Path.Combine("Content", "DB", "ViewData", "sprite_map.xml"));
-        var spriteFactory = new SpriteFactory(Content, spriteRepo);
+        _spriteFactory = new SpriteFactory(Content, spriteRepo);
 
         ISceneProvider SceneProvider = new XmlSceneProvider(Path.Combine("Content", "DB"));
         Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
 
         Group playerGroup = scene.Groups.First(g => g.MovementPattern == MovementPattern.PlayerControlled);
 
-        _playerPosition = new Vector2(playerGroup.CurrentPosition.X, playerGroup.CurrentPosition.Y);
         _lastSceneId = scene.Id;
 
         _battleServiceProvider = new BattleServiceProvider();
         _battleServiceProvider.Initialize(EventDispatcher, CommandDispatcher);
         _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher, SceneProvider);
 
-        _worldView = new WorldView(_spriteBatch, GraphicsDevice, spriteFactory, _gameTime);
-        _battleView = new BattleView(_spriteBatch, _graphics, spriteFactory, _gameTime);
 
         base.Initialize();
     }
@@ -81,6 +79,9 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _worldSnapshot = _appServiceWorld.GetSnapshot();
+
+        _worldView = new WorldView(_spriteBatch, GraphicsDevice, _spriteFactory, _gameTime);
+        _battleView = new BattleView(_spriteBatch, _graphics, _spriteFactory, _gameTime);
     }
 
     protected override void Update(GameTime gameTime)
@@ -104,12 +105,13 @@ public class Game1 : Game
         var keyboard = Keyboard.GetState();
         var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        if (keyboard.IsKeyDown(Keys.W)) _playerPosition.Y -= PlayerSpeed * delta;
-        if (keyboard.IsKeyDown(Keys.S)) _playerPosition.Y += PlayerSpeed * delta;
-        if (keyboard.IsKeyDown(Keys.A)) _playerPosition.X -= PlayerSpeed * delta;
-        if (keyboard.IsKeyDown(Keys.D)) _playerPosition.X += PlayerSpeed * delta;
+        float dx = 0, dy = 0;
+        if (keyboard.IsKeyDown(Keys.W)) dy -= PlayerSpeed * delta;
+        if (keyboard.IsKeyDown(Keys.S)) dy += PlayerSpeed * delta;
+        if (keyboard.IsKeyDown(Keys.A)) dx -= PlayerSpeed * delta;
+        if (keyboard.IsKeyDown(Keys.D)) dx += PlayerSpeed * delta;
 
-        CommandDispatcher.Dispatch(new MovePlayerCommand(_playerPosition.X, _playerPosition.Y, delta));
+        CommandDispatcher.Dispatch(new MovePlayerCommand(dx, dy, delta));
 
         if (keyboard.IsKeyDown(Keys.C))
             CommandDispatcher.Dispatch(new RequestTransitionCommand());
@@ -118,7 +120,6 @@ public class Game1 : Game
 
         if (_lastSceneId != _worldSnapshot.CurrentScene)
         {
-            _playerPosition = new Vector2(_worldSnapshot.PlayerPosition.X, _worldSnapshot.PlayerPosition.Y);
             _lastSceneId = _worldSnapshot.CurrentScene;
         }
     }

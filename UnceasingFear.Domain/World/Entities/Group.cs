@@ -35,6 +35,14 @@ namespace UnceasingFear.Domain.World.Entities
             CurrentPosition = startPosition;
             IsDefeated = false;
         }
+        public Group Clone() => new Group(
+            id: Id,
+            template: Template,
+            movementPattern: MovementPattern,
+            aggroRange: AggroRange,
+            speed: Speed,
+            startPosition: SpawnPosition
+        );
         public void ChangeSpawn(WorldPosition position)
             => SpawnPosition = position;
         public void MoveTo(WorldPosition position) 

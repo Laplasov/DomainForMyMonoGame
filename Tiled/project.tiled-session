@@ -17,7 +17,7 @@
         },
         "C:/Users/Yandere312/Desktop/TestTileMap1.tmx": {
             "scale": 0.33,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 545.4545454545455,
                 "y": 690.909090909091
@@ -32,7 +32,7 @@
             "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "C:/Users/Yandere312/Desktop/C#Space/UnceasingFear/UnceasingFear/UnceasingFear/Content/DB/ViewData/TilesData",
+    "last.exportedFilePath": "C:/Users/Yandere312/Desktop/C#Space/UnceasingFear/UnceasingFear/UnceasingFear/Content/DB/TilesData",
     "last.imagePath": "C:/Users/Yandere312/Desktop/C#Space/UnceasingFear/UnceasingFear/UnceasingFear/Content/Images",
     "map.lastUsedExportFilter": "Все файлы (*)",
     "openFiles": [

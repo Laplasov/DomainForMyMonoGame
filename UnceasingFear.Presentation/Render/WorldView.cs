@@ -54,6 +54,7 @@ public class WorldView
         // 1. Ground layer
         _currentTilemap?.DrawLayer(_spriteBatch, "Ground", Vector2.Zero);
 
+        DrawCollisionOverlay(snapshot);
 
         // 2. Debug tile grid on top of ground, under entities
         DrawTileGrid(snapshot);
@@ -129,5 +130,37 @@ public class WorldView
             _groupSprites[group.Id.Value] = sprite;
         }
         return sprite;
+    }
+
+    // Add this method inside your WorldView class
+    private void DrawCollisionOverlay(WorldSnapshot snapshot)
+    {
+        // Only draw if we have a tilemap with a Collisions layer
+        if (_currentTilemap?.Layers.TryGetValue("Collisions", out var collisionLayer) != true)
+            return;
+
+        var metadata = snapshot.TileMapMetadata;
+        var tileW = metadata.TileWidth;
+        var tileH = metadata.TileHeight;
+
+        // Iterate through the collision layer data
+        for (int y = 0; y < collisionLayer.TileData.GetLength(0); y++)
+        {
+            for (int x = 0; x < collisionLayer.TileData.GetLength(1); x++)
+            {
+                // Your Tiled setup: tile ID 101 = collision (from marks.tsx)
+                if (collisionLayer.TileData[y, x] == 101)
+                {
+                    var rect = new Rectangle(
+                        x * tileW,
+                        y * tileH,
+                        tileW,
+                        tileH);
+
+                    // Draw semi-transparent red overlay
+                    _spriteBatch.Draw(_whitePixel, rect, Color.Red * 0.3f);
+                }
+            }
+        }
     }
 }
