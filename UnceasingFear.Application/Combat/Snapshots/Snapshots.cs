@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace UnceasingFear.Application.Combat.Snapshots
 {
+    public record struct AbilitySnapshot(
+    string Id,
+    string Name,
+    string Description,
+    int SpCost
+);
+
     public record struct UnitSnapshot(
         Guid Id,
         string Name,
@@ -16,12 +23,19 @@ namespace UnceasingFear.Application.Combat.Snapshots
         int CurrentSp,
         int MaxSp,
         bool IsAlive,
-        float TurnProgress
+        float TurnProgress,
+        int Physic,
+        int Defense,
+        int Magic,
+        int Speed,
+        IReadOnlyList<AbilitySnapshot> Abilities
     );
 
     public record struct BattleSnapshot(
         IReadOnlyList<UnitSnapshot> Units,
         string BattleState,
-        Guid? CurrentActorId
+        Guid? CurrentActorId,
+        bool IsWaitingForPlayerInput
     );
+
 }

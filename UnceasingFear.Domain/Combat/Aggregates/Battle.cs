@@ -1,9 +1,12 @@
 ﻿
 using UnceasingFear.Domain.Combat.Entities;
+using UnceasingFear.Domain.Combat.Enums;
+using UnceasingFear.Domain.Combat.Events;
 using UnceasingFear.Domain.Combat.ValueObjects;
 using UnceasingFear.Domain.Shared;
 using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 using static UnceasingFear.Domain.Combat.Events.CombatEvents;
+using static UnceasingFear.Domain.Shared.ValueObjects.Abilities.AbilityResult;
 
 namespace UnceasingFear.Domain.Combat.Aggregates
 {
@@ -48,10 +51,25 @@ namespace UnceasingFear.Domain.Combat.Aggregates
         public AbilityResult ApplyAbility(Unit actor, int abilityIndex, IEnumerable<Unit> resolvedTargets)
         {
             if (!_units.Contains(actor))
-                return new AbilityResult.Failure("Actor not in this battle");
+            {
+                var failure = new AbilityResult.Failure("Actor not in this battle");
+                AddDomainEvent(new CombatEvents.AbilityFailedEvent(actor.Name, failure.Reason));
+                return failure;
+            }
 
             if (!actor.CanAct)
-                return new AbilityResult.Failure("Actor cannot act yet");
+            {
+                var failure = new AbilityResult.Failure("Actor cannot act yet");
+                AddDomainEvent(new CombatEvents.AbilityFailedEvent(actor.Name, failure.Reason));
+                return failure;
+            }
+
+            if (!resolvedTargets.Any())
+            {
+                var failure = new AbilityResult.Failure("No valid targets");
+                AddDomainEvent(new CombatEvents.AbilityFailedEvent(actor.Name, failure.Reason));
+                return failure;
+            }
 
             var result = actor.UseAbility(abilityIndex);
 
@@ -61,6 +79,12 @@ namespace UnceasingFear.Domain.Combat.Aggregates
                     target.TakeDamage(success.Effect.Power);
 
                 actor.ConsumeTurn();
+                AddDomainEvent(new CombatEvents.AbilitySucceededEvent(
+                actor.Name, actor.Profile.Abilities[abilityIndex].Name, success.Effect.Power));
+            }
+            else if (result is AbilityResult.Failure failure)
+            {
+                AddDomainEvent(new CombatEvents.AbilityFailedEvent(actor.Name, failure.Reason));
             }
             return result;
         }

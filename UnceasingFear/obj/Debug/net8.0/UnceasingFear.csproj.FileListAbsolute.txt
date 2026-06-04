@@ -99,3 +99,9 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bi
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\DB\ViewData\sprite_map.xml
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\DB\ViewData\unit_animation_atlas.xml
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\DB\TilesData\test_tile_map.tmx
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\CsvHelper.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\GumCommon.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\FlatRedBall.InterpolationCore.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\MonoGameGum.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\TextCopy.dll

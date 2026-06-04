@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Gum.Forms.Controls;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame_Game_Library.Graphics;
 using MonoGame_Game_Library.TileLogic;
+using MonoGameGum;
 using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Presentation.Data;
@@ -17,17 +19,20 @@ public class WorldView
     private readonly Dictionary<string, AnimatedSprite> _groupSprites = new();
     private TileMapLayered? _currentTilemap;
     private string _currentSceneId = string.Empty;
+    private GumService _gumService;
 
     public WorldView(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice,
-                     SpriteFactory spriteFactory, GameTime gameTime)
+                     SpriteFactory spriteFactory, GameTime gameTime, GumService gumService)
     {
         _spriteBatch = spriteBatch;
         _graphicsDevice = graphicsDevice;
         _spriteFactory = spriteFactory;
         _gameTime = gameTime;
+        _gumService = gumService;
 
         _whitePixel = new Texture2D(graphicsDevice, 1, 1);
         _whitePixel.SetData(new[] { Color.White });
+
     }
 
     public void Draw(WorldSnapshot snapshot)
@@ -144,7 +149,7 @@ public class WorldView
         var tileH = metadata.TileHeight;
 
         // Iterate through the collision layer data
-        for (int y = 0; y < collisionLayer.TileData.GetLength(0); y++)
+        for (int y = 0; y < collisionLayer!.TileData.GetLength(0); y++)
         {
             for (int x = 0; x < collisionLayer.TileData.GetLength(1); x++)
             {

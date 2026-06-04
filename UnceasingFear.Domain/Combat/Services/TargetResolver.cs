@@ -22,7 +22,7 @@ namespace UnceasingFear.Domain.Combat.Services
             // Apply range rules (you write these — you know your slot layout)
             return ability.Range switch
             {
-                TargetRange.Melee => potential.Where(u => u.Profile.SlotIndex == selectedSlot && u.Profile.SlotIndex < 3), // Front row only
+                TargetRange.Melee => potential.Where(u => u.Profile.SlotIndex == selectedSlot && u.Profile.SlotIndex <= 3), 
                 TargetRange.Range => potential.Where(u => u.Profile.SlotIndex == selectedSlot),
                 TargetRange.All => potential,
                 _ => Enumerable.Empty<Unit>()

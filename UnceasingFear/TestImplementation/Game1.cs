@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GumRuntime;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameGum;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +13,7 @@ using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.Repository;
 using UnceasingFear.Application.World;
 using UnceasingFear.Application.World.Snapshots;
+using UnceasingFear.Domain.Combat.Events;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.Entities;
@@ -46,6 +49,7 @@ public class Game1 : Game
     private GameTime _gameTime = new GameTime();
 
     private SpriteFactory _spriteFactory;
+    private GumService Gum => GumService.Default;
 
     public Game1()
     {
@@ -58,6 +62,8 @@ public class Game1 : Game
     
     protected override void Initialize()
     {
+        Gum.Initialize(this);
+
         var spriteRepo = new XmlSpriteRepository(Path.Combine("Content", "DB", "ViewData", "sprite_map.xml"));
         _spriteFactory = new SpriteFactory(Content, spriteRepo);
 
@@ -80,12 +86,21 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _worldSnapshot = _appServiceWorld.GetSnapshot();
 
-        _worldView = new WorldView(_spriteBatch, GraphicsDevice, _spriteFactory, _gameTime);
-        _battleView = new BattleView(_spriteBatch, _graphics, _spriteFactory, _gameTime);
+        _worldView = new WorldView(_spriteBatch, GraphicsDevice, _spriteFactory, _gameTime, Gum);
+        _battleView = new BattleView(
+            _spriteBatch,
+            _graphics,
+            Gum,
+            EventDispatcher,
+            CommandDispatcher
+            );
+
     }
 
     protected override void Update(GameTime gameTime)
     {
+        Gum.Update(gameTime);
+
         _gameTime = gameTime;
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -128,25 +143,32 @@ public class Game1 : Game
     {
         var keyboard = Keyboard.GetState();
         float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        _battleServiceProvider.ActiveService.Update(delta);
+
+        _battleView.HandleInput();
+
+        CommandDispatcher.Dispatch(new UpdateCommand(delta));
 
         _battleSnapshot = _battleServiceProvider.ActiveService.GetSnapshot();
 
         if (keyboard.IsKeyDown(Keys.C))
         {
             CommandDispatcher.Dispatch(new EndBattleCommand());
+            EventDispatcher.Dispatch(new CombatEvents.BattleExitEvent());
             _worldSnapshot = _appServiceWorld.GetSnapshot();
         }
-
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        if (!_worldSnapshot.BattleTriggered)
+        if (!_worldSnapshot.BattleTriggered) 
+        {
             _worldView.Draw(_worldSnapshot);
+        }
         else if (_battleSnapshot.Units != null)
+        {
             _battleView.Draw(_battleSnapshot);
-
+        }
+        Gum.Draw();
         base.Draw(gameTime);
     }
 }

@@ -1,136 +1,122 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Gum.Forms.Controls;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MonoGame_Game_Library.Input;
+using MonoGameGum;
+using System.Diagnostics;
 using UnceasingFear.Application.Combat.Snapshots;
+using UnceasingFear.Application.Commands;
+using UnceasingFear.Application.World;
+using UnceasingFear.Domain.Combat.Events;
+using UnceasingFear.Domain.Combat.ValueObjects;
+using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Presentation.Data;
+using UnceasingFear.Presentation.Input;
+using UnceasingFear.Presentation.Render.Battle;
 
 namespace UnceasingFear.Presentation.Render
 {
+    /// <summary>
+    /// Thin orchestrator. Owns the lifetime of the battle UI and
+    /// delegates all work to focused collaborators.
+    ///
+    /// Responsibilities:
+    ///   - Create collaborators with their dependencies
+    ///   - Initialise on first Draw (lazy, so GraphicsDevice is ready)
+    ///   - Route Draw() calls to the right renderer
+    ///   - Tear down Gum widgets on BattleExitEvent
+    /// </summary>
     public class BattleView
     {
+        // ── Infrastructure ───────────────────────────────────────────────────
         private readonly SpriteBatch _spriteBatch;
         private readonly GraphicsDeviceManager _graphics;
+        private readonly GumService _gumService;
+        private readonly IEventDispatcher _eventDispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
 
-        private Texture2D _whitePixel;
+        // ── Collaborators (null until first Draw) ────────────────────────────
+        private BattleLayout? _layout;
+        private BattleHudHandles? _hudHandles;
+        private BattleHudUpdater? _hudUpdater;
+        private BattleUnitRenderer? _unitRenderer;
 
-        // Slot positions (calculated once)
-        private Rectangle[] _allySlotRects = new Rectangle[6];
-        private Rectangle[] _enemySlotRects = new Rectangle[6];
+        private bool _initialised = false;
 
-        private bool init = false;
+        private readonly SlotInputHandler _slotInput;
+        private readonly MouseInfo _mouse = new();
 
-        private SpriteFactory _spriteFactory;
-        private readonly GameTime _gameTime;
-
-        public BattleView(SpriteBatch spriteBatch, GraphicsDeviceManager graphics, SpriteFactory spriteFactory, GameTime gameTime)
+        public BattleView(
+            SpriteBatch spriteBatch,
+            GraphicsDeviceManager graphics,
+            GumService gumService,
+            IEventDispatcher eventDispatcher,
+            ICommandDispatcher commandDispatcher)
         {
             _spriteBatch = spriteBatch;
             _graphics = graphics;
-            _spriteFactory = spriteFactory;
-            _gameTime = gameTime;
+            _gumService = gumService;
+            _eventDispatcher = eventDispatcher;
+            _commandDispatcher = commandDispatcher;
 
-            _whitePixel = new Texture2D(_graphics.GraphicsDevice, 1, 1);
-            _whitePixel.SetData(new[] { Color.White });
+            _slotInput = new(commandDispatcher);
+
+            _eventDispatcher.Subscribe<CombatEvents.BattleExitEvent>(OnBattleExit);
         }
-        private void InitializeSlotPositions()
-        {
-            init = true;
 
-            int slotSize = 64;
-            int spacing = 16;
-            int startX = 50;
-            int allyY = _graphics.PreferredBackBufferHeight - 100;
-            int enemyY = 50;
-
-            // Ally slots (bottom left)
-            for (int i = 0; i < 6; i++)
-            {
-                int row = i / 3;
-                int col = i % 3;
-                _allySlotRects[i] = new Rectangle(
-                    startX + col * (slotSize + spacing),
-                    allyY - row * (slotSize + spacing),
-                    slotSize, slotSize);
-            }
-
-            // Enemy slots (top right)
-            for (int i = 0; i < 6; i++)
-            {
-                int row = i / 3;
-                int col = i % 3;
-                _enemySlotRects[i] = new Rectangle(
-                    _graphics.PreferredBackBufferWidth - startX - slotSize - col * (slotSize + spacing),
-                    enemyY + row * (slotSize + spacing),
-                    slotSize, slotSize);
-            }
-        }
+        // ── Public ───────────────────────────────────────────────────────────
 
         public void Draw(BattleSnapshot snapshot)
         {
-            if (!init) InitializeSlotPositions();
+            if (!_initialised) Initialise();
 
             _graphics.GraphicsDevice.Clear(Color.DarkSlateGray);
+
             _spriteBatch.Begin();
-
-            // 1. Draw all slot backgrounds first
-            for (int i = 0; i < 6; i++)
-            {
-                _spriteBatch.Draw(_whitePixel, _allySlotRects[i], Color.DarkGreen * 0.5f);
-                _spriteBatch.Draw(_whitePixel, _enemySlotRects[i], Color.DarkRed * 0.5f);
-            }
-
-            foreach (var unit in snapshot.Units)
-            {
-                // Select correct slot array based on faction
-                var rects = unit.IsAlly ? _allySlotRects : _enemySlotRects;
-                int arrayIndex = unit.SlotIndex - 1;
-
-                // Visual state: alive/dead + faction color
-                var baseColor = unit.IsAlly ? Color.Lime : Color.OrangeRed;
-                var color = unit.IsAlive ? baseColor : Color.Gray;
-
-                if (arrayIndex >= 0 && arrayIndex < 6)
-                {
-                    // ✅ Use 'rects' instead of hardcoded '_allySlotRects'
-                    var slotRect = rects[arrayIndex];
-                    var unitRect = new Rectangle(
-                        slotRect.X + 8,
-                        slotRect.Y + 8,
-                        slotRect.Width - 16,
-                        slotRect.Height - 16);
-
-                    _spriteBatch.Draw(_whitePixel, unitRect, color);
-
-                    // Optional: HP bar overlay
-                    if (unit.IsAlive && unit.MaxHp > 0)
-                    {
-                        float hpPercent = (float)unit.CurrentHp / unit.MaxHp;
-                        var hpBar = new Rectangle(unitRect.X, unitRect.Y - 4,
-                            (int)(unitRect.Width * hpPercent), 3);
-                        _spriteBatch.Draw(_whitePixel, hpBar, Color.Red);
-                    }
-                }
-                if (arrayIndex >= 0 && arrayIndex < 6)
-                {
-                    var slotRect = rects[arrayIndex];
-
-                    // Draw slot number using bitmap digits (no font needed!)
-                    DebugTextDrawer.DrawNumber(
-                        _spriteBatch,
-                        _whitePixel,
-                        unit.SlotIndex,  // e.g., 1 or 5
-                        new Vector2(slotRect.X + 20, slotRect.Y + 20),
-                        Color.White,
-                        scale: 2);
-                }
-            }
-
-
+            _unitRenderer!.Draw(snapshot);
             _spriteBatch.End();
+
+            _hudUpdater!.Update(snapshot);
+        }
+
+        public void HandleInput()
+        {
+            if (!_initialised || _layout is null) return;
+
+            _mouse.Update();
+            _slotInput.Update(_mouse, _layout);
+        }
+
+        // ── Private ──────────────────────────────────────────────────────────
+
+        private void Initialise()
+        {
+            _layout = new BattleLayout(
+                _graphics.PreferredBackBufferWidth,
+                _graphics.PreferredBackBufferHeight);
+
+            var pixel = new Texture2D(_graphics.GraphicsDevice, 1, 1);
+            pixel.SetData(new[] { Color.White });
+
+            var builder = new BattleHudBuilder(_gumService, _layout, _commandDispatcher, _slotInput);
+            _hudHandles = builder.Build();
+            _hudUpdater = new BattleHudUpdater(_hudHandles, _eventDispatcher);
+            _unitRenderer = new BattleUnitRenderer(_spriteBatch, pixel, _layout, _slotInput);
+
+            _slotInput.Register(_layout.AllySlotRects);  
+            _slotInput.Register(_layout.EnemySlotRects);
+
+            _initialised = true;
+        }
+
+        private void OnBattleExit(CombatEvents.BattleExitEvent e)
+        {
+            _initialised = false;
+            _gumService.Root.Children.Clear();
+            _hudHandles = null;
+            _hudUpdater = null;
+            _unitRenderer = null;
         }
     }
+
 }

@@ -1,7 +1,9 @@
-﻿using UnceasingFear.Application.Combat.Snapshots;
+﻿using System.Diagnostics;
+using UnceasingFear.Application.Combat.Snapshots;
 using UnceasingFear.Application.Commands;
 using UnceasingFear.Domain.Combat.Aggregates;
 using UnceasingFear.Domain.Combat.Entities;
+using UnceasingFear.Domain.Combat.Enums;
 using UnceasingFear.Domain.Combat.Services;
 using UnceasingFear.Domain.Combat.ValueObjects;
 using UnceasingFear.Domain.Shared.Events;
@@ -10,7 +12,8 @@ using static UnceasingFear.Domain.Combat.ValueObjects.BattleState;
 
 namespace UnceasingFear.Application.Combat
 {
-    public record struct SelectAbilityEventCommand(int TargetSlot, int AbilitySlot);
+    public record struct SelectAbilityEventCommand(int TargetSlot, int AbilitySlot); 
+    public record struct UpdateCommand(float deltaTime);
     public class BattleApplicationService
     {
         private readonly Battle _battle;
@@ -52,12 +55,11 @@ namespace UnceasingFear.Application.Combat
             }
 
             CommandDispatcher.Register<SelectAbilityEventCommand>(OnAbilitySelected);
+            CommandDispatcher.Register<UpdateCommand>(Update);
             PublishPendingEvents();
         }
 
-
-
-        public void Update(float deltaTime)
+        public void Update(UpdateCommand cmd)
         {
             if (_currentActor != null)
             {
@@ -71,7 +73,7 @@ namespace UnceasingFear.Application.Combat
 
             }
 
-            _turnOrder.AdvanceGauges(_battle.Units, deltaTime);
+            _turnOrder.AdvanceGauges(_battle.Units, cmd.deltaTime);
 
             var ready = _turnOrder.GetReadyUnitsInOrder(_battle.Units);
             if (!ready.Any()) return;
@@ -139,11 +141,23 @@ namespace UnceasingFear.Application.Combat
                     u.Profile.Stats.SpellPoints.Current,
                     u.Profile.Stats.SpellPoints.Max,
                     u.IsAlive,
-                    u.TurnProgress.Value
+                    u.TurnProgress.Value,
+                    u.Profile.Stats.Physic,
+                    u.Profile.Stats.Defense,
+                    u.Profile.Stats.Magic,
+                    u.Profile.Stats.Speed,
+                    u.Profile.Abilities.Select(a => new AbilitySnapshot(
+                        a.Id,
+                        a.Name,
+                        a.Description,
+                        (int)(a.Costs.FirstOrDefault(c => c.Stat == CostType.SP).Value)
+                    )).ToList().AsReadOnly()
                 )).ToList(),
                 _battle.State.GetType().Name,
-                _currentActor?.Id.Value
+                _currentActor?.Id.Value,
+                IsWaitingForPlayerInput
             );
         }
+
     }
 }

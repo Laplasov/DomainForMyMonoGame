@@ -2,8 +2,12 @@
 <Abilities>
     <Ability id="base_attack" name="BaseAttack" description="Simple attack"
                 range="Melee" target="Enemy">
-        <Scales />
-        <Costs />
+        <Scales>
+			<Scale stat="Physic" percentage="1.0"/>
+		</Scales>
+        <Costs>
+			<Cost stat="SP" value="2.0"/>
+		</Costs>
         <StatusEffects />
     </Ability>
 </Abilities>
