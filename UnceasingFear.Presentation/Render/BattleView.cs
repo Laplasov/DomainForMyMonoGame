@@ -13,6 +13,7 @@ using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Presentation.Data;
 using UnceasingFear.Presentation.Input;
 using UnceasingFear.Presentation.Render.Battle;
+using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
 namespace UnceasingFear.Presentation.Render
 {
@@ -40,10 +41,10 @@ namespace UnceasingFear.Presentation.Render
         private BattleHudHandles? _hudHandles;
         private BattleHudUpdater? _hudUpdater;
         private BattleUnitRenderer? _unitRenderer;
+        private SlotInputHandler? _slotInput;
 
         private bool _initialised = false;
 
-        private readonly SlotInputHandler _slotInput;
         private readonly MouseInfo _mouse = new();
 
         public BattleView(
@@ -59,9 +60,7 @@ namespace UnceasingFear.Presentation.Render
             _eventDispatcher = eventDispatcher;
             _commandDispatcher = commandDispatcher;
 
-            _slotInput = new(commandDispatcher);
-
-            _eventDispatcher.Subscribe<CombatEvents.BattleExitEvent>(OnBattleExit);
+            _eventDispatcher.Subscribe<OutOfBattleEvent>(OnBattleExit);
         }
 
         // ── Public ───────────────────────────────────────────────────────────
@@ -84,7 +83,7 @@ namespace UnceasingFear.Presentation.Render
             if (!_initialised || _layout is null) return;
 
             _mouse.Update();
-            _slotInput.Update(_mouse, _layout);
+            _slotInput?.Update(_mouse);
         }
 
         // ── Private ──────────────────────────────────────────────────────────
@@ -98,24 +97,38 @@ namespace UnceasingFear.Presentation.Render
             var pixel = new Texture2D(_graphics.GraphicsDevice, 1, 1);
             pixel.SetData(new[] { Color.White });
 
+            _slotInput = new(_commandDispatcher);
+
             var builder = new BattleHudBuilder(_gumService, _layout, _commandDispatcher, _slotInput);
             _hudHandles = builder.Build();
             _hudUpdater = new BattleHudUpdater(_hudHandles, _eventDispatcher);
             _unitRenderer = new BattleUnitRenderer(_spriteBatch, pixel, _layout, _slotInput);
 
-            _slotInput.Register(_layout.AllySlotRects);  
-            _slotInput.Register(_layout.EnemySlotRects);
+            // 1. Register Field Slots (1-based index)
+            for (int i = 0; i < 6; i++)
+            {
+                _slotInput.Register(_layout.AllySlotRects[i], i + 1);
+                _slotInput.Register(_layout.EnemySlotRects[i], i + 1);
+            }
+
+            // 2. Register Gum Unit Bar Containers (1-based index)
+            for (int i = 0; i < 6; i++)
+            {
+                _slotInput.Register(_hudHandles.AllyBars[i].Container, i + 1);
+                _slotInput.Register(_hudHandles.EnemyBars[i].Container, i + 1);
+            }
 
             _initialised = true;
         }
 
-        private void OnBattleExit(CombatEvents.BattleExitEvent e)
+        private void OnBattleExit(OutOfBattleEvent e)
         {
             _initialised = false;
             _gumService.Root.Children.Clear();
             _hudHandles = null;
             _hudUpdater = null;
             _unitRenderer = null;
+            _slotInput = null;
         }
     }
 

@@ -78,6 +78,8 @@ public class Game1 : Game
         _battleServiceProvider.Initialize(EventDispatcher, CommandDispatcher);
         _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher, SceneProvider);
 
+        EventDispatcher.Subscribe<OutOfBattleEvent>((e) 
+            => _worldSnapshot = _appServiceWorld.GetSnapshot());
 
         base.Initialize();
     }
@@ -87,14 +89,7 @@ public class Game1 : Game
         _worldSnapshot = _appServiceWorld.GetSnapshot();
 
         _worldView = new WorldView(_spriteBatch, GraphicsDevice, _spriteFactory, _gameTime, Gum);
-        _battleView = new BattleView(
-            _spriteBatch,
-            _graphics,
-            Gum,
-            EventDispatcher,
-            CommandDispatcher
-            );
-
+        _battleView = new BattleView(_spriteBatch, _graphics, Gum, EventDispatcher, CommandDispatcher);
     }
 
     protected override void Update(GameTime gameTime)
@@ -147,15 +142,8 @@ public class Game1 : Game
         _battleView.HandleInput();
 
         CommandDispatcher.Dispatch(new UpdateCommand(delta));
-
-        _battleSnapshot = _battleServiceProvider.ActiveService.GetSnapshot();
-
-        if (keyboard.IsKeyDown(Keys.C))
-        {
-            CommandDispatcher.Dispatch(new EndBattleCommand());
-            EventDispatcher.Dispatch(new CombatEvents.BattleExitEvent());
-            _worldSnapshot = _appServiceWorld.GetSnapshot();
-        }
+        if(_battleServiceProvider.ActiveService != null)
+            _battleSnapshot = _battleServiceProvider.ActiveService.GetSnapshot();
     }
 
     protected override void Draw(GameTime gameTime)

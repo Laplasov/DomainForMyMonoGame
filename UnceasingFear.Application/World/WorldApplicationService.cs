@@ -2,6 +2,7 @@
 using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.Repository;
 using UnceasingFear.Application.World.Snapshots;
+using UnceasingFear.Domain.Combat.Events;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.Entities;
@@ -43,14 +44,15 @@ namespace UnceasingFear.Application.World
 
             CommandDispatcher.Register<MovePlayerCommand>(UpdatePositions);
             CommandDispatcher.Register<RequestTransitionCommand>(UpdateTransition);
-            CommandDispatcher.Register<EndBattleCommand>(EndBattle);
 
-            EventDispatcher.Subscribe<OutOfBattleEvent>(_ => _battleTriggered = false);
+            EventDispatcher.Subscribe<OutOfBattleEvent>(EndBattle);
         }
-        private void EndBattle(EndBattleCommand cmd)
+        private void EndBattle(OutOfBattleEvent e)
         {
             _activeEnemy?.Defeat();
             _battleTriggered = false;
+
+            _currentPlayer.UpdateProfiles(e.AllyProfiles);
         }
 
         private void UpdatePositions(MovePlayerCommand cmd)

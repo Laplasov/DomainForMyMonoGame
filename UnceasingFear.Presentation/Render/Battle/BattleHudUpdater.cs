@@ -41,6 +41,20 @@ namespace UnceasingFear.Presentation.Render.Battle
         {
             UpdateStatsPanel(snapshot);
             UpdateAbilityButtons(snapshot);
+            UpdateUnitBars(snapshot);
+            UpdateActionButtons(snapshot);
+        }
+
+        // ── Action buttons ──────────────────────────────────────────────────────
+        private void UpdateActionButtons(BattleSnapshot snapshot)
+        {
+            // Enable Pass/Run/Items/Talk only when waiting for player input
+            bool isEnabled = snapshot.IsWaitingForPlayerInput;
+
+            foreach (var btn in _handles.ActionButtons)
+            {
+                btn.IsEnabled = isEnabled;
+            }
         }
 
         // ── Stats panel ──────────────────────────────────────────────────────
@@ -114,6 +128,37 @@ namespace UnceasingFear.Presentation.Render.Battle
             {
                 btn.Text = "—";
                 btn.IsEnabled = false;
+            }
+        }
+
+        private void UpdateUnitBars(BattleSnapshot snapshot)
+        {
+            UpdateUnitBarSide(_handles.AllyBars, snapshot.Units.Where(u => u.IsAlly));
+            UpdateUnitBarSide(_handles.EnemyBars, snapshot.Units.Where(u => !u.IsAlly));
+        }
+        private void UpdateUnitBarSide(UnitBarHandles[] bars, IEnumerable<UnitSnapshot> units)
+        {
+            foreach (var bar in bars)
+                bar.Container.Visible = false;
+
+            foreach (var unit in units)
+            {
+                int i = unit.SlotIndex - 1;
+                if (i < 0 || i > 5) continue;
+
+                var bar = bars[i];
+                bar.Container.Visible = unit.IsAlive;
+                if (!unit.IsAlive) continue;
+
+                bar.NameLabel.Text = $"[{unit.SlotIndex}] {unit.Name}";
+
+                float hp = unit.MaxHp > 0 ? (float)unit.CurrentHp / unit.MaxHp : 0f;
+                float sp = unit.MaxSp > 0 ? (float)unit.CurrentSp / unit.MaxSp : 0f;
+                float turn = Math.Clamp(unit.TurnProgress / 100f, 0f, 1f);
+
+                bar.HpBar.Width = (int)(140 * hp);
+                bar.SpBar.Width = (int)(140 * sp);
+                bar.TurnBar.Width = (int)(140 * turn);
             }
         }
     }

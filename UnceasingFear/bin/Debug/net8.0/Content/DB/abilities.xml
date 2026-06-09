@@ -10,4 +10,13 @@
 		</Costs>
         <StatusEffects />
     </Ability>
+<Ability id="mara_touch" name="MaraTouch" description="devastator"
+                range="Range" target="Enemy">
+        <Scales>
+			<Scale stat="Physic" percentage="10.0"/>
+		</Scales>
+        <Costs>
+		</Costs>
+        <StatusEffects />
+    </Ability>
 </Abilities>

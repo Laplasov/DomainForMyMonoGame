@@ -8,9 +8,13 @@ namespace UnceasingFear.Presentation.Render.Battle
     /// </summary>
     public class BattleLayout
     {
+        public int ScreenWidth { get; }
+        public int ScreenHeight { get; }
+
         // ── Slot grid ────────────────────────────────────────────────────────
         public Rectangle[] AllySlotRects { get; } = new Rectangle[6];
         public Rectangle[] EnemySlotRects { get; } = new Rectangle[6];
+        public Rectangle[] ActionButtonsRects { get; } = new Rectangle[4];
 
         // ── Bottom panels ────────────────────────────────────────────────────
         public Rectangle StatsPanel { get; }
@@ -26,6 +30,9 @@ namespace UnceasingFear.Presentation.Render.Battle
 
         public BattleLayout(int screenWidth, int screenHeight)
         {
+            ScreenWidth = screenWidth;
+            ScreenHeight = screenHeight;
+
             const int slotStartX = 40;
             const int fieldTopY = 40;
             const int panelPad = 8;
@@ -85,6 +92,25 @@ namespace UnceasingFear.Presentation.Render.Battle
                 bottomY,
                 logWidth,
                 bottomHeight);
+
+
+            const int ActionBtnWidth = 80;
+            const int ActionBtnHeight = 30;
+            const int ActionBtnGap = 6;
+
+            int totalActionW = 4 * ActionBtnWidth + 3 * ActionBtnGap;
+            int actionStartX = AbilityPanel.X + (AbilityPanel.Width - totalActionW) / 2;
+            int actionY = AbilityPanel.Y - ActionBtnHeight - 4; // 4px padding above abilities
+
+            for (int i = 0; i < 4; i++)
+            {
+                ActionButtonsRects[i] = new Rectangle(
+                    actionStartX + i * (ActionBtnWidth + ActionBtnGap),
+                    actionY,
+                    ActionBtnWidth,
+                    ActionBtnHeight);
+            }
+
         }
 
         /// <summary>Returns the inner rect for a unit inside its slot (inset by 8px).</summary>

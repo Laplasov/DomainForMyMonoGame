@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using UnceasingFear.Domain.Shared;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.Enums;
-using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Domain.World.Events;
+using UnceasingFear.Domain.World.ValueObjects;
 
 namespace UnceasingFear.Domain.World.Entities
 {
     public class Group : Entity
     {
         public GroupId Id { get; }
-        public Template Template { get; }
+        public Template Template { get; private set; }
         public MovementPattern MovementPattern { get; }
         public WorldPosition SpawnPosition { get; private set; }
         public AggroRange AggroRange { get; }
@@ -47,6 +48,11 @@ namespace UnceasingFear.Domain.World.Entities
             => SpawnPosition = position;
         public void MoveTo(WorldPosition position) 
             => CurrentPosition = position;
+
+        public void UpdateProfiles(IReadOnlyList<UnitProfile> newProfiles)
+        {
+            Template = new Template(Template.TemplateName, newProfiles);
+        }
         public void Defeat()
         {
             IsDefeated = true;

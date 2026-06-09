@@ -4,8 +4,10 @@ using UnceasingFear.Domain.Combat.Enums;
 using UnceasingFear.Domain.Combat.Events;
 using UnceasingFear.Domain.Combat.ValueObjects;
 using UnceasingFear.Domain.Shared;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 using static UnceasingFear.Domain.Combat.Events.CombatEvents;
+using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 using static UnceasingFear.Domain.Shared.ValueObjects.Abilities.AbilityResult;
 
 namespace UnceasingFear.Domain.Combat.Aggregates
@@ -35,6 +37,11 @@ namespace UnceasingFear.Domain.Combat.Aggregates
             var old = _battleState;
             _battleState = newState;
             AddDomainEvent(new BattleStateChangedEvent(old, newState));
+        }
+
+        public void ConcludeBattle(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles)
+        {
+            AddDomainEvent(new OutOfBattleEvent(AllyProfiles, EnemyProfiles));
         }
 
         public void AddUnit(Unit unit)

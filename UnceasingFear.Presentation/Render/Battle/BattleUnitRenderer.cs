@@ -86,18 +86,12 @@ namespace UnceasingFear.Presentation.Render.Battle
                 _spriteBatch.Draw(_pixel, outline, ActiveOutline * 0.6f);
             }
 
-            if (_slotInput.IsAwaitingTarget && _slotInput.HoveredRect.HasValue)
+            // Hover highlight (Works for both field slots AND Gum bars!)
+            if (_slotInput.IsAwaitingTarget && _slotInput.HoveredSlotIndex == unit.SlotIndex)
             {
-                var slotRect = unit.IsAlly
-                    ? _layout.AllySlotRects[unit.SlotIndex - 1]
-                    : _layout.EnemySlotRects[unit.SlotIndex - 1];
-
-                if (slotRect == _slotInput.HoveredRect.Value)
-                {
-                    var hover = new Rectangle(unitRect.X - 1, unitRect.Y - 1,
-                        unitRect.Width + 2, unitRect.Height + 2);
-                    _spriteBatch.Draw(_pixel, hover, Color.White * 0.4f);
-                }
+                var hover = new Rectangle(unitRect.X - 1, unitRect.Y - 1,
+                    unitRect.Width + 2, unitRect.Height + 2);
+                _spriteBatch.Draw(_pixel, hover, Color.White * 0.4f);
             }
 
             // Unit fill

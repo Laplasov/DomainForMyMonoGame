@@ -43,6 +43,7 @@ namespace UnceasingFear.Presentation.Render.Battle
 
         public BattleHudHandles Build()
         {
+            var barBuilder = new UnitBarBuilder(_layout);
             var handles = new BattleHudHandles
             {
                 ActiveUnitName = BuildStatsPanel(out var hp, out var sp, out var atk, out var def, out var mag, out var spd),
@@ -54,9 +55,55 @@ namespace UnceasingFear.Presentation.Render.Battle
                 StatSpd = spd,
                 AbilityButtons = BuildAbilityPanel(),
                 LogPlaceholder = BuildLogPanel(),
+                AllyBars = barBuilder.BuildSide(isAlly: true),
+                EnemyBars = barBuilder.BuildSide(isAlly: false),
+                ActionButtons = BuildActionButtons(),
             };
 
             return handles;
+        }
+        // ── Buttons ──────────────────────────────────────────────────────
+        private Button[] BuildActionButtons()
+        {
+            var buttons = new Button[4];
+            string[] labels = { "Pass", "Run", "Items", "Talk" };
+
+            for (int i = 0; i < 4; i++)
+            {
+                var r = _layout.ActionButtonsRects[i];
+                var btn = new Button();
+                btn.Text = labels[i];
+
+                btn.Visual.X = r.X;
+                btn.Visual.Y = r.Y;
+                btn.Visual.Width = r.Width;
+                btn.Visual.Height = r.Height;
+
+                btn.Visual.AddToRoot();
+                btn.IsEnabled = false; // Start disabled until player's turn
+
+                int index = i;
+                btn.Click += (_, _) =>
+                {
+                    switch (index)
+                    {
+                        case 0: 
+                            _commandDispatcher.Dispatch(new PassTurnCommand());
+                            _slotInput.Cancel();
+                            break;
+                        case 1: 
+                            _commandDispatcher.Dispatch(new RunFromBattleCommand());
+                            _slotInput.Cancel();
+                            break;
+                        case 2: /* Items: Do nothing for now */ break;
+                        case 3: /* Talk: Do nothing for now */ break;
+                    }
+                };
+
+                buttons[i] = btn;
+            }
+
+            return buttons;
         }
 
 

@@ -1,66 +1,83 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Gum.Wireframe;
+using Microsoft.Xna.Framework;
 using MonoGame_Game_Library.Input;
-using System.Diagnostics;
 using UnceasingFear.Application.Combat;
 using UnceasingFear.Application.Commands;
-using UnceasingFear.Presentation.Render.Battle;
 
 namespace UnceasingFear.Presentation.Input
 {
     public class SlotInputHandler
     {
-        private readonly List<Rectangle> _rects = new();
+        private readonly Dictionary<Rectangle, int> _rectToSlotIndex = new();
+        private readonly Dictionary<GraphicalUiElement, int> _gueToSlotIndex = new();
         private readonly ICommandDispatcher _commandDispatcher;
 
         private int? _pendingAbilitySlot;
 
         public bool IsAwaitingTarget => _pendingAbilitySlot.HasValue;
-        public Rectangle? HoveredRect { get; private set; }
+        public int? HoveredSlotIndex { get; private set; } // Replaces HoveredRect
 
         public SlotInputHandler(ICommandDispatcher commandDispatcher)
         {
             _commandDispatcher = commandDispatcher;
         }
 
-        public void Register(Rectangle rect) => _rects.Add(rect);
-
-        public void Register(IEnumerable<Rectangle> rects)
-        {
-            foreach (var r in rects) _rects.Add(r);
-        }
+        public void Register(Rectangle rect, int slotIndex) => _rectToSlotIndex[rect] = slotIndex;
+        public void Register(GraphicalUiElement gue, int slotIndex) => _gueToSlotIndex[gue] = slotIndex;
 
         public void Clear()
         {
-            _rects.Clear();
+            _rectToSlotIndex.Clear();
+            _gueToSlotIndex.Clear();
             _pendingAbilitySlot = null;
-            HoveredRect = null;
+            HoveredSlotIndex = null;
         }
 
-        /// <summary>
-        /// Arms the handler. Next slot click will dispatch SelectAbilityEventCommand.
-        /// </summary>
         public void AwaitTarget(int abilitySlot) => _pendingAbilitySlot = abilitySlot;
 
         public void Cancel()
         {
             _pendingAbilitySlot = null;
-            HoveredRect = null;
+            HoveredSlotIndex = null;
         }
 
-        /// <summary>
-        /// Call once per Update. Tracks hover and consumes clicks when awaiting a target.
-        /// </summary>
-        public void Update(MouseInfo mouse, BattleLayout layout)
+        public void Update(MouseInfo mouse)
         {
             var pos = mouse.Position;
+            HoveredSlotIndex = null;
 
-            HoveredRect = null;
-            foreach (var rect in _rects)
+            // 1. Check static battle field rects
+            foreach (var kvp in _rectToSlotIndex)
             {
-                if (rect.Contains(pos))
+                if (kvp.Key.Contains(pos))
                 {
-                    HoveredRect = rect;
+                    HoveredSlotIndex = kvp.Value;
                     break;
+                }
+            }
+
+            // 2. If not hovering a field rect, check dynamic Gum elements
+            if (HoveredSlotIndex == null)
+            {
+                foreach (var kvp in _gueToSlotIndex)
+                {
+                    var gue = kvp.Key;
+
+                    // Skip hidden bars (empty slots)!
+                    if (!gue.Visible) continue;
+
+                    // Get the actual dynamic screen bounds from Gum
+                    var rect = new Rectangle(
+                        (int)gue.AbsoluteX,
+                        (int)gue.AbsoluteY,
+                        (int)gue.Width,
+                        (int)gue.Height);
+
+                    if (rect.Contains(pos))
+                    {
+                        HoveredSlotIndex = kvp.Value;
+                        break;
+                    }
                 }
             }
 
@@ -73,16 +90,13 @@ namespace UnceasingFear.Presentation.Input
             }
 
             if (!mouse.WasButtonJustPressed(MouseButton.Left)) return;
-            if (HoveredRect is null) return;
-
-            int slotIndex = layout.SlotIndexOf(HoveredRect.Value);
-            if (slotIndex < 0) return;
+            if (HoveredSlotIndex == null) return;
 
             _commandDispatcher.Dispatch(
-                new SelectAbilityEventCommand(slotIndex, _pendingAbilitySlot.Value));
+                new SelectAbilityEventCommand(HoveredSlotIndex.Value, _pendingAbilitySlot.Value));
 
             _pendingAbilitySlot = null;
-            HoveredRect = null;
+            HoveredSlotIndex = null;
         }
     }
 }

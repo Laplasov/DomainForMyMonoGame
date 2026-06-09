@@ -1,19 +1,24 @@
 ﻿using System.Diagnostics;
 using UnceasingFear.Application.Combat.Snapshots;
 using UnceasingFear.Application.Commands;
+using UnceasingFear.Application.World;
 using UnceasingFear.Domain.Combat.Aggregates;
 using UnceasingFear.Domain.Combat.Entities;
 using UnceasingFear.Domain.Combat.Enums;
+using UnceasingFear.Domain.Combat.Events;
 using UnceasingFear.Domain.Combat.Services;
 using UnceasingFear.Domain.Combat.ValueObjects;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.Shared.ValueObjects;
 using static UnceasingFear.Domain.Combat.ValueObjects.BattleState;
+using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
 namespace UnceasingFear.Application.Combat
 {
     public record struct SelectAbilityEventCommand(int TargetSlot, int AbilitySlot); 
     public record struct UpdateCommand(float deltaTime);
+    public record struct PassTurnCommand();
+    public record struct RunFromBattleCommand();
     public class BattleApplicationService
     {
         private readonly Battle _battle;
@@ -56,9 +61,10 @@ namespace UnceasingFear.Application.Combat
 
             CommandDispatcher.Register<SelectAbilityEventCommand>(OnAbilitySelected);
             CommandDispatcher.Register<UpdateCommand>(Update);
+            CommandDispatcher.Register<PassTurnCommand>(OnPassTurn);
+            CommandDispatcher.Register<RunFromBattleCommand>(OnRunFromBattle);
             PublishPendingEvents();
         }
-
         public void Update(UpdateCommand cmd)
         {
             if (_currentActor != null)
@@ -86,23 +92,68 @@ namespace UnceasingFear.Application.Combat
 
             if (_battle.State is Victory || _battle.State is Lost)
             {
-                CommandDispatcher.Unsubscribe<SelectAbilityEventCommand>();
+                var exitParty = GetProfiles(true);
+            var enemyParty = GetProfiles(false);
+
+                _battle.ConcludeBattle(exitParty, enemyParty);
+                PublishPendingEvents();
+
+                UnsubscribeFromCommands();
+
                 _currentActor = null;
             }
         }
 
-        private void OnAbilitySelected(SelectAbilityEventCommand e)
+        private void UnsubscribeFromCommands()
+        {
+            CommandDispatcher.Unsubscribe<SelectAbilityEventCommand>();
+            CommandDispatcher.Unsubscribe<UpdateCommand>();
+            CommandDispatcher.Unsubscribe<PassTurnCommand>();
+            CommandDispatcher.Unsubscribe<RunFromBattleCommand>();
+        }
+
+        private void OnAbilitySelected(SelectAbilityEventCommand cmd)
         {
             if (_currentActor == null || !_currentActor.IsAlly)
                 return;
 
-            var ability = _currentActor.Profile.Abilities[e.AbilitySlot];
+            var ability = _currentActor.Profile.Abilities[cmd.AbilitySlot];
             var targets = _targetResolver.ResolveTargets(
-                _currentActor, ability, e.TargetSlot, _battle.Units);
+                _currentActor, ability, cmd.TargetSlot, _battle.Units);
 
-            _battle.ApplyAbility(_currentActor, e.AbilitySlot, targets);
+            _battle.ApplyAbility(_currentActor, cmd.AbilitySlot, targets);
             PublishPendingEvents();
             _currentActor = null;
+        }
+        private void OnPassTurn(PassTurnCommand cmd)
+        {
+            if (_currentActor == null || !_currentActor.IsAlly) 
+                return;
+
+            _currentActor.ConsumeTurn();
+            PublishPendingEvents();
+            _currentActor = null;
+        }
+
+        private void OnRunFromBattle(RunFromBattleCommand cmd)
+        {
+            var exitParty = GetProfiles(true);
+            var enemyParty = GetProfiles(false);
+
+            _battle.ConcludeBattle(exitParty, enemyParty);
+            PublishPendingEvents();
+
+            UnsubscribeFromCommands();
+
+            _currentActor = null;
+        }
+        private IReadOnlyList<UnitProfile> GetProfiles(bool isAlly)
+        {
+            return _battle.Units
+                .Where(u => u.IsAlly == isAlly)
+                .Select(u => u.Profile)
+                .ToList()
+                .AsReadOnly();
         }
 
         private void ProcessEnemyTurn(Unit enemy)

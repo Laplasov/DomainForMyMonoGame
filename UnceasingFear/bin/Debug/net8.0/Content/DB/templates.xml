@@ -6,6 +6,7 @@
                 <Stats maxHp="20" maxSp="10" physic="5" defense="3" magic="1" speed="15" />
                 <Abilities>
                     <AbilityRef id="base_attack"/>
+					<AbilityRef id="mara_touch"/>
                 </Abilities>
             </UnitProfile>
         </Profiles>
