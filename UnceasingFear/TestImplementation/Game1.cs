@@ -50,6 +50,7 @@ public class Game1 : Game
 
     private SpriteFactory _spriteFactory;
     private GumService Gum => GumService.Default;
+    public bool IsPaused { get; private set; } = false;
 
     public Game1()
     {
@@ -78,8 +79,9 @@ public class Game1 : Game
         _battleServiceProvider.Initialize(EventDispatcher, CommandDispatcher);
         _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher, SceneProvider);
 
-        EventDispatcher.Subscribe<OutOfBattleEvent>((e) 
-            => _worldSnapshot = _appServiceWorld.GetSnapshot());
+        EventDispatcher.Subscribe<OutOfBattleEvent>((e) => _worldSnapshot = _appServiceWorld.GetSnapshot());
+        EventDispatcher.Subscribe<ExitGame>((e) => Exit());
+        EventDispatcher.Subscribe<PauseGame>((e) => IsPaused = e.ShouldPause);
 
         base.Initialize();
     }
@@ -88,7 +90,7 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _worldSnapshot = _appServiceWorld.GetSnapshot();
 
-        _worldView = new WorldView(_spriteBatch, GraphicsDevice, _spriteFactory, _gameTime, Gum);
+        _worldView = new WorldView(_spriteBatch, GraphicsDevice, _spriteFactory, _gameTime, Gum, EventDispatcher, CommandDispatcher);
         _battleView = new BattleView(_spriteBatch, _graphics, Gum, EventDispatcher, CommandDispatcher);
     }
 
@@ -97,9 +99,6 @@ public class Game1 : Game
         Gum.Update(gameTime);
 
         _gameTime = gameTime;
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
 
         if (!_worldSnapshot.BattleTriggered)
             UpdateWorld(gameTime);
@@ -114,6 +113,8 @@ public class Game1 : Game
         // Player movement
         var keyboard = Keyboard.GetState();
         var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        _worldView.HandleInput(keyboard);
 
         float dx = 0, dy = 0;
         if (keyboard.IsKeyDown(Keys.W)) dy -= PlayerSpeed * delta;

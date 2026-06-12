@@ -10,7 +10,7 @@ namespace UnceasingFear.Domain.Combat.ValueObjects
         public sealed record PlayerTurn() : BattleState;
         public sealed record EnemyTurn() : BattleState;
         public sealed record Interlude() : BattleState;
-        public sealed record ResulveBattle() : BattleState;
+        public sealed record ResolveBattle() : BattleState;
         public sealed record Victory() : BattleState;
         public sealed record Lost() : BattleState;
     }

@@ -1,6 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Groups>
 
+	<Group id="Player">
+		<MovementPattern>PlayerControlled</MovementPattern>
+		<AggroRange>0</AggroRange>
+		<Speed>200</Speed>
+		<TemplateRef id="Player" slot="1"/>
+		<TemplateRef id="Goblin" slot="2"/>
+		<TemplateRef id="Slime" slot="3"/>
+		<TemplateRef id="Goblin" slot="7"/>
+		<TemplateRef id="Slime" slot="8"/>
+	</Group>
+	
 	<Group id="Goblin">
 		<MovementPattern>Stationary</MovementPattern>
 		<AggroRange>250</AggroRange>
@@ -19,16 +30,6 @@
 		<TemplateRef id="Slime" slot="6"/>
 		<TemplateRef id="Slime" slot="3"/>
 		<TemplateRef id="Slime" slot="4"/>
-	</Group>
-
-	<Group id="Player">
-		<MovementPattern>PlayerControlled</MovementPattern>
-		<AggroRange>0</AggroRange>
-		<Speed>200</Speed>
-		<TemplateRef id="Player" slot="1"/> 
-		<TemplateRef id="Player" slot="6"/>
-		<TemplateRef id="Player" slot="3"/>
-		<TemplateRef id="Player" slot="4"/>
 	</Group>
 
 </Groups>

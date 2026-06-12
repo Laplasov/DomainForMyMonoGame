@@ -3,31 +3,47 @@
     <Template name="Player">
         <Profiles>
             <UnitProfile name="Player">
+				<Tier value="1"/>
                 <Stats maxHp="20" maxSp="10" physic="5" defense="3" magic="1" speed="15" />
                 <Abilities>
                     <AbilityRef id="base_attack"/>
 					<AbilityRef id="mara_touch"/>
                 </Abilities>
+				<Loots>
+					<Loot type ="Money" name="Gold" value="0"/>
+				</Loots>
             </UnitProfile>
         </Profiles>
     </Template>
     <Template name="Slime">
 			<Profiles>
 				<UnitProfile name="Slime">
+					<Tier value="1"/>
 					<Stats maxHp="20" maxSp="10" physic="5" defense="3" magic="1" speed="15" />
 					<Abilities>
 						<AbilityRef id="base_attack"/>
+						<AbilityRef id="mara_touch"/>
 					</Abilities>
+					<Loots>
+						<Loot type ="Fragment" name="Anima" value="1"/>
+					    <Loot type ="Money" name="Gold" value="5"/>
+				    </Loots>
 				</UnitProfile>
 			</Profiles>
 		</Template>
     <Template name="Goblin">
         <Profiles>
             <UnitProfile name="Goblin">
+				<Tier value="1"/>
                 <Stats maxHp="20" maxSp="10" physic="5" defense="3" magic="1" speed="15" />
                 <Abilities>
                     <AbilityRef id="base_attack"/>
+					<AbilityRef id="mara_touch"/>
                 </Abilities>
+				<Loots>
+					<Loot type ="Fragment" name="Sanguis" value="1"/>
+					<Loot type ="Money" name="Gold" value="5"/>
+				</Loots>
             </UnitProfile>
         </Profiles>
     </Template>

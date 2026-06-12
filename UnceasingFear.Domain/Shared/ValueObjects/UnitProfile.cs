@@ -10,12 +10,13 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
         public int SlotIndex { get; init; }
         public UnitStats Stats { get; init; }
         public IReadOnlyList<Ability> Abilities { get; }
-        UnitProfile(string name, int slot, UnitStats stats, IReadOnlyList<Ability> abilities)
+        public IReadOnlyList<Loot> LootDrops { get; init; }
+        UnitProfile(string name, int slot, UnitStats stats, IReadOnlyList<Ability> abilities, IReadOnlyList<Loot> lootDrops)
         {
-            Name = name; SlotIndex = slot;  Stats = stats; Abilities = abilities;
+            Name = name; SlotIndex = slot;  Stats = stats; Abilities = abilities; LootDrops = lootDrops;
         }
-        public static UnitProfile Create(string name, int slot, UnitStats stats, IEnumerable<Ability> abilities) 
-            => new(name, slot, stats, abilities.ToList().AsReadOnly());
+        public static UnitProfile Create(string name, int slot, UnitStats stats, IEnumerable<Ability> abilities, IEnumerable<Loot> lootDrops) 
+            => new(name, slot, stats, abilities.ToList().AsReadOnly(), lootDrops.ToList().AsReadOnly());
 
         public bool CanPay(Cost cost) => cost.Stat switch
         {
@@ -32,10 +33,33 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
         public UnitProfile TakeDamage(int amount) => this with { Stats = Stats.WithDamage(amount) };
         public UnitProfile AssignToSlot(int slotIndex)
         {
-            if (slotIndex <= 0 || slotIndex > 6)
+            if (slotIndex <= 0 || slotIndex > 9) 
                 throw new ArgumentException("Invalid slot index");
             return this with { SlotIndex = slotIndex };
         }
 
+        public UnitProfile AddLoot(IEnumerable<Loot> newLoots)
+        {
+            var currentLoots = LootDrops.ToList();
+
+            foreach (var loot in newLoots)
+            {
+                // Find existing loot of the same Type and Name
+                var existingIndex = currentLoots.FindIndex(l => l.Type == loot.Type && l.Name == loot.Name);
+
+                if (existingIndex >= 0)
+                {
+                    // Stack it!
+                    var existing = currentLoots[existingIndex];
+                    currentLoots[existingIndex] = existing with { Value = existing.Value + loot.Value };
+                }
+                else
+                {
+                    // New item
+                    currentLoots.Add(loot);
+                }
+            }
+            return this with { LootDrops = currentLoots.AsReadOnly() };
+        }
     }
 }

@@ -39,9 +39,9 @@ namespace UnceasingFear.Domain.Combat.Aggregates
             AddDomainEvent(new BattleStateChangedEvent(old, newState));
         }
 
-        public void ConcludeBattle(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles)
+        public void ConcludeBattle(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles, IReadOnlyList<Loot> CollectedLoot)
         {
-            AddDomainEvent(new OutOfBattleEvent(AllyProfiles, EnemyProfiles));
+            AddDomainEvent(new OutOfBattleEvent(AllyProfiles, EnemyProfiles, CollectedLoot));
         }
 
         public void AddUnit(Unit unit)

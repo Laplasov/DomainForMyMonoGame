@@ -11,6 +11,8 @@ namespace UnceasingFear.Domain.Shared.Events
     public class SharedEvents
     {
         public record EnterBattleEvent(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles) : IDomainEvent;
-        public record OutOfBattleEvent(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles) : IDomainEvent;
+        public record OutOfBattleEvent(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles, IReadOnlyList<Loot> CollectedLoot) : IDomainEvent;
+        public record ExitGame() : IDomainEvent;
+        public record PauseGame(bool ShouldPause) : IDomainEvent;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.ValueObjects;
 
 namespace UnceasingFear.Application.World.Snapshots
@@ -13,7 +14,9 @@ namespace UnceasingFear.Application.World.Snapshots
             TileMapMetadata TileMapMetadata,
             IReadOnlyList<GroupSnapshot> Groups,
             IReadOnlyList<TileCoord> TransitionTiles,
-            bool BattleTriggered
+            bool BattleTriggered,
+            IReadOnlyList<Loot> PlayerInventory,
+            IReadOnlyList<UnitProfile> PartyProfiles
         );
     public record struct GroupSnapshot(
         GroupId Id,

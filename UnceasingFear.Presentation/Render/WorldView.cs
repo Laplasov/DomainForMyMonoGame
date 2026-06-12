@@ -1,12 +1,19 @@
 ﻿using Gum.Forms.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame_Game_Library.Graphics;
 using MonoGame_Game_Library.TileLogic;
 using MonoGameGum;
+using System.Text;
+using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.World.Snapshots;
+using UnceasingFear.Domain.Shared.Events;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Presentation.Data;
+using UnceasingFear.Presentation.Render;
+using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
 public class WorldView
 {
@@ -15,24 +22,60 @@ public class WorldView
     private readonly Texture2D _whitePixel;
     private readonly SpriteFactory _spriteFactory;
     private readonly GameTime _gameTime;
+    private readonly IEventDispatcher _eventDispatcher;
+    private readonly ICommandDispatcher _commandDispatcher;
 
     private readonly Dictionary<string, AnimatedSprite> _groupSprites = new();
     private TileMapLayered? _currentTilemap;
     private string _currentSceneId = string.Empty;
     private GumService _gumService;
 
+    private Label? _inventoryLabel;
+    public PlayerMenu _playerMenu;
+    private KeyboardState _lastKeyboardState;
+
     public WorldView(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice,
-                     SpriteFactory spriteFactory, GameTime gameTime, GumService gumService)
+                     SpriteFactory spriteFactory, GameTime gameTime, GumService gumService, IEventDispatcher eventDispatcher, ICommandDispatcher commandDispatcher)
     {
         _spriteBatch = spriteBatch;
         _graphicsDevice = graphicsDevice;
         _spriteFactory = spriteFactory;
         _gameTime = gameTime;
         _gumService = gumService;
+        _eventDispatcher = eventDispatcher;
+        _commandDispatcher = commandDispatcher;
 
         _whitePixel = new Texture2D(graphicsDevice, 1, 1);
         _whitePixel.SetData(new[] { Color.White });
 
+        _playerMenu = new PlayerMenu(_eventDispatcher, _commandDispatcher);
+
+        _eventDispatcher.Subscribe<EnterBattleEvent>(OnEnterBattle);
+    }
+    private void OnEnterBattle(EnterBattleEvent e) => _gumService.Root.Children.Clear();
+
+    public void HandleInput(KeyboardState currentKeyboard)
+    {
+        // Toggle Menu on Escape
+        if (currentKeyboard.IsKeyDown(Keys.Escape) && _lastKeyboardState.IsKeyUp(Keys.Escape))
+        {
+            if (_playerMenu.IsVisible)
+            {
+                _playerMenu.Hide();
+                _eventDispatcher.Dispatch(new PauseGame(false));
+            }
+            else 
+            {
+                _playerMenu.Show();
+                _eventDispatcher.Dispatch(new PauseGame(true));
+            }
+        }
+        _lastKeyboardState = currentKeyboard;
+
+        if (_playerMenu.IsVisible)
+        {
+            _playerMenu.HandleInput();
+        }
     }
 
     public void Draw(WorldSnapshot snapshot)
@@ -100,6 +143,13 @@ public class WorldView
             }
         }
         _spriteBatch.End();
+
+        UpdateInventoryHUD(snapshot.PlayerInventory);
+
+        if (_playerMenu.IsVisible)
+        {
+            _playerMenu.Update(snapshot);
+        }
     }
 
     private void DrawTileGrid(WorldSnapshot snapshot)
@@ -168,4 +218,42 @@ public class WorldView
             }
         }
     }
+    // ── Inventory HUD Logic ─────────────────────────────────────────────
+
+    private void EnsureInventoryLabelExists()
+    {
+        // BattleView clears the Gum root on exit, so we must recreate this if it's null
+        if (_inventoryLabel == null || _inventoryLabel.Visual.Parent == null)
+        {
+            _inventoryLabel = new Label();
+            _inventoryLabel.Visual.X = 10;
+            _inventoryLabel.Visual.Y = 10;
+            _inventoryLabel.Visual.Width = 250;
+            _inventoryLabel.Visual.Height = 200;
+            _inventoryLabel.Visual.AddToRoot();
+        }
+    }
+
+    private void UpdateInventoryHUD(IReadOnlyList<Loot> inventory)
+    {
+        EnsureInventoryLabelExists();
+
+        if (inventory == null || inventory.Count == 0)
+        {
+            _inventoryLabel!.Text = "Inventory: Empty";
+            return;
+        }
+
+        var sb = new StringBuilder();
+        sb.AppendLine("== Inventory ==");
+
+        foreach (var item in inventory)
+        {
+            // Display format: "Gold: 15" or "Anima: 2"
+            sb.AppendLine($"{item.Name}: {item.Value}");
+        }
+
+        _inventoryLabel!.Text = sb.ToString();
+    }
+
 }

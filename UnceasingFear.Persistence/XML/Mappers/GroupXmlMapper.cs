@@ -58,40 +58,35 @@ namespace UnceasingFear.Persistence.Xml.Mappers
             if (refs.Count == 0)
                 throw new InvalidDataException($"Group '{el.Attribute("id")?.Value}' has no TemplateRef.");
 
-            var templateId = refs[0].Attribute("id")!.Value;
-            var fullTemplate = resolveTemplate(templateId);
-
-            // If only one ref and no slot is specified, return the template as-is
-            if (refs.Count == 1 && refs[0].Attribute("slot") == null)
-                return fullTemplate;
-
             var newProfiles = new List<UnitProfile>();
 
-            // Map each <TemplateRef> to a profile from the template
-            for (int i = 0; i < refs.Count; i++)
+            // Loop through each TemplateRef individually
+            foreach (var refEl in refs)
             {
-                var refEl = refs[i];
+                // ✅ Resolve the specific template for THIS reference (Player, Goblin, or Slime)
+                var templateId = refEl.Attribute("id")!.Value;
+                var fullTemplate = resolveTemplate(templateId);
+
+                // Grab the first profile from the resolved template as the base
+                var baseProfile = fullTemplate.Profiles[0];
+
                 var slotAttr = refEl.Attribute("slot");
-
-                // Get the corresponding profile from the template. 
-                // If there are more refs than profiles, cycle back to the first one.
-                var baseProfile = i < fullTemplate.Profiles.Count
-                    ? fullTemplate.Profiles[i]
-                    : fullTemplate.Profiles[0];
-
                 if (slotAttr != null && int.TryParse(slotAttr.Value, out int slotIndex))
                 {
-                    // ✅ Explicitly assign the slot from the XML to the profile
+                    // Assign the explicit slot from the XML
                     newProfiles.Add(baseProfile.AssignToSlot(slotIndex));
                 }
                 else
                 {
-                    // Keep the original slot if none is specified in XML
+                    // Keep the original slot if none is specified
                     newProfiles.Add(baseProfile);
                 }
             }
 
-            return new Template(fullTemplate.TemplateName, newProfiles);
+            // Since a group can now be a composite of multiple templates, 
+            // it's best to name the composite template after the Group Id.
+            var groupId = el.Attribute("id")!.Value;
+            return new Template(groupId, newProfiles);
         }
     }
 }

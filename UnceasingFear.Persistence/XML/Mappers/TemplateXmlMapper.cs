@@ -47,14 +47,26 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         private static UnitProfile ProfileFromXml(XElement el, int index, Func<string, Ability> resolveAbility)
         {
             var name = el.Attribute("name")!.Value;
+
             var stats = StatsFromXml(el.Element("Stats")!);
+
             var abilities = el.Element("Abilities")!
                 .Elements("AbilityRef")
                 .Select(a => resolveAbility(a.Attribute("id")!.Value))
                 .ToList();
 
-            // ✅ Use index + 1 so default slots are 1, 2, 3... matching BattleView's expectation
-            return UnitProfile.Create(name, index + 1, stats, abilities);
+            var loots = el.Element("Loots")?
+                .Elements("Loot")
+                .Select(l => new Loot(
+                    l.Attribute("type")!.Value,
+                    l.Attribute("name")!.Value,
+                    int.Parse(l.Attribute("value")!.Value)
+                )).ToList() ?? new List<Loot>();
+
+            var profile = UnitProfile.Create(name, index + 1, stats, abilities, loots);
+
+
+            return profile;
         }
 
         private static UnitStats StatsFromXml(XElement el) =>

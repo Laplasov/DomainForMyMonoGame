@@ -90,18 +90,7 @@ namespace UnceasingFear.Application.Combat
             _battle.TransitionTo(state);
             PublishPendingEvents();
 
-            if (_battle.State is Victory || _battle.State is Lost)
-            {
-                var exitParty = GetProfiles(true);
-            var enemyParty = GetProfiles(false);
-
-                _battle.ConcludeBattle(exitParty, enemyParty);
-                PublishPendingEvents();
-
-                UnsubscribeFromCommands();
-
-                _currentActor = null;
-            }
+            CheckAndConcludeBattle();
         }
 
         private void UnsubscribeFromCommands()
@@ -123,6 +112,9 @@ namespace UnceasingFear.Application.Combat
 
             _battle.ApplyAbility(_currentActor, cmd.AbilitySlot, targets);
             PublishPendingEvents();
+
+            if (CheckAndConcludeBattle()) return;
+
             _currentActor = null;
         }
         private void OnPassTurn(PassTurnCommand cmd)
@@ -132,6 +124,9 @@ namespace UnceasingFear.Application.Combat
 
             _currentActor.ConsumeTurn();
             PublishPendingEvents();
+
+            if (CheckAndConcludeBattle()) return;
+
             _currentActor = null;
         }
 
@@ -139,8 +134,9 @@ namespace UnceasingFear.Application.Combat
         {
             var exitParty = GetProfiles(true);
             var enemyParty = GetProfiles(false);
+            var collectedLoot = CollectLoot();
 
-            _battle.ConcludeBattle(exitParty, enemyParty);
+            _battle.ConcludeBattle(exitParty, enemyParty, collectedLoot);
             PublishPendingEvents();
 
             UnsubscribeFromCommands();
@@ -155,6 +151,14 @@ namespace UnceasingFear.Application.Combat
                 .ToList()
                 .AsReadOnly();
         }
+        private IReadOnlyList<Loot> CollectLoot()
+        {
+            return _battle.Units
+                .Where(u => !u.IsAlly && !u.IsAlive)
+                .SelectMany(u => u.Profile.LootDrops)
+                .ToList()
+                .AsReadOnly();
+        }
 
         private void ProcessEnemyTurn(Unit enemy)
         {
@@ -165,7 +169,33 @@ namespace UnceasingFear.Application.Combat
 
             _battle.ApplyAbility(enemy, 0, targets);
             PublishPendingEvents();
+
+            if (CheckAndConcludeBattle()) return;
+
             _currentActor = null;
+        }
+
+        private bool CheckAndConcludeBattle()
+        {
+            // Directly check the domain aggregate's win/loss conditions
+            if (_battle.IsVictory || _battle.IsDefeat)
+            {
+                var state = _battle.IsVictory ? (BattleState)new Victory() : new Lost();
+                _battle.TransitionTo(state);
+
+                var exitParty = GetProfiles(true);
+                var enemyParty = GetProfiles(false);
+                var collectedLoot = CollectLoot();
+
+                _battle.ConcludeBattle(exitParty, enemyParty, collectedLoot);
+                PublishPendingEvents();
+
+                UnsubscribeFromCommands();
+
+                _currentActor = null;
+                return true; // Battle ended
+            }
+            return false; // Battle continues
         }
 
         private void PublishPendingEvents()

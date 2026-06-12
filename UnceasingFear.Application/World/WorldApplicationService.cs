@@ -4,6 +4,7 @@ using UnceasingFear.Application.Repository;
 using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Combat.Events;
 using UnceasingFear.Domain.Shared.Events;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.Entities;
 using UnceasingFear.Domain.World.ValueObjects;
@@ -13,6 +14,7 @@ using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 namespace UnceasingFear.Application.World
 {
     public record struct MovePlayerCommand(float InputX, float InputY, float DeltaTime);
+    public record struct SwapPartySlotsCommand(int SlotA, int SlotB);
     public record struct RequestTransitionCommand();
     public record struct EndBattleCommand();
 
@@ -26,6 +28,7 @@ namespace UnceasingFear.Application.World
         public WorldPosition PlayerPosition => _currentPlayer.CurrentPosition;
         
         private bool _battleTriggered = false;
+        public bool IsPaused { get; private set; } = false;
 
         public WorldPosition _lastPlayerPosition;
 
@@ -44,19 +47,76 @@ namespace UnceasingFear.Application.World
 
             CommandDispatcher.Register<MovePlayerCommand>(UpdatePositions);
             CommandDispatcher.Register<RequestTransitionCommand>(UpdateTransition);
+            CommandDispatcher.Register<SwapPartySlotsCommand>(SwapPartySlots);
 
             EventDispatcher.Subscribe<OutOfBattleEvent>(EndBattle);
+            EventDispatcher.Subscribe<PauseGame>((e) => IsPaused = e.ShouldPause);
         }
         private void EndBattle(OutOfBattleEvent e)
         {
             _activeEnemy?.Defeat();
             _battleTriggered = false;
 
-            _currentPlayer.UpdateProfiles(e.AllyProfiles);
+            // 1. Get the profiles of units who fought (Slots 1-6)
+            var updatedBattleProfiles = e.AllyProfiles.ToList();
+
+            // 2. Get the full 9-slot roster
+            var fullRoster = _currentPlayer.Template.Profiles.ToList();
+
+            // 3. Loop through the full roster and apply changes
+            for (int i = 0; i < fullRoster.Count; i++)
+            {
+                var rosterUnit = fullRoster[i];
+
+                // If this unit was in the active battle party (Slots 1-6), update their battle stats (HP/SP)
+                if (rosterUnit.SlotIndex <= 6)
+                {
+                    var battleUnit = updatedBattleProfiles.FirstOrDefault(p => p.SlotIndex == rosterUnit.SlotIndex);
+                    if (!string.IsNullOrEmpty(battleUnit.Name)) // If we found a match
+                    {
+                        rosterUnit = battleUnit; // Apply the battle damage/changes
+                    }
+                }
+
+                // 4. Add loot to the "Player" specifically, even if they were in reserve (Slots 7-9)
+                if (rosterUnit.Name == "Player")
+                {
+                    rosterUnit = rosterUnit.AddLoot(e.CollectedLoot);
+                }
+
+                fullRoster[i] = rosterUnit;
+            }
+
+            // 5. Save the fully merged and updated roster back to the group
+            _currentPlayer.UpdateProfiles(fullRoster.AsReadOnly());
+        }
+        private void SwapPartySlots(SwapPartySlotsCommand cmd)
+        {
+            // Copy current profiles to a mutable list
+            var profiles = _currentPlayer.Template.Profiles.ToList();
+
+            // Find the units currently in these slots (they might be empty/default!)
+            var unitA = profiles.FirstOrDefault(p => p.SlotIndex == cmd.SlotA);
+            var unitB = profiles.FirstOrDefault(p => p.SlotIndex == cmd.SlotB);
+
+            // Remove both from the list
+            profiles.RemoveAll(p => p.SlotIndex == cmd.SlotA || p.SlotIndex == cmd.SlotB);
+
+            // Re-add them with swapped slots (if they actually existed)
+            if (!string.IsNullOrEmpty(unitA.Name))
+                profiles.Add(unitA.AssignToSlot(cmd.SlotB));
+
+            if (!string.IsNullOrEmpty(unitB.Name))
+                profiles.Add(unitB.AssignToSlot(cmd.SlotA));
+
+            // Update the group with the newly ordered profiles
+            _currentPlayer.UpdateProfiles(profiles.OrderBy(p => p.SlotIndex).ToList().AsReadOnly());
         }
 
         private void UpdatePositions(MovePlayerCommand cmd)
         {
+            if (IsPaused) return;
+
             var finalPosition = _lastPlayerPosition;
             var lastTile = _scene.MapMetadata.WorldToTile(_lastPlayerPosition);
 
@@ -83,7 +143,13 @@ namespace UnceasingFear.Application.World
                 if (groupTile == _currentTileCoordPlayer && group != _currentPlayer)
                 {
                     _activeEnemy = group;
-                    EventDispatcher.Dispatch(new EnterBattleEvent(_currentPlayer.Template.Profiles, group.Template.Profiles));
+
+                    var activeParty = _currentPlayer.Template.Profiles
+                        .Where(p => p.SlotIndex <= 6)
+                        .ToList()
+                        .AsReadOnly();
+
+                    EventDispatcher.Dispatch(new EnterBattleEvent(activeParty, group.Template.Profiles));
                     _battleTriggered = true;
                     return;
                 }
@@ -117,13 +183,21 @@ namespace UnceasingFear.Application.World
             }
         }
 
-        public WorldSnapshot GetSnapshot() => new(
+        public WorldSnapshot GetSnapshot()
+        {
+            var playerProfile = _currentPlayer.Template.Profiles.FirstOrDefault(p => p.Name == "Player");
+            var inventory = playerProfile.LootDrops ?? new List<Loot>().AsReadOnly();
+
+            return new(
             _scene.Id,
             PlayerPosition,
             _scene.MapMetadata,
             _scene.Groups.Select(g => new GroupSnapshot(g.Id, g.CurrentPosition, g.IsDefeated, g.TryAggro(PlayerPosition))).ToList(),
             _scene.Transitions.Select(t => t.TriggerTile).ToList(),
-            _battleTriggered
-        );
+            _battleTriggered,
+            inventory,
+            _currentPlayer.Template.Profiles
+            );
+        }
     }
 }
