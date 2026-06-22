@@ -65,6 +65,7 @@ namespace UnceasingFear.Presentation.Render
 
         public bool UnitSelection { get; set; } = false;
         public bool IsItemTabDirty { get; set; } = false;
+        public bool UnitsTabDirty { get; set; } = true;
 
         public WorldSnapshot? LastSnapshot => _lastSnapshot;
 
@@ -88,7 +89,7 @@ namespace UnceasingFear.Presentation.Render
 
             if (UnitSelection)
             {
-                RefreshUnitsTab();
+                RefreshUnitsTab(snapshot);
                 return;
             }
 
@@ -244,6 +245,8 @@ namespace UnceasingFear.Presentation.Render
                 foreach (var btn in _itemButtons) _itemContainer.RemoveChild(btn);
                 _itemButtons.Clear();
 
+                UnitsTabDirty = true;
+
                 for (int i = 0; i < regularItems.Count; i++)
                 {
                     var currentItem = regularItems[i]; // Only capturing the Item, NOT a UnitProfile!
@@ -287,46 +290,36 @@ namespace UnceasingFear.Presentation.Render
             }
         }
 
-        private void RefreshUnitsTab()
+
+        private void RefreshUnitsTab(WorldSnapshot snapshot)
         {
-            if (_unitsListContainer == null || _lastSnapshot == null) return;
+            if (_unitsListContainer == null) return;
+            if (!UnitsTabDirty) return;
 
-            int totalUnits = _lastSnapshot.Value.PartyProfiles
-                .Count(p => !string.IsNullOrEmpty(p.Name));
+            _unitsListContainer.InnerPanel.Children.Clear();
+            _allUnitButtons.Clear();
 
-            if (_totalUnitButtons != totalUnits)
+            foreach (var profile in snapshot.PartyProfiles)
             {
-                _unitsListContainer.InnerPanel.Children.Clear();
-                _allUnitButtons.Clear();
+                if (string.IsNullOrEmpty(profile.Name)) continue;
 
-                foreach (var profile in _lastSnapshot.Value.PartyProfiles)
+                var btn = new Button();
+                btn.Text = profile.Name;
+                btn.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                btn.Visual.Width = 0;
+                btn.Visual.Height = 30;
+
+                var capturedProfile = profile;
+                btn.Click += (_, _) =>
                 {
-                    if (string.IsNullOrEmpty(profile.Name)) continue;
+                    _itemDetailsUI.SendCommand(capturedProfile);
+                };
 
-                    var btn = new Button();
-                    btn.Text = profile.Name;
-                    btn.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
-                    btn.Visual.Width = 0;
-                    btn.Visual.Height = 30;
-
-                    // ✅ Capture the SlotIndex, then look up the FRESH profile at click time
-                    var capturedSlotIndex = profile.SlotIndex;
-                    btn.Click += (_, _) =>
-                    {
-                        if (_lastSnapshot != null)
-                        {
-                            var freshProfile = _lastSnapshot.Value.PartyProfiles
-                                .FirstOrDefault(p => p.SlotIndex == capturedSlotIndex);
-                            if (!string.IsNullOrEmpty(freshProfile.Name))
-                                _itemDetailsUI.SendCommand(freshProfile);
-                        }
-                    };
-
-                    _unitsListContainer.InnerPanel.Children.Add(btn.Visual);
-                    _allUnitButtons.Add(btn);
-                }
-                _totalUnitButtons = totalUnits;
+                _unitsListContainer.InnerPanel.Children.Add(btn.Visual);
+                _allUnitButtons.Add(btn);
             }
+
+            UnitsTabDirty = false;
         }
 
 
@@ -340,6 +333,7 @@ namespace UnceasingFear.Presentation.Render
         {
             if (!IsVisible) return;
             _activeTab = MenuTab.Character;
+            UnitsTabDirty = true;
 
             _mainPanel?.RemoveFromRoot();
             _mainPanel = null;
@@ -454,16 +448,19 @@ namespace UnceasingFear.Presentation.Render
             btn.Visual.Width = -20;
             btn.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
             btn.Visual.Height = 40;
-            btn.Click += (_, _) => 
-            { 
-                _activeTab = tab; 
+            btn.Click += (_, _) =>
+            {
+                _activeTab = tab;
                 _chosenSlotIndex = null;
-
                 _selectedItem = null;
                 _itemDetailsUI.ClearDetails();
 
-                UpdateTabStyles(); 
-                ShowActiveTabContent(); 
+                // ✅ ADD THIS: Reset unit selection when switching tabs
+                UnitSelection = false;
+                UnitsTabDirty = true;
+
+                UpdateTabStyles();
+                ShowActiveTabContent();
             };
             parent.Children.Add(btn.Visual);
             _tabButtons[tab] = btn;

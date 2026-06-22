@@ -67,7 +67,7 @@ public class ItemDetailsUI
             _playerMenu.UnitSelection = true;
             Button.Text = "Cancel";
         }
-        _playerMenu.IsItemTabDirty = true;
+        _playerMenu.UnitsTabDirty = true;
     }
 
     public void CreateItemDetailsUI(GraphicalUiElement parent)
@@ -94,6 +94,9 @@ public class ItemDetailsUI
             _commandDispatcher.Dispatch(new EquipItemCommand(_currentItem.Value, profile));
             _playerMenu.UnitSelection = false;
             ClearDetails();
+
+            // ✅ ADD THIS: Force the items list to rebuild so closures get fresh data
+            _playerMenu.UnitsTabDirty = true;
         }
     }
 
