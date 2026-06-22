@@ -234,7 +234,7 @@ public class WorldView
         }
     }
 
-    private void UpdateInventoryHUD(IReadOnlyList<Loot> inventory)
+    private void UpdateInventoryHUD(IReadOnlyList<Item> inventory)
     {
         EnsureInventoryLabelExists();
 

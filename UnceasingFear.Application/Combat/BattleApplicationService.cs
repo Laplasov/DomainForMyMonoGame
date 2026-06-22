@@ -151,11 +151,11 @@ namespace UnceasingFear.Application.Combat
                 .ToList()
                 .AsReadOnly();
         }
-        private IReadOnlyList<Loot> CollectLoot()
+        private IReadOnlyList<Item> CollectLoot()
         {
             return _battle.Units
                 .Where(u => !u.IsAlly && !u.IsAlive)
-                .SelectMany(u => u.Profile.LootDrops)
+                .SelectMany(u => u.Profile.Stash)
                 .ToList()
                 .AsReadOnly();
         }
@@ -232,7 +232,9 @@ namespace UnceasingFear.Application.Combat
                         a.Name,
                         a.Description,
                         (int)(a.Costs.FirstOrDefault(c => c.Stat == CostType.SP).Value)
-                    )).ToList().AsReadOnly()
+                    )).ToList().AsReadOnly(),
+                    u.Profile.Stash,
+                    u.Profile.EquippedItems
                 )).ToList(),
                 _battle.State.GetType().Name,
                 _currentActor?.Id.Value,

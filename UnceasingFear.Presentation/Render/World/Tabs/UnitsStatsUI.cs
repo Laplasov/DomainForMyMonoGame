@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using MonoGameGum.GueDeriving;
 using UnceasingFear.Domain.Shared.ValueObjects;
 
-namespace UnceasingFear.Presentation.Render.World
+namespace UnceasingFear.Presentation.Render.World.Tabs
 {
     internal class UnitsStatsUI
     {

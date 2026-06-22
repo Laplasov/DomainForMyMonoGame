@@ -9,22 +9,25 @@ using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.World;
 using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Shared.Events;
-using UnceasingFear.Presentation.Render.World;
+using UnceasingFear.Domain.Shared.ValueObjects;
+using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
+using UnceasingFear.Domain.World.ValueObjects;
+using UnceasingFear.Presentation.Render.World.Tabs;
 using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
 namespace UnceasingFear.Presentation.Render
 {
-    public enum MenuTab { Character, Set, Items, Skills, Settings }
+    public enum MenuTab { Character, Set, Items, Skills, Settings}
 
     public class PlayerMenu
     {
+        private readonly IEventDispatcher _eventDispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
+
         private ColoredRectangleRuntime? _mainPanel;
         private MenuTab _activeTab = MenuTab.Character;
         private readonly Dictionary<MenuTab, Button> _tabButtons = new();
         private readonly Dictionary<MenuTab, ColoredRectangleRuntime> _tabContents = new();
-
-        private readonly IEventDispatcher _eventDispatcher;
-        private readonly ICommandDispatcher _commandDispatcher;
 
         private readonly Dictionary<int, Button> _slotButtons = new();
 
@@ -32,18 +35,145 @@ namespace UnceasingFear.Presentation.Render
         private int? _hoveredSlotIndex = null;
 
         private readonly UnitsStatsUI _statsUI = new();
+        private readonly ItemDetailsUI _itemDetailsUI;
+
+        private readonly List<Button> _itemButtons = new();
+
+        private Item? _selectedItem = null;
+        private Item? _hoveredItem = null;
+
+        private ScrollViewer? _itemContainer;
+        private ColoredRectangleRuntime? _statsContainer;
+        private ColoredRectangleRuntime? _itemDetailsContainer;
+
+        private Label? _goldLabel;
+
+        // ── Skills Tab Fields ──────────────────────────────────────────────
+        private ScrollViewer? _skillsListContainer;
+        private readonly List<Button> _allAbilityButtons = new();
+        private int _totalAbilityButtons = 0;
+
+        private Ability? _selectedAbility = null;
+        private Ability? _hoveredAbility = null;
+        private readonly AbilityDetailsUI _abilityDetailsUI = new();
+        private ColoredRectangleRuntime? _abilityDetailsContainer;
+        private WorldSnapshot? _lastSnapshot;
+
+        private ScrollViewer? _unitsListContainer;
+        private readonly List<Button> _allUnitButtons = new();
+        private int _totalUnitButtons = 0;
+
+        public bool UnitSelection { get; set; } = false;
+        public bool IsItemTabDirty { get; set; } = false;
+
+        public WorldSnapshot? LastSnapshot => _lastSnapshot;
 
         public PlayerMenu(IEventDispatcher eventDispatcher, ICommandDispatcher commandDispatcher)
         {
             _eventDispatcher = eventDispatcher;
             _commandDispatcher = commandDispatcher;
+            _itemDetailsUI = new(this, _commandDispatcher);
         }
 
         public bool IsVisible => _mainPanel != null;
         public void Update(WorldSnapshot snapshot)
         {
-            RefreshSetTab(snapshot);
+            if (!IsVisible) return;
+
+            _lastSnapshot = snapshot;
+
+            if (_itemContainer != null) _itemContainer.IsVisible = !UnitSelection;
+            if (_unitsListContainer != null) _unitsListContainer.IsVisible = UnitSelection;
+            if (_goldLabel != null) _goldLabel.IsVisible = !UnitSelection;
+
+            if (UnitSelection)
+            {
+                RefreshUnitsTab();
+                return;
+            }
+
+            if (_activeTab == MenuTab.Set)
+            {
+                RefreshSetTab(snapshot);
+            }
+            else if (_activeTab == MenuTab.Items)
+            {
+                RefreshItemsTab(snapshot);
+            }
+            else if (_activeTab == MenuTab.Skills)
+            {
+                RefreshSkillsTab();
+            }
         }
+
+        private void RefreshSkillsTab()
+        {
+            if (_skillsListContainer == null || _lastSnapshot == null) return;
+
+            // Calculate total abilities to know if we need to rebuild the UI
+            int totalAbilities = _lastSnapshot.Value.PartyProfiles
+                .Where(p => !string.IsNullOrEmpty(p.Name))
+                .Sum(p => p.Abilities.Count);
+
+            // Only rebuild if the number of abilities has changed
+            if (_totalAbilityButtons != totalAbilities)
+            {
+                _skillsListContainer.InnerPanel.Children.Clear();
+                _allAbilityButtons.Clear();
+
+                foreach (var profile in _lastSnapshot.Value.PartyProfiles)
+                {
+                    if (string.IsNullOrEmpty(profile.Name)) continue;
+
+                    // 1. Add Unit Header (The "Block")
+                    var unitLabel = new Label();
+                    unitLabel.Text = $"--- {profile.Name} ---";
+                    unitLabel.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                    unitLabel.Visual.Width = 0; // 100% width
+                    unitLabel.Visual.Height = 30;
+                    _skillsListContainer.AddChild(unitLabel);
+
+                    // 2. Add Ability Buttons for this Unit
+                    foreach (var ability in profile.Abilities)
+                    {
+                        var btn = new Button();
+                        // Indent visually so it looks nested under the unit
+                        btn.Text = $"   ↳ {ability.Name}";
+                        btn.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                        btn.Visual.Width = 0;
+                        btn.Visual.Height = 30;
+
+                        var capturedAbility = ability;
+                        btn.Click += (_, _) =>
+                        {
+                            _selectedAbility = capturedAbility;
+                            _abilityDetailsUI.UpdateDetails(capturedAbility);
+                        };
+
+                        if (btn.Visual is InteractiveGue interactive)
+                        {
+                            interactive.RollOn += (_, _) =>
+                            {
+                                _hoveredAbility = capturedAbility;
+                                if (_selectedAbility == null) _abilityDetailsUI.UpdateDetails(capturedAbility);
+                            };
+
+                            interactive.RollOff += (_, _) =>
+                            {
+                                _hoveredAbility = null;
+                                if (_selectedAbility == null) _abilityDetailsUI.ClearDetails();
+                                else _abilityDetailsUI.UpdateDetails(_selectedAbility.Value);
+                            };
+                        }
+
+                        _skillsListContainer.AddChild(btn);
+                        _allAbilityButtons.Add(btn);
+                    }
+                }
+                _totalAbilityButtons = totalAbilities;
+            }
+        }
+
         private void RefreshSetTab(WorldSnapshot snapshot)
         {
             if (!IsVisible || !_tabContents.ContainsKey(MenuTab.Set)) return;
@@ -77,10 +207,125 @@ namespace UnceasingFear.Presentation.Render
                     var hoveredUnit = snapshot.PartyProfiles.FirstOrDefault(p => p.SlotIndex == displaySlot.Value);
                     _statsUI.UpdateStats(hoveredUnit);
                 }
-                else if (_chosenSlotIndex != null)
+                else 
                 {
                     _statsUI.ClearStats();
                 }
+            }
+        }
+        private void RefreshItemsTab(WorldSnapshot snapshot)
+        {
+            if (_itemContainer == null) return;
+            var inventory = snapshot.PlayerInventory;
+
+            int goldAmount = 0;
+            var regularItems = new List<Item>();
+
+            foreach (var item in inventory)
+            {
+                if (item.Type == "Money") goldAmount += item.Quantity;
+                else regularItems.Add(item);
+            }
+            foreach (var profile in snapshot.PartyProfiles)
+            {
+                if (string.IsNullOrEmpty(profile.Name)) continue;
+                foreach (var item in profile.EquippedItems)
+                {
+                    if (item.Type == "Money") continue;
+                    else regularItems.Add(item);
+                }
+            }
+
+            if (_goldLabel != null) _goldLabel.Text = $"Gold: {goldAmount}";
+
+            // ✅ Rebuild if count changed OR dirty flag is set
+            if (_itemButtons.Count != regularItems.Count || IsItemTabDirty)
+            {
+                foreach (var btn in _itemButtons) _itemContainer.RemoveChild(btn);
+                _itemButtons.Clear();
+
+                for (int i = 0; i < regularItems.Count; i++)
+                {
+                    var currentItem = regularItems[i]; // Only capturing the Item, NOT a UnitProfile!
+                    var btn = new Button();
+                    btn.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                    btn.Visual.Width = 0;
+                    btn.Visual.Height = 30;
+
+                    btn.Click += (_, _) =>
+                    {
+                        _selectedItem = currentItem;
+                        _itemDetailsUI.UpdateDetails(currentItem); // ✅ No owner passed
+                    };
+
+                    if (btn.Visual is InteractiveGue interactive)
+                    {
+                        interactive.RollOn += (_, _) =>
+                        {
+                            _hoveredItem = currentItem;
+                            if (_selectedItem == null) _itemDetailsUI.UpdateDetails(currentItem);
+                        };
+
+                        interactive.RollOff += (_, _) =>
+                        {
+                            _hoveredItem = null;
+                            if (_selectedItem == null) _itemDetailsUI.ClearDetails();
+                            else _itemDetailsUI.UpdateDetails(_selectedItem.Value); // ✅ Fresh lookup
+                        };
+                    }
+
+                    _itemContainer.AddChild(btn);
+                    _itemButtons.Add(btn);
+                }
+                IsItemTabDirty = false;
+            }
+
+            // Always update text
+            for (int i = 0; i < regularItems.Count; i++)
+            {
+                _itemButtons[i].Text = $"{regularItems[i].Name} (x{regularItems[i].Quantity})";
+            }
+        }
+
+        private void RefreshUnitsTab()
+        {
+            if (_unitsListContainer == null || _lastSnapshot == null) return;
+
+            int totalUnits = _lastSnapshot.Value.PartyProfiles
+                .Count(p => !string.IsNullOrEmpty(p.Name));
+
+            if (_totalUnitButtons != totalUnits)
+            {
+                _unitsListContainer.InnerPanel.Children.Clear();
+                _allUnitButtons.Clear();
+
+                foreach (var profile in _lastSnapshot.Value.PartyProfiles)
+                {
+                    if (string.IsNullOrEmpty(profile.Name)) continue;
+
+                    var btn = new Button();
+                    btn.Text = profile.Name;
+                    btn.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                    btn.Visual.Width = 0;
+                    btn.Visual.Height = 30;
+
+                    // ✅ Capture the SlotIndex, then look up the FRESH profile at click time
+                    var capturedSlotIndex = profile.SlotIndex;
+                    btn.Click += (_, _) =>
+                    {
+                        if (_lastSnapshot != null)
+                        {
+                            var freshProfile = _lastSnapshot.Value.PartyProfiles
+                                .FirstOrDefault(p => p.SlotIndex == capturedSlotIndex);
+                            if (!string.IsNullOrEmpty(freshProfile.Name))
+                                _itemDetailsUI.SendCommand(freshProfile);
+                        }
+                    };
+
+                    _unitsListContainer.InnerPanel.Children.Add(btn.Visual);
+                    _allUnitButtons.Add(btn);
+                }
+                _totalUnitButtons = totalUnits;
             }
         }
 
@@ -94,10 +339,41 @@ namespace UnceasingFear.Presentation.Render
         public void Hide()
         {
             if (!IsVisible) return;
+            _activeTab = MenuTab.Character;
+
             _mainPanel?.RemoveFromRoot();
             _mainPanel = null;
             _chosenSlotIndex = null;
             _hoveredSlotIndex = null;
+
+            _selectedItem = null;
+            _hoveredItem = null;
+            if (_itemContainer != null)
+                foreach (var btn in _itemButtons) _itemContainer.RemoveChild(btn);
+            
+            _itemButtons.Clear();
+
+            _itemContainer = null;
+            _statsContainer = null;
+            _itemDetailsContainer = null;
+
+            // Skills tab cleanup
+            _selectedAbility = null;
+            _hoveredAbility = null;
+            _lastSnapshot = null;
+            _allAbilityButtons.Clear();
+
+            _itemContainer = null;
+            _statsContainer = null;
+            _itemDetailsContainer = null;
+            _goldLabel = null;
+
+            _skillsListContainer = null;
+            _abilityDetailsContainer = null;
+
+            _totalUnitButtons = 0;
+            _allUnitButtons.Clear();
+            _unitsListContainer = null;
         }
 
         public void HandleInput()
@@ -181,7 +457,11 @@ namespace UnceasingFear.Presentation.Render
             btn.Click += (_, _) => 
             { 
                 _activeTab = tab; 
-                _chosenSlotIndex = null; 
+                _chosenSlotIndex = null;
+
+                _selectedItem = null;
+                _itemDetailsUI.ClearDetails();
+
                 UpdateTabStyles(); 
                 ShowActiveTabContent(); 
             };
@@ -189,8 +469,41 @@ namespace UnceasingFear.Presentation.Render
             _tabButtons[tab] = btn;
         }
 
+
         private void CreateTabContent(GraphicalUiElement middleParent, GraphicalUiElement rightParent)
         {
+            // 1. Setup Right Panel Containers (to toggle between Stats and Item Details)
+            _statsContainer = new ColoredRectangleRuntime();
+            _statsContainer.Color = Color.Transparent;
+            _statsContainer.WidthUnits = DimensionUnitType.RelativeToParent;
+            _statsContainer.Width = 0;
+            _statsContainer.HeightUnits = DimensionUnitType.RelativeToParent;
+            _statsContainer.Height = 0;
+            rightParent.Children.Add(_statsContainer);
+            _statsUI.CreatStatsUI(_statsContainer);
+
+            _itemDetailsContainer = new ColoredRectangleRuntime();
+            _itemDetailsContainer.Color = Color.Transparent;
+            _itemDetailsContainer.WidthUnits = DimensionUnitType.RelativeToParent;
+            _itemDetailsContainer.Width = 0;
+            _itemDetailsContainer.HeightUnits = DimensionUnitType.RelativeToParent;
+            _itemDetailsContainer.Height = 0;
+            _itemDetailsContainer.Visible = false; // Hidden by default
+            rightParent.Children.Add(_itemDetailsContainer);
+            _itemDetailsUI.CreateItemDetailsUI(_itemDetailsContainer);
+
+            _abilityDetailsContainer = new ColoredRectangleRuntime();
+            _abilityDetailsContainer.Color = Color.Transparent;
+            _abilityDetailsContainer.WidthUnits = DimensionUnitType.RelativeToParent;
+            _abilityDetailsContainer.Width = 0;
+            _abilityDetailsContainer.HeightUnits = DimensionUnitType.RelativeToParent;
+            _abilityDetailsContainer.Height = 0;
+            _abilityDetailsContainer.Visible = false; // Hidden by default
+            rightParent.Children.Add(_abilityDetailsContainer);
+            _abilityDetailsUI.CreateAbilityDetailsUI(_abilityDetailsContainer);
+
+
+
             foreach (MenuTab tab in Enum.GetValues(typeof(MenuTab)))
             {
                 var content = new ColoredRectangleRuntime();
@@ -268,9 +581,73 @@ namespace UnceasingFear.Presentation.Render
                         }
                     }
                 }
+                else if (tab == MenuTab.Items)
+                {
+                    // ✅ Use Regular layout so we can manually position elements to prevent overflow
+                    content.ChildrenLayout = ChildrenLayout.Regular;
+                    placeholder.Text = "Inventory:";
+                    placeholder.Visual.X = 10;
+                    placeholder.Visual.Y = 10;
+
+                    _goldLabel = new Label();
+                    _goldLabel.Text = "Gold: 0";
+                    _goldLabel.Visual.X = 10;
+                    _goldLabel.Visual.Y = 40; // Position below placeholder
+                    _goldLabel.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                    _goldLabel.Visual.Width = -20;
+                    _goldLabel.Visual.Height = 30;
+                    content.Children.Add(_goldLabel.Visual);
+
+                    _itemContainer = new ScrollViewer();
+                    _itemContainer.Visual.X = 10;
+                    _itemContainer.Visual.Y = 80; // Position below Gold label
+                    _itemContainer.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                    _itemContainer.Visual.Width = -20; // Padding
+                    _itemContainer.Visual.HeightUnits = DimensionUnitType.RelativeToParent;
+                    _itemContainer.Visual.Height = -90; // ✅ Subtract height to prevent overflow!
+
+                    _itemContainer.InnerPanel.ChildrenLayout = ChildrenLayout.TopToBottomStack;
+                    _itemContainer.InnerPanel.StackSpacing = 5;
+
+                    content.Children.Add(_itemContainer.Visual);
+
+                    _unitsListContainer = new ScrollViewer();
+                    _unitsListContainer.Visual.X = 10;
+                    _unitsListContainer.Visual.Y = 80;
+                    _unitsListContainer.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                    _unitsListContainer.Visual.Width = -20;
+                    _unitsListContainer.Visual.HeightUnits = DimensionUnitType.RelativeToParent;
+                    _unitsListContainer.Visual.Height = -90;
+
+                    _unitsListContainer.InnerPanel.ChildrenLayout = ChildrenLayout.TopToBottomStack;
+                    _unitsListContainer.InnerPanel.StackSpacing = 5;
+
+                    content.Children.Add(_unitsListContainer.Visual);
+                }
+                else if (tab == MenuTab.Skills)
+                {
+                    // ✅ Use Regular layout
+                    content.ChildrenLayout = ChildrenLayout.Regular;
+                    placeholder.Text = "Skills:";
+                    placeholder.Visual.X = 10;
+                    placeholder.Visual.Y = 10;
+
+                    _skillsListContainer = new ScrollViewer();
+                    _skillsListContainer.Visual.X = 10;
+                    _skillsListContainer.Visual.Y = 40; // Position below placeholder
+                    _skillsListContainer.Visual.WidthUnits = DimensionUnitType.RelativeToParent;
+                    _skillsListContainer.Visual.Width = -20; // Padding
+                    _skillsListContainer.Visual.HeightUnits = DimensionUnitType.RelativeToParent;
+                    _skillsListContainer.Visual.Height = -50; // ✅ Subtract height to prevent overflow!
+
+                    _skillsListContainer.InnerPanel.ChildrenLayout = ChildrenLayout.TopToBottomStack;
+                    _skillsListContainer.InnerPanel.StackSpacing = 5;
+
+                    content.Children.Add(_skillsListContainer.Visual);
+                }
+
                 _tabContents[tab] = content;
             }
-            _statsUI.CreatStatsUI(rightParent);
 
             ShowActiveTabContent();
         }
@@ -278,8 +655,22 @@ namespace UnceasingFear.Presentation.Render
         private void ShowActiveTabContent()
         {
             foreach (var kvp in _tabContents) kvp.Value.Visible = (kvp.Key == _activeTab);
-        }
 
+            if (_statsContainer != null)
+                _statsContainer.Visible = (_activeTab == MenuTab.Set);
+
+            if (_itemDetailsContainer != null)
+                _itemDetailsContainer.Visible = (_activeTab == MenuTab.Items);
+
+            if (_abilityDetailsContainer != null)
+                _abilityDetailsContainer.Visible = (_activeTab == MenuTab.Skills);
+
+            if (_activeTab == MenuTab.Skills)
+            {
+                _selectedAbility = null;
+                _abilityDetailsUI.ClearDetails();
+            }
+        }
         private void UpdateTabStyles()
         {
             foreach (var kvp in _tabButtons) kvp.Value.IsEnabled = (kvp.Key != _activeTab);

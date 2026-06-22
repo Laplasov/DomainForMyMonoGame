@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnceasingFear.Domain.Shared.ValueObjects;
 
 namespace UnceasingFear.Application.Combat.Snapshots
 {
@@ -28,7 +29,9 @@ namespace UnceasingFear.Application.Combat.Snapshots
         int Defense,
         int Magic,
         int Speed,
-        IReadOnlyList<AbilitySnapshot> Abilities
+        IReadOnlyList<AbilitySnapshot> Abilities,
+        IReadOnlyList<Item> Stash,
+        IReadOnlyList<Item> EquippedItems
     );
 
     public record struct BattleSnapshot(

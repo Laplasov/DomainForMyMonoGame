@@ -10,13 +10,14 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
         public int SlotIndex { get; init; }
         public UnitStats Stats { get; init; }
         public IReadOnlyList<Ability> Abilities { get; }
-        public IReadOnlyList<Loot> LootDrops { get; init; }
-        UnitProfile(string name, int slot, UnitStats stats, IReadOnlyList<Ability> abilities, IReadOnlyList<Loot> lootDrops)
+        public IReadOnlyList<Item> Stash { get; init; }
+        public IReadOnlyList<Item> EquippedItems { get; init; }
+        UnitProfile(string name, int slot, UnitStats stats, IReadOnlyList<Ability> abilities, IReadOnlyList<Item> lootDrops, IReadOnlyList<Item> equippedItems)
         {
-            Name = name; SlotIndex = slot;  Stats = stats; Abilities = abilities; LootDrops = lootDrops;
+            Name = name; SlotIndex = slot;  Stats = stats; Abilities = abilities; Stash = lootDrops; EquippedItems = equippedItems;
         }
-        public static UnitProfile Create(string name, int slot, UnitStats stats, IEnumerable<Ability> abilities, IEnumerable<Loot> lootDrops) 
-            => new(name, slot, stats, abilities.ToList().AsReadOnly(), lootDrops.ToList().AsReadOnly());
+        public static UnitProfile Create(string name, int slot, UnitStats stats, IEnumerable<Ability> abilities, IEnumerable<Item> lootDrops, IEnumerable<Item> equippedItems) 
+            => new(name, slot, stats, abilities.ToList().AsReadOnly(), lootDrops.ToList().AsReadOnly(), equippedItems.ToList().AsReadOnly());
 
         public bool CanPay(Cost cost) => cost.Stat switch
         {
@@ -38,9 +39,9 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
             return this with { SlotIndex = slotIndex };
         }
 
-        public UnitProfile AddLoot(IEnumerable<Loot> newLoots)
+        public UnitProfile AddLoot(IEnumerable<Item> newLoots)
         {
-            var currentLoots = LootDrops.ToList();
+            var currentLoots = Stash.ToList();
 
             foreach (var loot in newLoots)
             {
@@ -51,7 +52,7 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
                 {
                     // Stack it!
                     var existing = currentLoots[existingIndex];
-                    currentLoots[existingIndex] = existing with { Value = existing.Value + loot.Value };
+                    currentLoots[existingIndex] = existing with { Quantity = existing.Quantity + loot.Quantity };
                 }
                 else
                 {
@@ -59,7 +60,7 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
                     currentLoots.Add(loot);
                 }
             }
-            return this with { LootDrops = currentLoots.AsReadOnly() };
+            return this with { Stash = currentLoots.AsReadOnly() };
         }
     }
 }

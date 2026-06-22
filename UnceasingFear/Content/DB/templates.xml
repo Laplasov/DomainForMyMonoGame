@@ -10,7 +10,9 @@
 					<AbilityRef id="mara_touch"/>
                 </Abilities>
 				<Loots>
-					<Loot type ="Money" name="Gold" value="0"/>
+					<Loot type ="Money" name="Gold" quantity="0" value="0" description="Common gold"/>
+					<Loot type ="Fragment" name="Anima" quantity="1" value="1" description="Mana"/>
+					<Loot type ="Hearb" name="Hearb" quantity="1" value="1" description="Hearb"/>
 				</Loots>
             </UnitProfile>
         </Profiles>
@@ -25,8 +27,8 @@
 						<AbilityRef id="mara_touch"/>
 					</Abilities>
 					<Loots>
-						<Loot type ="Fragment" name="Anima" value="1"/>
-					    <Loot type ="Money" name="Gold" value="5"/>
+						<Loot type ="Fragment" name="Anima" quantity="1" value="1" description="Mana"/>
+					    <Loot type ="Money" name="Gold" quantity="5" value="0" description="Common gold"/>
 				    </Loots>
 				</UnitProfile>
 			</Profiles>
@@ -41,8 +43,8 @@
 					<AbilityRef id="mara_touch"/>
                 </Abilities>
 				<Loots>
-					<Loot type ="Fragment" name="Sanguis" value="1"/>
-					<Loot type ="Money" name="Gold" value="5"/>
+					<Loot type ="Fragment" name="Sanguis" quantity="1" value="1" description="Health"/>
+					<Loot type ="Money" name="Gold" quantity="5" value="0" description="Common gold"/>
 				</Loots>
             </UnitProfile>
         </Profiles>

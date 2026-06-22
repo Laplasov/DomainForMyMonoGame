@@ -17,6 +17,8 @@ namespace UnceasingFear.Application.World
     public record struct SwapPartySlotsCommand(int SlotA, int SlotB);
     public record struct RequestTransitionCommand();
     public record struct EndBattleCommand();
+    public record struct EquipItemCommand(Item item, UnitProfile owner);
+    public record struct UnequipItemCommand(Item item, UnitProfile owner);
 
     public class WorldApplicationService
     {
@@ -48,6 +50,8 @@ namespace UnceasingFear.Application.World
             CommandDispatcher.Register<MovePlayerCommand>(UpdatePositions);
             CommandDispatcher.Register<RequestTransitionCommand>(UpdateTransition);
             CommandDispatcher.Register<SwapPartySlotsCommand>(SwapPartySlots);
+            CommandDispatcher.Register<EquipItemCommand>(EquipItem);
+            CommandDispatcher.Register<UnequipItemCommand>(UnequipItem);
 
             EventDispatcher.Subscribe<OutOfBattleEvent>(EndBattle);
             EventDispatcher.Subscribe<PauseGame>((e) => IsPaused = e.ShouldPause);
@@ -182,11 +186,81 @@ namespace UnceasingFear.Application.World
                 _scene.PlayerEntered(target.NextSceneTile);
             }
         }
+        private void EquipItem(EquipItemCommand cmd)
+        {
+            var profiles = _currentPlayer.Template.Profiles.ToList();
+
+            var ownerProfile = profiles.FirstOrDefault(p => cmd.owner == p);
+            if (string.IsNullOrEmpty(ownerProfile.Name)) return;
+
+            var playerProfile = profiles.FirstOrDefault(p => p.Name == "Player");
+            if (string.IsNullOrEmpty(playerProfile.Name)) return;
+
+            var stash = playerProfile.Stash.ToList();
+
+            Item itemToEquip = stash.Find(i => i == cmd.item);
+            if (string.IsNullOrEmpty(itemToEquip.Name)) return;
+
+            stash.Remove(itemToEquip); 
+
+            var equipped = ownerProfile.EquippedItems.ToList();
+            equipped.Add(itemToEquip);
+
+            var updatedPlayer = playerProfile with { Stash = stash.AsReadOnly() };
+            var updatedOwner = ownerProfile with { EquippedItems = equipped.AsReadOnly() };
+
+            var newProfiles = profiles.Select(p =>
+            {
+                if (p == playerProfile && p == ownerProfile)
+                    return playerProfile with { Stash = stash.AsReadOnly(), EquippedItems = equipped.AsReadOnly() };
+                if (p == playerProfile) return updatedPlayer;
+                if (p == ownerProfile) return updatedOwner;
+                return p;
+            }).ToList();
+
+            _currentPlayer.UpdateProfiles(newProfiles.AsReadOnly());
+        }
+
+        private void UnequipItem(UnequipItemCommand cmd)
+        {
+            var profiles = _currentPlayer.Template.Profiles.ToList();
+
+            var ownerProfile = profiles.FirstOrDefault(p => cmd.owner == p);
+            if (string.IsNullOrEmpty(ownerProfile.Name)) return;
+
+            var playerProfile = profiles.FirstOrDefault(p => p.Name == "Player");
+            if (string.IsNullOrEmpty(playerProfile.Name)) return;
+
+            var equipped = ownerProfile.EquippedItems.ToList();
+
+            Item itemToUnequip = equipped.Find(i => i == cmd.item);
+            if (string.IsNullOrEmpty(itemToUnequip.Name)) return;
+
+            equipped.Remove(itemToUnequip);
+
+            var stash = playerProfile.Stash.ToList();
+            stash.Add(itemToUnequip);
+
+            var updatedPlayer = playerProfile with { Stash = stash.AsReadOnly() };
+            var updatedOwner = ownerProfile with { EquippedItems = equipped.AsReadOnly() };
+
+            var newProfiles = profiles.Select(p =>
+            {
+                if (p == playerProfile && p == ownerProfile)
+                    return playerProfile with { Stash = stash.AsReadOnly(), EquippedItems = equipped.AsReadOnly() };
+
+                if (p == playerProfile) return updatedPlayer;
+                if (p == ownerProfile) return updatedOwner;
+                return p;
+            }).ToList();
+
+            _currentPlayer.UpdateProfiles(newProfiles.AsReadOnly());
+        }
 
         public WorldSnapshot GetSnapshot()
         {
             var playerProfile = _currentPlayer.Template.Profiles.FirstOrDefault(p => p.Name == "Player");
-            var inventory = playerProfile.LootDrops ?? new List<Loot>().AsReadOnly();
+            var inventory = playerProfile.Stash ?? new List<Item>().AsReadOnly();
 
             return new(
             _scene.Id,

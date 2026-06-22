@@ -57,15 +57,15 @@ namespace UnceasingFear.Persistence.Xml.Mappers
 
             var loots = el.Element("Loots")?
                 .Elements("Loot")
-                .Select(l => new Loot(
+                .Select(l => new Item(
                     l.Attribute("type")!.Value,
                     l.Attribute("name")!.Value,
-                    int.Parse(l.Attribute("value")!.Value)
-                )).ToList() ?? new List<Loot>();
+                    int.Parse(l.Attribute("quantity")!.Value),
+                    int.Parse(l.Attribute("value")!.Value),
+                    l.Attribute("description")!.Value
+                )).ToList() ?? new List<Item>();
 
-            var profile = UnitProfile.Create(name, index + 1, stats, abilities, loots);
-
-
+            var profile = UnitProfile.Create(name, index + 1, stats, abilities, loots, new List<Item>().AsReadOnly());
             return profile;
         }
 

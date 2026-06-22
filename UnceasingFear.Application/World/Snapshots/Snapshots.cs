@@ -15,7 +15,7 @@ namespace UnceasingFear.Application.World.Snapshots
             IReadOnlyList<GroupSnapshot> Groups,
             IReadOnlyList<TileCoord> TransitionTiles,
             bool BattleTriggered,
-            IReadOnlyList<Loot> PlayerInventory,
+            IReadOnlyList<Item> PlayerInventory,
             IReadOnlyList<UnitProfile> PartyProfiles
         );
     public record struct GroupSnapshot(
