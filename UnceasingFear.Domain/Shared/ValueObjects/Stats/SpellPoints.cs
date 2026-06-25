@@ -1,25 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnceasingFear.Domain.Shared.ValueObjects.Stats;
 
 namespace UnceasingFear.Domain.Shared.ValueObjects.Stats
 {
-    public readonly record struct SpellPoints
+    public readonly record struct SpellPoints(int Current)
     {
-        public int Current { get; }
-        public int Max { get; }
+        public SpellPoints WithSpend(int amount, int effectiveMax)
+            => new(Math.Clamp(Current - amount, 0, effectiveMax));
 
-        public SpellPoints(int current, int max)
-        {
-            if (max <= 0) throw new ArgumentException("Max SP must be positive");
-            Current = Math.Clamp(current, 0, max);
-            Max = max;
-        }
-
-        public SpellPoints WithSpend(int amount)
-            => new SpellPoints(Math.Max(0, Current - amount), Max);
-
-        public SpellPoints WithRestore(int amount)
-            => new SpellPoints(Math.Min(Max, Current + amount), Max);
+        public SpellPoints WithRestore(int amount, int effectiveMax)
+            => new(Math.Clamp(Current + amount, 0, effectiveMax));
     }
 }

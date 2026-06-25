@@ -4,10 +4,10 @@ using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.World;
 using UnceasingFear.Domain.Combat.Aggregates;
 using UnceasingFear.Domain.Combat.Entities;
-using UnceasingFear.Domain.Combat.Enums;
 using UnceasingFear.Domain.Combat.Events;
 using UnceasingFear.Domain.Combat.Services;
 using UnceasingFear.Domain.Combat.ValueObjects;
+using UnceasingFear.Domain.Shared.Enums;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.Shared.ValueObjects;
 using static UnceasingFear.Domain.Combat.ValueObjects.BattleState;
@@ -218,9 +218,9 @@ namespace UnceasingFear.Application.Combat
                     u.IsAlly,
                     u.Profile.SlotIndex,
                     u.Profile.Stats.Health.Current,
-                    u.Profile.Stats.Health.Max,
+                    u.Profile.Stats.MaxHp,
                     u.Profile.Stats.SpellPoints.Current,
-                    u.Profile.Stats.SpellPoints.Max,
+                    u.Profile.Stats.MaxSp,
                     u.IsAlive,
                     u.TurnProgress.Value,
                     u.Profile.Stats.Physic,

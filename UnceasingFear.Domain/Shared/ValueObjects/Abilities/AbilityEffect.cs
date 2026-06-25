@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using UnceasingFear.Domain.Combat.Enums;
+using UnceasingFear.Domain.Shared.Enums;
 
 namespace UnceasingFear.Domain.Shared.ValueObjects.Abilities
 {

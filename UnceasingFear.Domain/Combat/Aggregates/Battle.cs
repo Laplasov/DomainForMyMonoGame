@@ -1,6 +1,5 @@
 ﻿
 using UnceasingFear.Domain.Combat.Entities;
-using UnceasingFear.Domain.Combat.Enums;
 using UnceasingFear.Domain.Combat.Events;
 using UnceasingFear.Domain.Combat.ValueObjects;
 using UnceasingFear.Domain.Shared;

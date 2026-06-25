@@ -22,11 +22,20 @@ namespace UnceasingFear.Persistence.Xml.Mappers
                     new XAttribute("y", group.SpawnPosition.Y))
             );
 
-            // Write one TemplateRef per profile, carrying the slot index
             foreach (var profile in group.Template.Profiles)
-                el.Add(new XElement("TemplateRef",
-                    new XAttribute("id", group.Template.TemplateName),
-                    new XAttribute("slot", profile.SlotIndex)));
+            {
+                var refEl = new XElement("TemplateRef",
+                    new XAttribute("id", profile.Name), // Assuming Profile.Name matches the Template ID
+                    new XAttribute("slot", profile.SlotIndex));
+
+                if (profile.EquippedItems.Count > 0)
+                    refEl.Add(new XElement("EquippedItems", profile.EquippedItems.Select(ItemToXml)));
+
+                if (profile.ConsumedEssences.EssenceList.Count > 0)
+                    refEl.Add(new XElement("ConsumedEssences", ConsumedEssencesToXml(profile.ConsumedEssences)));
+
+                el.Add(refEl);
+            }
 
             return el;
         }
@@ -60,33 +69,78 @@ namespace UnceasingFear.Persistence.Xml.Mappers
 
             var newProfiles = new List<UnitProfile>();
 
-            // Loop through each TemplateRef individually
             foreach (var refEl in refs)
             {
-                // ✅ Resolve the specific template for THIS reference (Player, Goblin, or Slime)
                 var templateId = refEl.Attribute("id")!.Value;
                 var fullTemplate = resolveTemplate(templateId);
-
-                // Grab the first profile from the resolved template as the base
                 var baseProfile = fullTemplate.Profiles[0];
 
+                var equippedItems = refEl.Element("EquippedItems")?
+                    .Elements("Item").Select(ItemFromXml).ToList() ?? baseProfile.EquippedItems.ToList();
+
+                var consumedEssencesEl = refEl.Element("ConsumedEssences");
+                var consumedEssences = consumedEssencesEl != null
+                    ? ConsumedEssencesFromXml(consumedEssencesEl)
+                    : baseProfile.ConsumedEssences; // Fallback to template if group doesn't specify
+
                 var slotAttr = refEl.Attribute("slot");
-                if (slotAttr != null && int.TryParse(slotAttr.Value, out int slotIndex))
+                int slotIndex = slotAttr != null && int.TryParse(slotAttr.Value, out int s) ? s : baseProfile.SlotIndex;
+
+                newProfiles.Add(baseProfile with
                 {
-                    // Assign the explicit slot from the XML
-                    newProfiles.Add(baseProfile.AssignToSlot(slotIndex));
-                }
-                else
-                {
-                    // Keep the original slot if none is specified
-                    newProfiles.Add(baseProfile);
-                }
+                    SlotIndex = slotIndex,
+                    EquippedItems = equippedItems.AsReadOnly(),
+                    ConsumedEssences = consumedEssences
+                });
             }
 
-            // Since a group can now be a composite of multiple templates, 
-            // it's best to name the composite template after the Group Id.
             var groupId = el.Attribute("id")!.Value;
             return new Template(groupId, newProfiles);
+        }
+        // ── Shared Helpers (Match TemplateXmlMapper) ────────────────────────
+
+        private static XElement ItemToXml(Item item) =>
+            new XElement("Item",
+                new XAttribute("type", item.Type),
+                new XAttribute("name", item.Name),
+                new XAttribute("quantity", item.Quantity),
+                new XAttribute("value", item.Value),
+                new XAttribute("description", item.Description));
+
+        private static Item ItemFromXml(XElement el) =>
+            new Item(
+                Guid.NewGuid(),
+                el.Attribute("type")!.Value,
+                el.Attribute("name")!.Value,
+                int.Parse(el.Attribute("quantity")!.Value),
+                int.Parse(el.Attribute("value")!.Value),
+                el.Attribute("description")!.Value,
+                 el.Attribute("IsStackable")?.Value == "1"
+                );
+
+        private static IEnumerable<XElement> ConsumedEssencesToXml(ConsumedEssence ce)
+        {
+            foreach (var essence in ce.EssenceList)
+                yield return new XElement("Essence",
+                    new XAttribute("name", essence.Name),
+                    new XAttribute("value", essence.Value));
+        }
+
+        private static ConsumedEssence ConsumedEssencesFromXml(XElement parentEl)
+        {
+            if (parentEl == null) return ConsumedEssence.Empty;
+
+            return parentEl.Elements("Essence")
+                .Select(e => new Item(
+                    Id: Guid.NewGuid(),
+                    Type: "Essence",
+                    Name: e.Attribute("name")!.Value,
+                    Quantity: 1,
+                    Value: int.Parse(e.Attribute("value")!.Value),
+                    Description: "",
+                    IsStackable: false)
+                )
+                .Aggregate(ConsumedEssence.Empty, (ce, item) => ce.AddEssence(item));
         }
     }
 }

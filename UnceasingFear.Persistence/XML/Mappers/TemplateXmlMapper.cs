@@ -21,16 +21,53 @@ namespace UnceasingFear.Persistence.Xml.Mappers
             new XElement("UnitProfile",
                 new XAttribute("name", profile.Name),
                 new XElement("Stats",
-                    new XAttribute("maxHp", profile.Stats.Health.Max),
-                    new XAttribute("maxSp", profile.Stats.SpellPoints.Max),
-                    new XAttribute("physic", profile.Stats.Physic),
-                    new XAttribute("defense", profile.Stats.Defense),
-                    new XAttribute("magic", profile.Stats.Magic),
-                    new XAttribute("speed", profile.Stats.Speed)),
+                    new XAttribute("maxHp", profile.BaseStats.MaxHp),
+                    new XAttribute("maxSp", profile.BaseStats.MaxSp),
+                    new XAttribute("physic", profile.BaseStats.Physic),
+                    new XAttribute("defense", profile.BaseStats.Defense),
+                    new XAttribute("magic", profile.BaseStats.Magic),
+                    new XAttribute("speed", profile.BaseStats.Speed)),
                 new XElement("Abilities",
-                    profile.Abilities.Select(a =>
-                        new XElement("AbilityRef", new XAttribute("id", a.Id))))
+            profile.Abilities.Select(a =>
+                new XElement("AbilityRef", new XAttribute("id", a.Id)))),
+            new XElement("Stash", profile.Stash.Select(ItemToXml)),
+            new XElement("EquippedItems", profile.EquippedItems.Select(ItemToXml)),
+            new XElement("ConsumedEssences", ConsumedEssencesToXml(profile.ConsumedEssences))
             );
+
+        private static IEnumerable<XElement> ConsumedEssencesToXml(ConsumedEssence ce)
+        {
+            foreach (var essence in ce.EssenceList)
+                yield return new XElement("Essence",
+                    new XAttribute("name", essence.Name),
+                    new XAttribute("value", essence.Value));
+        }
+
+        private static ConsumedEssence ConsumedEssencesFromXml(XElement? parentEl)
+        {
+            if (parentEl == null) return ConsumedEssence.Empty;
+
+            // Re-use domain logic by treating XML essences as temporary Items
+            return parentEl.Elements("Essence")
+                .Select(e => new Item(
+                    Guid.NewGuid(),
+                    Type: "Essence",
+                    Name: e.Attribute("name")!.Value,
+                    Quantity: 1,
+                    Value: int.Parse(e.Attribute("value")!.Value),
+                    Description: "",
+                    IsStackable: false)
+                )
+                .Aggregate(ConsumedEssence.Empty, (ce, item) => ce.AddEssence(item));
+        }
+
+        private static XElement ItemToXml(Item item) =>
+            new XElement("Item",
+                new XAttribute("type", item.Type),
+                new XAttribute("name", item.Name),
+                new XAttribute("quantity", item.Quantity),
+                new XAttribute("value", item.Value),
+                new XAttribute("description", item.Description));
 
         // ── XML → Domain ────────────────────────────────────────────────────
 
@@ -47,7 +84,6 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         private static UnitProfile ProfileFromXml(XElement el, int index, Func<string, Ability> resolveAbility)
         {
             var name = el.Attribute("name")!.Value;
-
             var stats = StatsFromXml(el.Element("Stats")!);
 
             var abilities = el.Element("Abilities")!
@@ -55,20 +91,27 @@ namespace UnceasingFear.Persistence.Xml.Mappers
                 .Select(a => resolveAbility(a.Attribute("id")!.Value))
                 .ToList();
 
-            var loots = el.Element("Loots")?
-                .Elements("Loot")
-                .Select(l => new Item(
-                    l.Attribute("type")!.Value,
-                    l.Attribute("name")!.Value,
-                    int.Parse(l.Attribute("quantity")!.Value),
-                    int.Parse(l.Attribute("value")!.Value),
-                    l.Attribute("description")!.Value
-                )).ToList() ?? new List<Item>();
+            var stash = el.Element("Stash")?
+                .Elements("Item").Select(ItemFromXml).ToList() ?? new List<Item>();
 
-            var profile = UnitProfile.Create(name, index + 1, stats, abilities, loots, new List<Item>().AsReadOnly());
-            return profile;
+            var equippedItems = el.Element("EquippedItems")?
+                .Elements("Item").Select(ItemFromXml).ToList() ?? new List<Item>();
+
+            var consumedEssences = ConsumedEssencesFromXml(el.Element("ConsumedEssences"));
+
+            return UnitProfile.Create(name, index + 1, stats, abilities, stash, equippedItems, consumedEssences);
         }
 
+        private static Item ItemFromXml(XElement el) =>
+            new Item(
+                Guid.NewGuid(),
+                el.Attribute("type")!.Value,
+                el.Attribute("name")!.Value,
+                int.Parse(el.Attribute("quantity")!.Value),
+                int.Parse(el.Attribute("value")!.Value),
+                el.Attribute("description")!.Value,
+                el.Attribute("IsStackable")?.Value == "1"
+                );
         private static UnitStats StatsFromXml(XElement el) =>
             UnitStats.Create(
                 maxHealth: int.Parse(el.Attribute("maxHp")!.Value),

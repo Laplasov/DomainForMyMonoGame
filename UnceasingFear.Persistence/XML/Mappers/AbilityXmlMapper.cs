@@ -1,5 +1,5 @@
 ﻿using System.Xml.Linq;
-using UnceasingFear.Domain.Combat.Enums;
+using UnceasingFear.Domain.Shared.Enums;
 using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 
 namespace UnceasingFear.Persistence.Xml.Mappers

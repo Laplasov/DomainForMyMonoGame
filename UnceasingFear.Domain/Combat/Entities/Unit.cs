@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Linq;
-using UnceasingFear.Domain.Combat.Enums;
 using UnceasingFear.Domain.Combat.ValueObjects;
 using UnceasingFear.Domain.Shared;
 using UnceasingFear.Domain.Shared.ValueObjects;

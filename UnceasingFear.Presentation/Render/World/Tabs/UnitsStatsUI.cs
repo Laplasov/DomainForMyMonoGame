@@ -41,8 +41,8 @@ namespace UnceasingFear.Presentation.Render.World.Tabs
             }
 
             DetailName.Text = $"--- {profile.Name} ---";
-            DetailHp.Text = $"HP:  {profile.Stats.Health.Current} / {profile.Stats.Health.Max}";
-            DetailSp.Text = $"SP:  {profile.Stats.SpellPoints.Current} / {profile.Stats.SpellPoints.Max}";
+            DetailHp.Text = $"HP:  {profile.Stats.Health.Current} / {profile.Stats.MaxHp}";
+            DetailSp.Text = $"SP:  {profile.Stats.SpellPoints.Current} / {profile.Stats.MaxSp}";
             DetailPhysic.Text = $"PHY: {profile.Stats.Physic}";
             DetailDefense.Text = $"DEF: {profile.Stats.Defense}";
             DetailMagic.Text = $"MAG: {profile.Stats.Magic}";

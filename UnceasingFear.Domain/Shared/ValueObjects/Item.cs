@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace UnceasingFear.Domain.Shared.ValueObjects
 {
-    public readonly record struct Item(string Type, string Name, int Quantity, int Value, string Description);
+    public readonly record struct Item(Guid Id, string Type, string Name, int Quantity, int Value, string Description, bool IsStackable);
 }

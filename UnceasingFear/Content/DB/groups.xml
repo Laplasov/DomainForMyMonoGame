@@ -5,7 +5,14 @@
 		<MovementPattern>PlayerControlled</MovementPattern>
 		<AggroRange>0</AggroRange>
 		<Speed>200</Speed>
-		<TemplateRef id="Player" slot="1"/>
+		<TemplateRef id="Player" slot="1">
+			<EquippedItems>
+				<Item type ="Hearb" name="Hearb" quantity="1" value="1" description="Hearb" IsStackable="1"/>
+			</EquippedItems>
+			<ConsumedEssences>
+				<Essence name="Sanguis" value="1"/>
+			</ConsumedEssences>
+		</TemplateRef>
 		<TemplateRef id="Goblin" slot="2"/>
 		<TemplateRef id="Slime" slot="3"/>
 		<TemplateRef id="Goblin" slot="7"/>

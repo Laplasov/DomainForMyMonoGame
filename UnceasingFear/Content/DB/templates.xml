@@ -9,11 +9,11 @@
                     <AbilityRef id="base_attack"/>
 					<AbilityRef id="mara_touch"/>
                 </Abilities>
-				<Loots>
-					<Loot type ="Money" name="Gold" quantity="0" value="0" description="Common gold"/>
-					<Loot type ="Fragment" name="Anima" quantity="1" value="1" description="Mana"/>
-					<Loot type ="Hearb" name="Hearb" quantity="1" value="1" description="Hearb"/>
-				</Loots>
+				<Stash>
+					<Item type ="Money" name="Gold" quantity="0" value="0" description="Common gold" IsStackable="1"/>
+					<Item type ="Fragment" name="Anima" quantity="1" value="1" description="Mana" IsStackable="1"/>
+					<Item type ="Hearb" name="Hearb" quantity="1" value="1" description="Hearb" IsStackable="1"/>
+				</Stash>
             </UnitProfile>
         </Profiles>
     </Template>
@@ -26,10 +26,10 @@
 						<AbilityRef id="base_attack"/>
 						<AbilityRef id="mara_touch"/>
 					</Abilities>
-					<Loots>
-						<Loot type ="Fragment" name="Anima" quantity="1" value="1" description="Mana"/>
-					    <Loot type ="Money" name="Gold" quantity="5" value="0" description="Common gold"/>
-				    </Loots>
+					<Stash>
+						<Item type ="Fragment" name="Anima" quantity="1" value="1" description="Mana" IsStackable="1"/>
+					    <Item type ="Money" name="Gold" quantity="5" value="0" description="Common gold" IsStackable="1"/>
+				    </Stash>
 				</UnitProfile>
 			</Profiles>
 		</Template>
@@ -42,10 +42,10 @@
                     <AbilityRef id="base_attack"/>
 					<AbilityRef id="mara_touch"/>
                 </Abilities>
-				<Loots>
-					<Loot type ="Fragment" name="Sanguis" quantity="1" value="1" description="Health"/>
-					<Loot type ="Money" name="Gold" quantity="5" value="0" description="Common gold"/>
-				</Loots>
+				<Stash>
+					<Item type ="Fragment" name="Sanguis" quantity="1" value="1" description="Health" IsStackable="1"/>
+					<Item type ="Money" name="Gold" quantity="5" value="0" description="Common gold" IsStackable="1"/>
+				</Stash>
             </UnitProfile>
         </Profiles>
     </Template>

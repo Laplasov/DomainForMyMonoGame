@@ -85,7 +85,7 @@ namespace UnceasingFear.Application.World
                 // 4. Add loot to the "Player" specifically, even if they were in reserve (Slots 7-9)
                 if (rosterUnit.Name == "Player")
                 {
-                    rosterUnit = rosterUnit.AddLoot(e.CollectedLoot);
+                    rosterUnit = rosterUnit.AddToStash(e.CollectedLoot);
                 }
 
                 fullRoster[i] = rosterUnit;
@@ -198,10 +198,11 @@ namespace UnceasingFear.Application.World
 
             var stash = playerProfile.Stash.ToList();
 
-            Item itemToEquip = stash.Find(i => i == cmd.item);
-            if (string.IsNullOrEmpty(itemToEquip.Name)) return;
+            Item itemToEquip = stash.Find(i => i.Id == cmd.item.Id);
 
-            stash.Remove(itemToEquip); 
+            if (itemToEquip.Id == Guid.Empty) return;
+
+            stash.Remove(itemToEquip);
 
             var equipped = ownerProfile.EquippedItems.ToList();
             equipped.Add(itemToEquip);
@@ -212,7 +213,8 @@ namespace UnceasingFear.Application.World
             var newProfiles = profiles.Select(p =>
             {
                 if (p == playerProfile && p == ownerProfile)
-                    return playerProfile with { Stash = stash.AsReadOnly(), EquippedItems = equipped.AsReadOnly() };
+                    return updatedPlayer with { EquippedItems = updatedOwner.EquippedItems };
+
                 if (p == playerProfile) return updatedPlayer;
                 if (p == ownerProfile) return updatedOwner;
                 return p;
@@ -233,21 +235,21 @@ namespace UnceasingFear.Application.World
 
             var equipped = ownerProfile.EquippedItems.ToList();
 
-            Item itemToUnequip = equipped.Find(i => i == cmd.item);
-            if (string.IsNullOrEmpty(itemToUnequip.Name)) return;
+            // Find the item by its unique Guid Id
+            Item itemToUnequip = equipped.Find(i => i.Id == cmd.item.Id);
+
+            if (itemToUnequip.Id == Guid.Empty) return;
 
             equipped.Remove(itemToUnequip);
 
-            var stash = playerProfile.Stash.ToList();
-            stash.Add(itemToUnequip);
-
-            var updatedPlayer = playerProfile with { Stash = stash.AsReadOnly() };
+            // Add the item to the player's stash (captures the new struct)
+            var updatedPlayer = playerProfile.AddToStash(new[] { itemToUnequip });
             var updatedOwner = ownerProfile with { EquippedItems = equipped.AsReadOnly() };
 
             var newProfiles = profiles.Select(p =>
             {
                 if (p == playerProfile && p == ownerProfile)
-                    return playerProfile with { Stash = stash.AsReadOnly(), EquippedItems = equipped.AsReadOnly() };
+                    return updatedPlayer with { EquippedItems = equipped.AsReadOnly() };
 
                 if (p == playerProfile) return updatedPlayer;
                 if (p == ownerProfile) return updatedOwner;

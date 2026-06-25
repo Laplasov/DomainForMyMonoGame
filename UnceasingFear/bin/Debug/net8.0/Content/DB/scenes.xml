@@ -3,8 +3,6 @@
 	<Scene id="TestScene">
 		<TileMapMetadata source="TilesData\test_tile_map.tmx" layerScale="1" />
 		<GroupRefs>
-			<GroupRef id="Goblin" spawnX="5" spawnY="5" />
-			<GroupRef id="Slime" spawnX="10" spawnY="10" />
 			<GroupRef id="Player" spawnX="7" spawnY="7" />
 		</GroupRefs>
 		<Transitions>
