@@ -1,8 +1,10 @@
 using System.Xml.Linq;
 using UnceasingFear.Application.Repository;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Persistence.Xml.Mappers;
+using UnceasingFear.Domain.World.Entities;
 
 namespace UnceasingFear.Persistence.Xml
 {
@@ -16,12 +18,14 @@ namespace UnceasingFear.Persistence.Xml
         private readonly XmlGroupRepository _groupRepo;
 
         private readonly string _dataDirectory;
+        private readonly XmlDialogueRepository _dialogueRepo;
 
-        public XmlSceneRepository(string filePath, XmlGroupRepository groupRepo, string dataDirectory)
+        public XmlSceneRepository(string filePath, XmlGroupRepository groupRepo, XmlDialogueRepository dialogueRepo, string dataDirectory)
         {
             _filePath  = filePath;
             _groupRepo = groupRepo;
             _dataDirectory = dataDirectory;
+            _dialogueRepo = dialogueRepo;
         }
 
         // ── ISceneProvider ───────────────────────────────────────────────────
@@ -44,11 +48,11 @@ namespace UnceasingFear.Persistence.Xml
                     s => SceneId.From(s.Attribute("id")!.Value),
                     s => ParseMapData(s, _dataDirectory)
                 );
+            Func<string, Group> resolveGroup = (gId) => _groupRepo.GetById(new EntityId(gId));
+            Func<string, DialogueTree> resolveDialogue = (dId) => _dialogueRepo.GetById(dId);
 
             // ✅ 2. Pass the lookup to the scene mapper
-            return SceneXmlMapper.FromXml(sceneEl,
-                groupId => _groupRepo.GetById(new GroupId(groupId)),
-                metadataLookup);
+            return SceneXmlMapper.FromXml(sceneEl, resolveGroup, resolveDialogue, metadataLookup);
         }
 
         // Helper to parse metadata (move out of mapper to avoid duplication)

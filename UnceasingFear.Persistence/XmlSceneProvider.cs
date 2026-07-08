@@ -17,11 +17,14 @@ namespace UnceasingFear.Persistence
             var templatesFile = Path.Combine(dataDirectory, "templates.xml");
             var groupsFile = Path.Combine(dataDirectory, "groups.xml");
             var scenesFile = Path.Combine(dataDirectory, "scenes.xml");
+            var dialogsFile = Path.Combine(dataDirectory, "dialogs.xml");
 
             var abilityRepo = new XmlAbilityRepository(abilitiesFile);
             var templateRepo = new XmlTemplateRepository(templatesFile, abilityRepo);
             var groupRepo = new XmlGroupRepository(groupsFile, templateRepo);
-            _sceneRepo = new XmlSceneRepository(scenesFile, groupRepo, dataDirectory);
+            var dialogueRepo = new XmlDialogueRepository(dialogsFile);
+            _sceneRepo = new XmlSceneRepository(scenesFile, groupRepo, dialogueRepo, dataDirectory);
+
         }
 
         public Scene? GetById(SceneId id)

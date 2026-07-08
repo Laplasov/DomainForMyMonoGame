@@ -105,3 +105,4 @@ C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bi
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\MonoGameGum.dll
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\TextCopy.dll
+C:\Users\Yandere312\Desktop\C#Space\UnceasingFear\UnceasingFear\UnceasingFear\bin\Debug\net8.0\Content\DB\dialogs.xml

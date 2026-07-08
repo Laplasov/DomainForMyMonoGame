@@ -14,8 +14,8 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         {
             var el = new XElement("Group",
                 new XAttribute("id", group.Id.Value),
-                new XElement("MovementPattern", group.MovementPattern),
-                new XElement("AggroRange", group.AggroRange.Value),
+                new XElement("MovementPattern", group.UnitBehavior),
+                new XElement("DetectionRange", group.DetectionRange.Value),
                 new XElement("Speed", group.Speed.Value),
                 new XElement("SpawnPosition",
                     new XAttribute("x", group.SpawnPosition.X),
@@ -45,19 +45,20 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         public static Group FromXml(XElement el, Func<string, Template> resolveTemplate)
         {
             var id = el.Attribute("id")!.Value;
-            var movementPattern = Enum.Parse<MovementPattern>(el.Element("MovementPattern")!.Value);
-            var aggroRange = float.Parse(el.Element("AggroRange")!.Value);
+            var movementPattern = Enum.Parse<UnitBehavior>(el.Element("MovementPattern")!.Value);
+            var detectionRange = float.Parse(el.Element("DetectionRange")!.Value);
             var speed = float.Parse(el.Element("Speed")!.Value);
 
             var template = ResolveTemplate(el, resolveTemplate);
 
             return new Group(
-                id: new GroupId(id),
+                id: new EntityId(id),
                 template: template,
-                movementPattern: movementPattern,
-                aggroRange: new AggroRange(aggroRange),
+                unitBehavior: movementPattern,
+                detectionRange: new ProximityRange(detectionRange),
                 speed: new MovementSpeed(speed),
-                startPosition: WorldPosition.Zero
+                startPosition: WorldPosition.Zero,
+                dialogueTree: DialogueTree.Empty
             );
         }
 
@@ -94,8 +95,8 @@ namespace UnceasingFear.Persistence.Xml.Mappers
                 });
             }
 
-            var groupId = el.Attribute("id")!.Value;
-            return new Template(groupId, newProfiles);
+            var entityId = el.Attribute("id")!.Value;
+            return new Template(entityId, newProfiles);
         }
         // ── Shared Helpers (Match TemplateXmlMapper) ────────────────────────
 

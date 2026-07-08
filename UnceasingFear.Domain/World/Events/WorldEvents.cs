@@ -11,7 +11,7 @@ namespace UnceasingFear.Domain.World.Events
 {
     public record PlayerEnteredSceneEvent(SceneId SceneId, WorldPosition Position) : IDomainEvent;
     public record PlayerExitedSceneEvent(SceneId From, SceneId To) : IDomainEvent;
-    public record GroupAggroedEvent(GroupId GroupId, WorldPosition PlayerPosition) : IDomainEvent;
-    public record GroupDefeatedEvent(GroupId GroupId, WorldPosition SpawnTile) : IDomainEvent;
+    public record GroupAggroedEvent(EntityId EntityId, WorldPosition PlayerPosition) : IDomainEvent;
+    public record GroupDefeatedEvent(EntityId EntityId, WorldPosition SpawnTile) : IDomainEvent;
     public record SceneTransitionTriggeredEvent(SceneId From, SceneId To) : IDomainEvent;
 }

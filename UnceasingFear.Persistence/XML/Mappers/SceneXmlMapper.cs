@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.Entities;
 using UnceasingFear.Domain.World.Enums;
@@ -74,6 +75,7 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         public static Scene FromXml(
             XElement el,
             Func<string, Group> resolveGroup,
+            Func<string, DialogueTree> resolveDialogue,
             Dictionary<SceneId, (TileMapMetadata Metadata, Collision Collision)> metadataLookup) // ✅ New parameter
         {
             var id = SceneId.From(el.Attribute("id")!.Value);
@@ -85,8 +87,18 @@ namespace UnceasingFear.Persistence.Xml.Mappers
 
             foreach (var groupRef in el.Element("GroupRefs")!.Elements("GroupRef"))
             {
-                var groupId = groupRef.Attribute("id")!.Value;
-                var group = resolveGroup(groupId);
+                var entityId = groupRef.Attribute("id")!.Value;
+                var group = resolveGroup(entityId);
+
+                var dialogueId = groupRef.Attribute("dialogueId")?.Value;
+                if (!string.IsNullOrEmpty(dialogueId))
+                {
+                    group.SetDialogueTree(resolveDialogue(dialogueId));
+                }
+                else
+                {
+                    group.SetDialogueTree(DialogueTree.Empty); // Assign empty tree
+                }
 
                 // Parse spawnX/spawnY as before
                 var xAttr = groupRef.Attribute("spawnX");

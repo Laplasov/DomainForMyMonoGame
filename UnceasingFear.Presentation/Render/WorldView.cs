@@ -13,6 +13,7 @@ using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Presentation.Data;
 using UnceasingFear.Presentation.Render;
+using UnceasingFear.Presentation.Render.Shared;
 using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
 public class WorldView
@@ -32,6 +33,8 @@ public class WorldView
 
     private Label? _inventoryLabel;
     public PlayerMenu _playerMenu;
+    private DialogueUI _dialogueUI;
+
     private KeyboardState _lastKeyboardState;
 
     public WorldView(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice,
@@ -49,6 +52,7 @@ public class WorldView
         _whitePixel.SetData(new[] { Color.White });
 
         _playerMenu = new PlayerMenu(_eventDispatcher, _commandDispatcher);
+        _dialogueUI = new DialogueUI(_eventDispatcher, _commandDispatcher);
 
         _eventDispatcher.Subscribe<EnterBattleEvent>(OnEnterBattle);
     }
@@ -56,6 +60,13 @@ public class WorldView
 
     public void HandleInput(KeyboardState currentKeyboard)
     {
+        if (_dialogueUI.IsVisible)
+        {
+            _lastKeyboardState = currentKeyboard;
+            return;
+        }
+
+
         // Toggle Menu on Escape
         if (currentKeyboard.IsKeyDown(Keys.Escape) && _lastKeyboardState.IsKeyUp(Keys.Escape))
         {
@@ -120,30 +131,32 @@ public class WorldView
         }
 
         // 4. Groups
-        foreach (var group in snapshot.Groups)
+        foreach (var entity in snapshot.Entitis)
         {
-            if (group.IsDefeated) continue;
+             
+            if (entity.Type != EntityType.Group && entity.IsDefeated) continue;
 
-            var sprite = GetOrCreateSprite(group);
+            var sprite = GetOrCreateSprite(entity.Id);
             sprite.Update(_gameTime);
 
             var position = new Vector2(
-                group.CurrentPosition.X - sprite.Width / 2f,
-                group.CurrentPosition.Y - sprite.Height / 2f);
+                entity.CurrentPosition.X - sprite.Width / 2f,
+                entity.CurrentPosition.Y - sprite.Height / 2f);
 
             sprite.Draw(_spriteBatch, position);
 
-            if (group.IsAggroed)
+            if (entity.Type != EntityType.Group && entity.IsAggroed)
             {
                 var indicator = new Rectangle(
-                    (int)group.CurrentPosition.X - 30,
-                    (int)group.CurrentPosition.Y - 30,
+                    (int)entity.CurrentPosition.X - 30,
+                    (int)entity.CurrentPosition.Y - 30,
                     60, 60);
                 _spriteBatch.Draw(_whitePixel, indicator, Color.Orange * 0.3f);
             }
         }
         _spriteBatch.End();
 
+        _dialogueUI.EnsureRooted();
         UpdateInventoryHUD(snapshot.PlayerInventory);
 
         if (_playerMenu.IsVisible)
@@ -177,12 +190,12 @@ public class WorldView
             }
         }
     }
-    private AnimatedSprite GetOrCreateSprite(GroupSnapshot group)
+    private AnimatedSprite GetOrCreateSprite(EntityId entity)
     {
-        if (!_groupSprites.TryGetValue(group.Id.Value, out var sprite))
+        if (!_groupSprites.TryGetValue(entity.Value, out var sprite))
         {
-            sprite = _spriteFactory.CreateGroupSprite(group.Id.Value);
-            _groupSprites[group.Id.Value] = sprite;
+            sprite = _spriteFactory.CreateGroupSprite(entity.Value);
+            _groupSprites[entity.Value] = sprite;
         }
         return sprite;
     }

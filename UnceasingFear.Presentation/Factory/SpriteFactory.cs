@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame_Game_Library.Graphics;
 using MonoGame_Game_Library.TileLogic;
 using System.Xml.Linq;
+using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Persistence.XML;
 
 namespace UnceasingFear.Presentation.Data
@@ -24,9 +25,9 @@ namespace UnceasingFear.Presentation.Data
             _repo = repo;
         }
 
-        public AnimatedSprite CreateGroupSprite(string groupId)
+        public AnimatedSprite CreateGroupSprite(string entityId)
         {
-            var data = _repo.GetGroupSprite(groupId);
+            var data = _repo.GetGroupSprite(entityId);
             var atlas = LoadAtlas(data.AnimationPath, data.TexturePath);
             // Default to "down" animation; WorldView can switch based on velocity.
             return atlas.CreateAnimatedSprite("down");

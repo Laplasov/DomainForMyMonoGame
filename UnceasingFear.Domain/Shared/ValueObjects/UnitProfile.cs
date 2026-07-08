@@ -41,6 +41,50 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
             return this with { SlotIndex = slotIndex };
         }
 
+        public void RemoveFromStash(string ItemName, int Quantity)
+        {
+            var currentLoots = Stash.ToList();
+
+        }
+        public UnitProfile RemoveFromStash(IEnumerable<Item> items)
+        {
+            var currentLoots = Stash.ToList();
+
+            foreach (var itemToRemove in items)
+            {
+                // Match by Type and Name to ensure we are removing the exact same item
+                var existingIndex = currentLoots.FindIndex(i => i.Type == itemToRemove.Type && i.Name == itemToRemove.Name);
+
+                if (existingIndex >= 0)
+                {
+                    var existing = currentLoots[existingIndex];
+                    int newQuantity = existing.Quantity - itemToRemove.Quantity;
+
+                    if (newQuantity <= 0)
+                    {
+                        // If quantity is 0 or less, remove the item completely from the list
+                        currentLoots.RemoveAt(existingIndex);
+                    }
+                    else
+                    {
+                        // Otherwise, create a new Item with the reduced quantity
+                        currentLoots[existingIndex] = new Item(
+                            existing.Id,
+                            existing.Type,
+                            existing.Name,
+                            newQuantity,
+                            existing.Value,
+                            existing.Description,
+                            existing.IsStackable
+                        );
+                    }
+                }
+            }
+
+            // Return the new immutable struct with the updated stash
+            return this with { Stash = currentLoots.AsReadOnly() };
+        }
+
         public UnitProfile AddToStash(IEnumerable<Item> items)
         {
             var currentLoots = Stash.ToList();

@@ -36,7 +36,7 @@ namespace UnceasingFear.Domain.World.Aggregates
 
         public void AddGroup(Group group)
             => _groups.Add(group);
-        public void RemoveGroup(GroupId id)
+        public void RemoveGroup(EntityId id)
             => _groups.RemoveAll(g => g.Id == id);
 
         public void PlayerEntered(WorldPosition position)

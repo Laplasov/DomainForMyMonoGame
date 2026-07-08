@@ -1,5 +1,6 @@
 ﻿// UnceasingFear.Presentation/Data/XmlSpriteRepository.cs
 using System.Xml.Linq;
+using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Presentation.Data;
 
 namespace UnceasingFear.Persistence.XML
@@ -17,12 +18,12 @@ namespace UnceasingFear.Persistence.XML
             _filePath = filePath;
         }
 
-        public GroupSpriteData GetGroupSprite(string groupId)
+        public GroupSpriteData GetGroupSprite(string entityId)
         {
             var cache = LoadGroupSprites();
-            if (cache.TryGetValue(groupId, out var data)) return data;
+            if (cache.TryGetValue(entityId, out var data)) return data;
             if (cache.TryGetValue("Generic", out var generic)) return generic;
-            throw new KeyNotFoundException($"No GroupSprite for '{groupId}'.");
+            throw new KeyNotFoundException($"No GroupSprite for '{entityId}'.");
         }
 
         public UnitSpriteData GetUnitSprite(string unitId)

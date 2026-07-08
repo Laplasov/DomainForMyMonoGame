@@ -71,7 +71,7 @@ public class Game1 : Game
         ISceneProvider SceneProvider = new XmlSceneProvider(Path.Combine("Content", "DB"));
         Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
 
-        Group playerGroup = scene.Groups.First(g => g.MovementPattern == MovementPattern.PlayerControlled);
+        Group playerGroup = scene.Groups.First(g => g.UnitBehavior == UnitBehavior.PlayerControlled);
 
         _lastSceneId = scene.Id;
 
@@ -126,6 +126,9 @@ public class Game1 : Game
 
         if (keyboard.IsKeyDown(Keys.C))
             CommandDispatcher.Dispatch(new RequestTransitionCommand());
+
+        if (keyboard.IsKeyDown(Keys.E))
+            CommandDispatcher.Dispatch(new InteractCommand());
 
         _worldSnapshot = _appServiceWorld.GetSnapshot();
 

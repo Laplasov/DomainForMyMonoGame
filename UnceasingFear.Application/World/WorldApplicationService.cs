@@ -3,10 +3,12 @@ using UnceasingFear.Application.Commands;
 using UnceasingFear.Application.Repository;
 using UnceasingFear.Application.World.Snapshots;
 using UnceasingFear.Domain.Combat.Events;
+using UnceasingFear.Domain.Shared.Enums;
 using UnceasingFear.Domain.Shared.Events;
 using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.Aggregates;
 using UnceasingFear.Domain.World.Entities;
+using UnceasingFear.Domain.World.Enums;
 using UnceasingFear.Domain.World.ValueObjects;
 using static UnceasingFear.Application.Commands.SharedCommands;
 using static UnceasingFear.Domain.Shared.Events.SharedEvents;
@@ -19,6 +21,8 @@ namespace UnceasingFear.Application.World
     public record struct EndBattleCommand();
     public record struct EquipItemCommand(Item item, UnitProfile owner);
     public record struct UnequipItemCommand(Item item, UnitProfile owner);
+    public record struct InteractCommand();
+    public record struct AdvanceDialogueCommand(DialogueChoice Choice);
 
     public class WorldApplicationService
     {
@@ -26,10 +30,12 @@ namespace UnceasingFear.Application.World
         private TileCoord _currentTileCoordPlayer;
         private Group _currentPlayer;
         private Group? _activeEnemy;
+        private Group? _activeDialogueTarget;
         public Scene CurrentScene => _scene;
         public WorldPosition PlayerPosition => _currentPlayer.CurrentPosition;
         
         private bool _battleTriggered = false;
+        private DialogueChoice? _pendingBattleChoice = null;
         public bool IsPaused { get; private set; } = false;
 
         public WorldPosition _lastPlayerPosition;
@@ -52,13 +58,16 @@ namespace UnceasingFear.Application.World
             CommandDispatcher.Register<SwapPartySlotsCommand>(SwapPartySlots);
             CommandDispatcher.Register<EquipItemCommand>(EquipItem);
             CommandDispatcher.Register<UnequipItemCommand>(UnequipItem);
+            CommandDispatcher.Register<InteractCommand>(Interact);
+            CommandDispatcher.Register<AdvanceDialogueCommand>(AdvanceDialogue);
+
 
             EventDispatcher.Subscribe<OutOfBattleEvent>(EndBattle);
             EventDispatcher.Subscribe<PauseGame>((e) => IsPaused = e.ShouldPause);
+
         }
         private void EndBattle(OutOfBattleEvent e)
         {
-            _activeEnemy?.Defeat();
             _battleTriggered = false;
 
             // 1. Get the profiles of units who fought (Slots 1-6)
@@ -72,17 +81,15 @@ namespace UnceasingFear.Application.World
             {
                 var rosterUnit = fullRoster[i];
 
-                // If this unit was in the active battle party (Slots 1-6), update their battle stats (HP/SP)
                 if (rosterUnit.SlotIndex <= 6)
                 {
                     var battleUnit = updatedBattleProfiles.FirstOrDefault(p => p.SlotIndex == rosterUnit.SlotIndex);
-                    if (!string.IsNullOrEmpty(battleUnit.Name)) // If we found a match
+                    if (!string.IsNullOrEmpty(battleUnit.Name))
                     {
-                        rosterUnit = battleUnit; // Apply the battle damage/changes
+                        rosterUnit = battleUnit;
                     }
                 }
 
-                // 4. Add loot to the "Player" specifically, even if they were in reserve (Slots 7-9)
                 if (rosterUnit.Name == "Player")
                 {
                     rosterUnit = rosterUnit.AddToStash(e.CollectedLoot);
@@ -93,6 +100,33 @@ namespace UnceasingFear.Application.World
 
             // 5. Save the fully merged and updated roster back to the group
             _currentPlayer.UpdateProfiles(fullRoster.AsReadOnly());
+
+            // Apply enemy profile updates
+            if (_activeEnemy != null && e.EnemyProfiles != null && e.EnemyProfiles.Count > 0)
+            {
+                _activeEnemy.UpdateProfiles(e.EnemyProfiles);
+            }
+
+            _activeEnemy?.UpdateDefeatedState();
+
+            // 6. Handle Nested Dialogue
+            if (_activeDialogueTarget != null && _pendingBattleChoice.HasValue)
+            {
+                var choice = _pendingBattleChoice.Value;
+                bool enemyDefeated = _activeEnemy?.IsDefeated ?? false;
+
+                // Determine next node based on battle outcome
+                string nextNodeId = enemyDefeated ? choice.Target.Left : choice.Target.Right;
+
+                // Update the dialogue tree to the next node
+                var newTree = _activeDialogueTarget.DialogueTree.SetNode(nextNodeId);
+                _activeDialogueTarget.SetDialogueTree(newTree);
+
+                var newNode = newTree.CurrentNode;
+                EventDispatcher.Dispatch(new DialogueAdvancedEvent(newNode.Speaker, newNode.Text, newNode.Choices));
+
+                _pendingBattleChoice = null;
+            }
         }
         private void SwapPartySlots(SwapPartySlotsCommand cmd)
         {
@@ -121,15 +155,21 @@ namespace UnceasingFear.Application.World
         {
             if (IsPaused) return;
 
+            var finalPosition = MovePlayer(cmd.InputX, cmd.InputY);
+            HandelGroups(finalPosition, cmd.DeltaTime);
+
+        }
+        private WorldPosition MovePlayer(float InputX, float InputY)
+        {
             var finalPosition = _lastPlayerPosition;
             var lastTile = _scene.MapMetadata.WorldToTile(_lastPlayerPosition);
 
-            var testPosX = new WorldPosition(_lastPlayerPosition.X + cmd.InputX, _lastPlayerPosition.Y);
+            var testPosX = new WorldPosition(_lastPlayerPosition.X + InputX, _lastPlayerPosition.Y);
             var testTileX = _scene.MapMetadata.WorldToTile(testPosX);
             if (_scene.Collision.IsWalkable(testTileX, lastTile).x)
                 finalPosition = new WorldPosition(testPosX.X, finalPosition.Y);
 
-            var testPosY = new WorldPosition(finalPosition.X, _lastPlayerPosition.Y + cmd.InputY);
+            var testPosY = new WorldPosition(finalPosition.X, _lastPlayerPosition.Y + InputY);
             var testTileY = _scene.MapMetadata.WorldToTile(testPosY);
             if (_scene.Collision.IsWalkable(testTileY, lastTile).y)
                 finalPosition = new WorldPosition(finalPosition.X, testPosY.Y);
@@ -137,34 +177,165 @@ namespace UnceasingFear.Application.World
             _lastPlayerPosition = finalPosition;
             _currentPlayer.MoveTo(finalPosition);
             _currentTileCoordPlayer = _scene.MapMetadata.WorldToTile(finalPosition);
+            return finalPosition;
+        }
+        
+        private void HandelGroups(WorldPosition finalPosition, float DeltaTime)
+        {
+
+            float interactionRadius = _scene.MapMetadata.TileWidth;
 
             foreach (var group in _scene.Groups)
             {
-                if (group.IsDefeated) continue;
-                if (!group.TryAggro(_currentPlayer.CurrentPosition)) continue;
+                if (group.IsDefeated || group == _currentPlayer) continue;
 
-                var groupTile = _scene.MapMetadata.WorldToTile(group.CurrentPosition);
-                if (groupTile == _currentTileCoordPlayer && group != _currentPlayer)
+
+                //var groupTile = _scene.MapMetadata.WorldToTile(group.CurrentPosition);
+                //if (groupTile == _currentTileCoordPlayer && group != _currentPlayer)
+
+                bool isInRange = group.CurrentPosition.DistanceTo(_currentPlayer.CurrentPosition) <= interactionRadius;
+
+                if (isInRange && group.UnitBehavior == UnitBehavior.Chase)
                 {
-                    _activeEnemy = group;
-
-                    var activeParty = _currentPlayer.Template.Profiles
-                        .Where(p => p.SlotIndex <= 6)
-                        .ToList()
-                        .AsReadOnly();
-
-                    EventDispatcher.Dispatch(new EnterBattleEvent(activeParty, group.Template.Profiles));
-                    _battleTriggered = true;
+                    BegineBattleWithGroup(group);
                     return;
                 }
-
-                var velocity = group.ComputeVelocity(finalPosition);
-                if (velocity.IsZero) continue;
-
-                group.MoveTo(velocity.Apply(group.CurrentPosition, cmd.DeltaTime));
+                if (group.TryAggro(_currentPlayer.CurrentPosition))
+                {
+                    var velocity = group.ComputeVelocity(finalPosition);
+                    if (!velocity.IsZero)
+                    {
+                        group.MoveTo(velocity.Apply(group.CurrentPosition, DeltaTime));
+                    }
+                }
             }
         }
+        private void Interact(InteractCommand cmd)
+        {
+            if (IsPaused || _battleTriggered) return;
 
+            float interactionRadius = _scene.MapMetadata.TileWidth;
+            var playerPos = _currentPlayer.CurrentPosition;
+
+            Group? closestTarget = null;
+            float closestDistance = float.MaxValue;
+
+            foreach (var group in _scene.Groups)
+            {
+                if (group.IsDefeated || group == _currentPlayer) continue;
+
+                float distance = group.CurrentPosition.DistanceTo(playerPos);
+                if (distance <= interactionRadius && distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestTarget = group;
+                }
+            }
+
+            if (closestTarget == null) return;
+
+            if (MovementPatternHelper.IsAggresive(closestTarget.UnitBehavior))
+                BegineBattleWithGroup(closestTarget);
+            else
+                CommunicateWithGroup(closestTarget);
+        }
+
+        private void BegineBattleWithGroup(Group activeEnemy)
+        {
+            _activeEnemy = activeEnemy;
+            var activeParty = _currentPlayer.Template.Profiles.Where(p => p.SlotIndex <= 6).ToList().AsReadOnly();
+            EventDispatcher.Dispatch(new EnterBattleEvent(activeParty, activeEnemy.Template.Profiles));
+            _battleTriggered = true;
+        }
+        private void CommunicateWithGroup(Group target)
+        {
+            _activeDialogueTarget = target;
+            IsPaused = true;
+            EventDispatcher.Dispatch(new PauseGame(true));
+
+            // Get the current node from the Domain's state
+            var node = target.DialogueTree.CurrentNode;
+
+            // ✅ Fire the event with ONLY the data the UI needs
+            EventDispatcher.Dispatch(new DialogueStartedEvent(node.Speaker, node.Text, node.Choices));
+
+        }
+        private void AdvanceDialogue(AdvanceDialogueCommand cmd)
+        {
+            if (_activeDialogueTarget == null) return;
+
+            var profiles = _currentPlayer.Template.Profiles.ToList();
+            var playerProfile = profiles.FirstOrDefault(p => p.Name == "Player");
+            if (string.IsNullOrEmpty(playerProfile.Name)) return;
+
+            var choice = cmd.Choice;
+
+            switch (choice.Action)
+            {
+                case ChoiceAction.End:
+                    // 1. Apply conditions/rewards and get the new tree
+                    var (newTreeEnd, updatedProfileEnd) = _activeDialogueTarget.DialogueTree.UpdateCurrentNode(choice, playerProfile);
+                    _activeDialogueTarget.SetDialogueTree(newTreeEnd);
+
+                    // 2. Apply updated profile back to player using Select (No indexes!)
+                    var newProfilesEnd = profiles.Select(p => p.Name == "Player" ? updatedProfileEnd : p).ToList();
+                    _currentPlayer.UpdateProfiles(newProfilesEnd.AsReadOnly());
+
+                    // 3. Clean up and unpause
+                    _activeDialogueTarget = null;
+                    IsPaused = false;
+                    EventDispatcher.Dispatch(new DialogueEndEvent());
+                    EventDispatcher.Dispatch(new PauseGame(false));
+                    break;
+
+                case ChoiceAction.Continue:
+                    // 1. Apply conditions/rewards and get the new tree
+                    var (newTreeContinue, updatedProfileContinue) = _activeDialogueTarget.DialogueTree.UpdateCurrentNode(choice, playerProfile);
+                    _activeDialogueTarget.SetDialogueTree(newTreeContinue);
+
+                    // 2. Apply updated profile back to player using Select (No indexes!)
+                    var newProfilesContinue = profiles.Select(p => p.Name == "Player" ? updatedProfileContinue : p).ToList();
+                    _currentPlayer.UpdateProfiles(newProfilesContinue.AsReadOnly());
+
+                    // 3. Notify UI
+                    var newNode = newTreeContinue.CurrentNode;
+                    EventDispatcher.Dispatch(new DialogueAdvancedEvent(newNode.Speaker, newNode.Text, newNode.Choices));
+                    break;
+
+                case ChoiceAction.AttackCurrent:
+                    // 1. Check conditions and apply mutations (like TakeItem)
+                    var result = choice.CheckConditionsAndReciveItems(playerProfile);
+
+                    // 2. Apply the resulting profile (whether it changed or not)
+                    var newProfilesAttack = profiles.Select(p => p.Name == "Player" ? result.Profile : p).ToList();
+                    _currentPlayer.UpdateProfiles(newProfilesAttack.AsReadOnly());
+
+                    // 3. If conditions failed, route to Right target instead of fighting
+                    if (result.Target == choice.Target.Right)
+                    {
+                        var failTree = _activeDialogueTarget.DialogueTree.SetNode(result.Target);
+                        _activeDialogueTarget.SetDialogueTree(failTree);
+                        var failNode = failTree.CurrentNode;
+                        EventDispatcher.Dispatch(new DialogueAdvancedEvent(failNode.Speaker, failNode.Text, failNode.Choices));
+                        break;
+                    }
+
+                    // 4. Conditions passed - start the battle
+                    _pendingBattleChoice = choice;
+                    _activeEnemy = _activeDialogueTarget;
+                    var activeParty = _currentPlayer.Template.Profiles.Where(p => p.SlotIndex <= 6).ToList().AsReadOnly();
+                    EventDispatcher.Dispatch(new EnterBattleEvent(activeParty, _activeEnemy.Template.Profiles));
+                    _battleTriggered = true;
+                    break;
+
+                case ChoiceAction.UnitShop:
+                    break;
+                case ChoiceAction.ItemShop:
+                    break;
+                case ChoiceAction.AttackFromSource:
+                    break;
+            }
+        }
         private void UpdateTransition(RequestTransitionCommand cmd)
         {
             var transition = _scene.TryTriggerTransition(_currentTileCoordPlayer);
@@ -263,12 +434,13 @@ namespace UnceasingFear.Application.World
         {
             var playerProfile = _currentPlayer.Template.Profiles.FirstOrDefault(p => p.Name == "Player");
             var inventory = playerProfile.Stash ?? new List<Item>().AsReadOnly();
+            var groups = _scene.Groups.Select(g => new EntitySnapshot(g.Id, g.CurrentPosition, EntityType.Group, g.IsDefeated, g.IsAggroedBy(PlayerPosition))).ToList();
 
             return new(
             _scene.Id,
             PlayerPosition,
             _scene.MapMetadata,
-            _scene.Groups.Select(g => new GroupSnapshot(g.Id, g.CurrentPosition, g.IsDefeated, g.TryAggro(PlayerPosition))).ToList(),
+            groups,
             _scene.Transitions.Select(t => t.TriggerTile).ToList(),
             _battleTriggered,
             inventory,

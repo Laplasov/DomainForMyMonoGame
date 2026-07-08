@@ -4,6 +4,7 @@
 		<TileMapMetadata source="TilesData\test_tile_map.tmx" layerScale="1" />
 		<GroupRefs>
 			<GroupRef id="Player" spawnX="7" spawnY="7" />
+			<GroupRef id="Calm Goblin" spawnX="9" spawnY="6"  dialogueId="calm_goblin_01"/>
 		</GroupRefs>
 		<Transitions>
 			<Transition>

@@ -3,8 +3,8 @@
 
 	<Group id="Player">
 		<MovementPattern>PlayerControlled</MovementPattern>
-		<AggroRange>0</AggroRange>
-		<Speed>200</Speed>
+		<DetectionRange>0</DetectionRange>
+			<Speed>200</Speed>
 		<TemplateRef id="Player" slot="1">
 			<EquippedItems>
 				<Item type ="Hearb" name="Hearb" quantity="1" value="1" description="Hearb" IsStackable="1"/>
@@ -13,15 +13,11 @@
 				<Essence name="Sanguis" value="1"/>
 			</ConsumedEssences>
 		</TemplateRef>
-		<TemplateRef id="Goblin" slot="2"/>
-		<TemplateRef id="Slime" slot="3"/>
-		<TemplateRef id="Goblin" slot="7"/>
-		<TemplateRef id="Slime" slot="8"/>
 	</Group>
 	
 	<Group id="Goblin">
 		<MovementPattern>Stationary</MovementPattern>
-		<AggroRange>250</AggroRange>
+		<DetectionRange>250</DetectionRange>
 		<Speed>6</Speed>
 		<TemplateRef id="Goblin" slot="1"/>
 		<TemplateRef id="Goblin" slot="6"/>
@@ -31,12 +27,23 @@
 
 	<Group id="Slime">
 		<MovementPattern>Chase</MovementPattern>
-		<AggroRange>250</AggroRange>
+		<DetectionRange>250</DetectionRange>
 		<Speed>6</Speed>
 		<TemplateRef id="Slime" slot="1"/>
 		<TemplateRef id="Slime" slot="6"/>
 		<TemplateRef id="Slime" slot="3"/>
 		<TemplateRef id="Slime" slot="4"/>
 	</Group>
+	
+	<Group id="Calm Goblin">
+		<MovementPattern>Neutral</MovementPattern>
+		<DetectionRange>250</DetectionRange>
+		<Speed>6</Speed>
+		<TemplateRef id="Goblin" slot="1"/>
+		<TemplateRef id="Goblin" slot="6"/>
+		<TemplateRef id="Goblin" slot="3"/>
+		<TemplateRef id="Goblin" slot="4"/>
+	</Group>
 
 </Groups>
+

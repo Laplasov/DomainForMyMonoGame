@@ -64,6 +64,9 @@
 		<Content Include="Content\DB\ViewData\unit_animation_atlas.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+		<Content Include="Content\DB\dialogs.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 		
 	</ItemGroup>
 	

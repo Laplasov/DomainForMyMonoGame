@@ -18,7 +18,7 @@ namespace UnceasingFear.Persistence.Xml
             _templateRepo = templateRepo;
         }
 
-        public Group GetById(GroupId id)
+        public Group GetById(EntityId id)
         {
             var cache = LoadAll();
             if (!cache.TryGetValue(id.Value, out var group))

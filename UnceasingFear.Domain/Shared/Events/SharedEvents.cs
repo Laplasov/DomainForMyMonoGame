@@ -10,9 +10,12 @@ namespace UnceasingFear.Domain.Shared.Events
 {
     public class SharedEvents
     {
-        public record EnterBattleEvent(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles) : IDomainEvent;
-        public record OutOfBattleEvent(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles, IReadOnlyList<Item> CollectedLoot) : IDomainEvent;
-        public record ExitGame() : IDomainEvent;
-        public record PauseGame(bool ShouldPause) : IDomainEvent;
+        public record struct EnterBattleEvent(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles) : IDomainEvent;
+        public record struct OutOfBattleEvent(IReadOnlyList<UnitProfile> AllyProfiles, IReadOnlyList<UnitProfile> EnemyProfiles, IReadOnlyList<Item> CollectedLoot) : IDomainEvent;
+        public record struct ExitGame() : IDomainEvent;
+        public record struct PauseGame(bool ShouldPause) : IDomainEvent;
+        public record struct DialogueStartedEvent(string Speaker, string Text, IReadOnlyList<DialogueChoice> Choices) : IDomainEvent;
+        public record struct DialogueAdvancedEvent(string Speaker, string Text, IReadOnlyList<DialogueChoice> Choices) : IDomainEvent;
+        public record struct DialogueEndEvent() : IDomainEvent;
     }
 }
