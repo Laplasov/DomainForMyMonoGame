@@ -11,6 +11,7 @@ namespace UnceasingFear.Presentation.Render.Battle
     public class BattleHudHandles
     {
         public required Label ActiveUnitName { get; init; }
+        public required Label Identity { get; init; }
         public required Label StatHp { get; init; }
         public required Label StatSp { get; init; }
         public required Label StatAtk { get; init; }

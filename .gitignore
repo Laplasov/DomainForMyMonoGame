@@ -1,0 +1,23 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+
+# Visual Studio / IDE cache
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.idea/
+
+# MonoGame Content Pipeline
+Content/bin/
+Content/obj/
+*.mgcb
+
+# OS generated files
+.DS_Store
+Thumbs.db

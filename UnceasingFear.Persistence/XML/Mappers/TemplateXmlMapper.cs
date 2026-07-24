@@ -20,6 +20,7 @@ namespace UnceasingFear.Persistence.Xml.Mappers
         private static XElement ProfileToXml(UnitProfile profile) =>
             new XElement("UnitProfile",
                 new XAttribute("name", profile.Name),
+                new XAttribute("element", profile.Identity.Element.ToString()),
                 new XElement("Stats",
                     new XAttribute("maxHp", profile.BaseStats.MaxHp),
                     new XAttribute("maxSp", profile.BaseStats.MaxSp),
@@ -86,6 +87,18 @@ namespace UnceasingFear.Persistence.Xml.Mappers
             var name = el.Attribute("name")!.Value;
             var stats = StatsFromXml(el.Element("Stats")!);
 
+            var elementStr = el.Attribute("element")?.Value ?? "Sanguis";
+            var typeStr = el.Attribute("type")?.Value ?? "Major";
+            var tierStr = el.Attribute("tier")?.Value ?? "1";
+
+            var identity = new Identity
+            {
+                Element = Enum.Parse<Element>(elementStr),
+                Type = Enum.Parse<UnitType>(typeStr),
+                Tier = int.Parse(tierStr)
+            };
+
+
             var abilities = el.Element("Abilities")!
                 .Elements("AbilityRef")
                 .Select(a => resolveAbility(a.Attribute("id")!.Value))
@@ -99,7 +112,7 @@ namespace UnceasingFear.Persistence.Xml.Mappers
 
             var consumedEssences = ConsumedEssencesFromXml(el.Element("ConsumedEssences"));
 
-            return UnitProfile.Create(name, index + 1, stats, abilities, stash, equippedItems, consumedEssences);
+            return UnitProfile.Create(name, index + 1, stats, abilities, stash, equippedItems, consumedEssences, identity);
         }
 
         private static Item ItemFromXml(XElement el) =>

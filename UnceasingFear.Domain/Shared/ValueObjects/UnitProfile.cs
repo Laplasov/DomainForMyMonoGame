@@ -13,13 +13,14 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
         public IReadOnlyList<Item> Stash { get; init; }
         public IReadOnlyList<Item> EquippedItems { get; init; }
         public ConsumedEssence ConsumedEssences { get; init; }
+        public Identity Identity { get; init; }
         public UnitStats Stats  => BaseStats + ConsumedEssences.CalculateTotalBonus();
-        UnitProfile(string name, int slot, UnitStats stats, IReadOnlyList<Ability> abilities, IReadOnlyList<Item> lootDrops, IReadOnlyList<Item> equippedItems, ConsumedEssence consumedEssences)
+        UnitProfile(string name, int slot, UnitStats stats, IReadOnlyList<Ability> abilities, IReadOnlyList<Item> lootDrops, IReadOnlyList<Item> equippedItems, ConsumedEssence consumedEssences, Identity identity)
         {
-            Name = name; SlotIndex = slot; BaseStats = stats; Abilities = abilities; Stash = lootDrops; EquippedItems = equippedItems; ConsumedEssences = consumedEssences;
+            Name = name; SlotIndex = slot; BaseStats = stats; Abilities = abilities; Stash = lootDrops; EquippedItems = equippedItems; ConsumedEssences = consumedEssences; Identity = identity;
         }
-        public static UnitProfile Create(string name, int slot, UnitStats stats, IEnumerable<Ability> abilities, IEnumerable<Item> lootDrops, IEnumerable<Item> equippedItems, ConsumedEssence consumedEssences) 
-            => new(name, slot, stats, abilities.ToList().AsReadOnly(), lootDrops.ToList().AsReadOnly(), equippedItems.ToList().AsReadOnly(), consumedEssences);
+        public static UnitProfile Create(string name, int slot, UnitStats stats, IEnumerable<Ability> abilities, IEnumerable<Item> lootDrops, IEnumerable<Item> equippedItems, ConsumedEssence consumedEssences, Identity identity) 
+            => new(name, slot, stats, abilities.ToList().AsReadOnly(), lootDrops.ToList().AsReadOnly(), equippedItems.ToList().AsReadOnly(), consumedEssences, identity);
 
         public bool CanPay(Cost cost) => cost.Stat switch
         {
@@ -41,11 +42,6 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
             return this with { SlotIndex = slotIndex };
         }
 
-        public void RemoveFromStash(string ItemName, int Quantity)
-        {
-            var currentLoots = Stash.ToList();
-
-        }
         public UnitProfile RemoveFromStash(IEnumerable<Item> items)
         {
             var currentLoots = Stash.ToList();
@@ -113,5 +109,35 @@ namespace UnceasingFear.Domain.Shared.ValueObjects
             }
             return this with { Stash = currentLoots.AsReadOnly() };
         }
+
+        public static (bool, List<UnitProfile>) TryAddUnitsToSlots(IReadOnlyList<UnitProfile> UnitsToAdd, IReadOnlyList<UnitProfile> profiles)
+        {
+            var newProfiles = profiles.ToList();
+
+            // Get all occupied slots
+            var occupiedSlots = newProfiles.Select(p => p.SlotIndex).ToHashSet();
+
+            // Find all available slots (1-9)
+            var availableSlots = new List<int>();
+            for (int i = 1; i <= 9; i++)
+            {
+                if (!occupiedSlots.Contains(i))
+                    availableSlots.Add(i);
+            }
+
+            // Check if we have enough space for all units
+            if (availableSlots.Count < UnitsToAdd.Count)
+                return (false, newProfiles);
+
+            // Add each unit to an available slot
+            for (int i = 0; i < UnitsToAdd.Count; i++)
+            {
+                var unit = UnitsToAdd[i].AssignToSlot(availableSlots[i]);
+                newProfiles.Add(unit);
+            }
+
+            return (true, newProfiles);
+        }
+
     }
 }

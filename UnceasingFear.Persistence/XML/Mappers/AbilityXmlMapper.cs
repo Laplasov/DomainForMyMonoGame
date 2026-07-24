@@ -1,5 +1,6 @@
 ﻿using System.Xml.Linq;
 using UnceasingFear.Domain.Shared.Enums;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 
 namespace UnceasingFear.Persistence.Xml.Mappers
@@ -55,8 +56,21 @@ namespace UnceasingFear.Persistence.Xml.Mappers
                 target: Enum.Parse<Target>(el.Attribute("target")!.Value),
                 scales: scales,
                 costs: costs,
-                statusEffects: statusEffects
+                statusEffects: statusEffects,
+                inheritability: Enum.Parse<InheritableType>(el.Attribute("inheritability")!.Value)
             );
+        }
+
+        public static Identity? ParseIdentity(XElement? identityEl)
+        {
+            if (identityEl is null) return null; // e.g. mara_touch has none — fine, it's Sealed, never looked up by Identity
+
+            return new Identity
+            {
+                Element = identityEl.Attribute("element")!.Value == "Any" ? Element.None : Enum.Parse<Element>(identityEl.Attribute("element")!.Value),
+                Type = identityEl.Attribute("type")!.Value == "Any" ? UnitType.None : Enum.Parse<UnitType>(identityEl.Attribute("type")!.Value),
+                Tier = identityEl.Attribute("tier")!.Value == "Any" ? 0 : int.Parse(identityEl.Attribute("tier")!.Value)
+            };
         }
     }
 }

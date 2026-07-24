@@ -1,4 +1,6 @@
 ﻿using System.Xml.Linq;
+using UnceasingFear.Domain.Shared.Enums;
+using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.Shared.ValueObjects.Abilities;
 using UnceasingFear.Persistence.Xml.Mappers;
 
@@ -7,7 +9,10 @@ namespace UnceasingFear.Persistence.XML
     public class XmlAbilityRepository
     {
         private readonly string _filePath;
+
         private Dictionary<string, Ability>? _cache;
+
+        private Dictionary<Identity, Ability>? _baseByIdentity;
 
         public XmlAbilityRepository(string filePath) => _filePath = filePath;
 
@@ -18,6 +23,11 @@ namespace UnceasingFear.Persistence.XML
                 throw new KeyNotFoundException($"Ability '{id}' not found in '{_filePath}'.");
             return ability;
         }
+        public IReadOnlyDictionary<Identity, Ability> GetBaseAbilitiesByIdentity()
+        {
+            LoadAll(); 
+            return _baseByIdentity!;
+        }
 
         public IReadOnlyDictionary<string, Ability> LoadAll()
         {
@@ -27,10 +37,18 @@ namespace UnceasingFear.Persistence.XML
                 throw new FileNotFoundException($"Ability data file not found: {_filePath}");
 
             var doc = XDocument.Load(_filePath);
-            _cache = doc.Root!
-                        .Elements("Ability")
-                        .Select(AbilityXmlMapper.FromXml)
-                        .ToDictionary(a => a.Id);
+            var elements = doc.Root!.Elements("Ability").ToList();
+
+            _cache = elements
+                .Select(AbilityXmlMapper.FromXml)
+                .ToDictionary(a => a.Id);
+
+            _baseByIdentity = elements
+                .Where(el => el.Attribute("inheritability")!.Value == nameof(InheritableType.Base))
+                .ToDictionary(
+                    el => AbilityXmlMapper.ParseIdentity(el.Element("Identity"))!.Value,
+                    el => _cache[el.Attribute("id")!.Value]);
+
             return _cache;
         }
 
@@ -43,6 +61,7 @@ namespace UnceasingFear.Persistence.XML
             Directory.CreateDirectory(Path.GetDirectoryName(_filePath)!);
             doc.Save(_filePath);
             _cache = null;
+            _baseByIdentity = null;
         }
     }
 }

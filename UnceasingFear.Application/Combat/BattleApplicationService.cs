@@ -234,7 +234,8 @@ namespace UnceasingFear.Application.Combat
                         (int)(a.Costs.FirstOrDefault(c => c.Stat == CostType.SP).Value)
                     )).ToList().AsReadOnly(),
                     u.Profile.Stash,
-                    u.Profile.EquippedItems
+                    u.Profile.EquippedItems,
+                    u.Profile.Identity
                 )).ToList(),
                 _battle.State.GetType().Name,
                 _currentActor?.Id.Value,

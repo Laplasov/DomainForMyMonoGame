@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameGum;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnceasingFear.Application.Alchemy;
 using UnceasingFear.Application.Collision;
 using UnceasingFear.Application.Combat;
 using UnceasingFear.Application.Combat.Snapshots;
@@ -23,6 +25,7 @@ using UnceasingFear.Persistence;
 using UnceasingFear.Persistence.XML;
 using UnceasingFear.Presentation.Data;
 using UnceasingFear.Presentation.Render;
+using static UnceasingFear.Domain.Alchemy.Services.StatsBuilder;
 using static UnceasingFear.Domain.Shared.Events.SharedEvents;
 
 namespace UnceasingFear.TestImplementation;
@@ -41,6 +44,7 @@ public class Game1 : Game
 
     private WorldApplicationService _appServiceWorld;
     private BattleServiceProvider _battleServiceProvider;
+    private CauldronApplicationService _cauldronService;
 
     private WorldView _worldView;
     private BattleView _battleView;
@@ -68,7 +72,13 @@ public class Game1 : Game
         var spriteRepo = new XmlSpriteRepository(Path.Combine("Content", "DB", "ViewData", "sprite_map.xml"));
         _spriteFactory = new SpriteFactory(Content, spriteRepo);
 
-        ISceneProvider SceneProvider = new XmlSceneProvider(Path.Combine("Content", "DB"));
+        var dbDir = Path.Combine(AppContext.BaseDirectory, "Content", "DB");
+        var abilityRepo = new XmlAbilityRepository(Path.Combine(dbDir, "abilities.xml"));
+
+        var alchemyContent = new XmlAlchemyContentRepository(abilityRepo, Path.Combine(dbDir, "recipes.xml"));
+        var statFormula = new StatFormulaConfig(HealthPerTier: 5, SPPerTier: 5, PhysicPerTier: 2, DefensePerTier: 2, MagicPerTier: 2, SpeedPerTier: 2);
+
+        ISceneProvider SceneProvider = new XmlSceneProvider(Path.Combine("Content", "DB"), abilityRepo);
         Scene scene = SceneProvider.GetById(SceneId.From("TestScene"));
 
         Group playerGroup = scene.Groups.First(g => g.UnitBehavior == UnitBehavior.PlayerControlled);
@@ -77,7 +87,10 @@ public class Game1 : Game
 
         _battleServiceProvider = new BattleServiceProvider();
         _battleServiceProvider.Initialize(EventDispatcher, CommandDispatcher);
+
         _appServiceWorld = new WorldApplicationService(scene, playerGroup, EventDispatcher, CommandDispatcher, SceneProvider);
+
+        _cauldronService = new CauldronApplicationService(alchemyContent, statFormula, EventDispatcher, CommandDispatcher);
 
         EventDispatcher.Subscribe<OutOfBattleEvent>((e) => _worldSnapshot = _appServiceWorld.GetSnapshot());
         EventDispatcher.Subscribe<ExitGame>((e) => Exit());

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnceasingFear.Domain.Shared.ValueObjects;
+using UnceasingFear.Domain.World.ValueObjects;
 using UnceasingFear.Persistence.Xml.Mappers;
 
 namespace UnceasingFear.Persistence.Xml
@@ -12,9 +13,14 @@ namespace UnceasingFear.Persistence.Xml
     public class XmlDialogueRepository
     {
         private readonly string _filePath;
+        private readonly Func<string, Template> _resolveTemplate;
         private Dictionary<string, DialogueTree>? _cache;
 
-        public XmlDialogueRepository(string filePath) => _filePath = filePath;
+        public XmlDialogueRepository(string filePath, Func<string, Template> resolveTemplate)
+        {
+            _filePath = filePath;
+            _resolveTemplate = resolveTemplate;
+        }
 
         public DialogueTree GetById(string id)
         {
@@ -33,9 +39,10 @@ namespace UnceasingFear.Persistence.Xml
                 throw new FileNotFoundException($"Dialogue data file not found: {_filePath}");
 
             var doc = XDocument.Load(_filePath);
+
             _cache = doc.Root!
                         .Elements("Dialog")
-                        .Select(DialogueXmlMapper.FromXml)  // ✅ Now resolves correctly
+                        .Select(el => DialogueXmlMapper.FromXml(el, _resolveTemplate)) // ✅ Passed delegate here
                         .ToDictionary(t => t.Id);
             return _cache;
         }

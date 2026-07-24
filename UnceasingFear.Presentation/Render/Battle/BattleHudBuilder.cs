@@ -6,6 +6,7 @@ using GumRuntime;
 using Microsoft.Xna.Framework;
 using MonoGameGum;
 using MonoGameGum.GueDeriving;
+using System.Timers;
 using UnceasingFear.Application.Combat;
 using UnceasingFear.Application.Commands;
 using UnceasingFear.Presentation.Input;
@@ -46,7 +47,8 @@ namespace UnceasingFear.Presentation.Render.Battle
             var barBuilder = new UnitBarBuilder(_layout);
             var handles = new BattleHudHandles
             {
-                ActiveUnitName = BuildStatsPanel(out var hp, out var sp, out var atk, out var def, out var mag, out var spd),
+                ActiveUnitName = BuildStatsPanel(out var hp, out var sp, out var atk, out var def, out var mag, out var spd, out var identity),
+                Identity = identity,
                 StatHp = hp,
                 StatSp = sp,
                 StatAtk = atk,
@@ -108,10 +110,10 @@ namespace UnceasingFear.Presentation.Render.Battle
 
 
         // ── Stats panel ──────────────────────────────────────────────────────
-
         private Label BuildStatsPanel(
             out Label hp, out Label sp, out Label atk,
-            out Label def, out Label mag, out Label spd)
+            out Label def, out Label mag, out Label spd,
+            out Label identity)
         {
             var panel = MakePanel(_layout.StatsPanel);
 
@@ -120,6 +122,7 @@ namespace UnceasingFear.Presentation.Render.Battle
             panel.StackSpacing = 4;
 
             var name = AddChildLabel("—", panel);
+            identity = AddChildLabel("Identity:  —", panel);
             hp = AddChildLabel("HP:  —", panel);
             sp = AddChildLabel("SP:  —", panel);
             atk = AddChildLabel("PHY: —", panel);

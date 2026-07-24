@@ -31,7 +31,8 @@ namespace UnceasingFear.Application.Combat.Snapshots
         int Speed,
         IReadOnlyList<AbilitySnapshot> Abilities,
         IReadOnlyList<Item> Stash,
-        IReadOnlyList<Item> EquippedItems
+        IReadOnlyList<Item> EquippedItems,
+        Identity Identity
     );
 
     public record struct BattleSnapshot(

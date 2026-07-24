@@ -31,7 +31,6 @@ public class WorldView
     private string _currentSceneId = string.Empty;
     private GumService _gumService;
 
-    private Label? _inventoryLabel;
     public PlayerMenu _playerMenu;
     private DialogueUI _dialogueUI;
 
@@ -157,7 +156,6 @@ public class WorldView
         _spriteBatch.End();
 
         _dialogueUI.EnsureRooted();
-        UpdateInventoryHUD(snapshot.PlayerInventory);
 
         if (_playerMenu.IsVisible)
         {
@@ -231,42 +229,4 @@ public class WorldView
             }
         }
     }
-    // ── Inventory HUD Logic ─────────────────────────────────────────────
-
-    private void EnsureInventoryLabelExists()
-    {
-        // BattleView clears the Gum root on exit, so we must recreate this if it's null
-        if (_inventoryLabel == null || _inventoryLabel.Visual.Parent == null)
-        {
-            _inventoryLabel = new Label();
-            _inventoryLabel.Visual.X = 10;
-            _inventoryLabel.Visual.Y = 10;
-            _inventoryLabel.Visual.Width = 250;
-            _inventoryLabel.Visual.Height = 200;
-            _inventoryLabel.Visual.AddToRoot();
-        }
-    }
-
-    private void UpdateInventoryHUD(IReadOnlyList<Item> inventory)
-    {
-        EnsureInventoryLabelExists();
-
-        if (inventory == null || inventory.Count == 0)
-        {
-            _inventoryLabel!.Text = "Inventory: Empty";
-            return;
-        }
-
-        var sb = new StringBuilder();
-        sb.AppendLine("== Inventory ==");
-
-        foreach (var item in inventory)
-        {
-            // Display format: "Gold: 15" or "Anima: 2"
-            sb.AppendLine($"{item.Name}: {item.Value}");
-        }
-
-        _inventoryLabel!.Text = sb.ToString();
-    }
-
 }

@@ -71,6 +71,7 @@ namespace UnceasingFear.Presentation.Render.Battle
             if (actor == default) return;
 
             _handles.ActiveUnitName.Text = actor.Name;
+            _handles.Identity.Text = $"{actor.Identity.Type} {actor.Identity.Element} {actor.Identity.Tier}";
             _handles.StatHp.Text = $"HP:  {actor.CurrentHp} / {actor.MaxHp}";
             _handles.StatSp.Text = $"SP:  {actor.CurrentSp} / {actor.MaxSp}";
             _handles.StatAtk.Text = $"PHY: {actor.Physic}";
@@ -82,6 +83,7 @@ namespace UnceasingFear.Presentation.Render.Battle
         private void ClearStatsPanel()
         {
             _handles.ActiveUnitName.Text = "—";
+            _handles.Identity.Text = "—";
             _handles.StatHp.Text = "HP:  —";
             _handles.StatSp.Text = "SP:  —";
             _handles.StatAtk.Text = "PHY: —";

@@ -35,49 +35,49 @@
 					<Item type="Hearb" name="Hearb" quantity="1" value="1" description="A fresh herb." IsStackable="1"/>
 				</ReciveItems>
 			</Choice>
+
+			<Choice text="Buy a Goblin for 10 Gold" action="Continue" target="bought_goblin:no_space_or_gold_for_goblin">
+				<Condition type="TakeItem" value="Gold:10" />
+				<ReciveUnits>
+					<!-- Resolved to UnitProfile struct automatically -->
+					<Unit template="Goblin" />
+				</ReciveUnits>
+			</Choice>
 			
 			<Choice text="Goodbye." action="End" target="start" />
 		</Node>
 		
-		<Node id="goblin_impressed" speaker="Calm Goblin" text="You looks good for me.">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
-		<Node id="goblin_disgusted" speaker="Calm Goblin" text="You are injured.">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
-		<Node id="goblin_happy" speaker="Calm Goblin" text="Perfect!">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
-		<Node id="goblin_angry" speaker="Calm Goblin" text="You don't even have money!">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
-		<Node id="recive_item" speaker="Calm Goblin" text="I do in fact.">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
-		<Node id="strong_rich" speaker="Calm Goblin" text="You are strong and rich!">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
-		<Node id="not_strong_rich" speaker="Calm Goblin" text="Don't looks like it.">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
-
+		<Node id="goblin_impressed" speaker="Calm Goblin" text="You looks good for me."> 
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="goblin_disgusted" speaker="Calm Goblin" text="You are injured."> 
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="goblin_happy" speaker="Calm Goblin" text="Perfect!"> 
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="goblin_angry" speaker="Calm Goblin" text="You don't even have money!"> 
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="recive_item" speaker="Calm Goblin" text="I do in fact."> 
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="strong_rich" speaker="Calm Goblin" text="You are strong and rich!"> 
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="not_strong_rich" speaker="Calm Goblin" text="Don't looks like it."> 
+			<Choice text="..." action="Continue" target="start" /> </Node>
 		<Node id="deal" speaker="Calm Goblin" text="Deal!">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
+			<Choice text="..." action="Continue" target="start" /></Node>
 		<Node id="not_deal" speaker="Calm Goblin" text="You don't pass requirements!">
-			<Choice text="..." action="Continue" target="start" />
-		</Node>
-		
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="no_space_or_gold_for_goblin" speaker="Calm Goblin" text="You don't pass requirements!">
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="bought_goblin" speaker="Calm Goblin" text="Here you'r new friend!">
+			<Choice text="..." action="Continue" target="start" /> </Node>
+		<Node id="goblin_surrenders" speaker="Calm Goblin" text="Okay, okay! You win. Here is my gold.">
+			<Choice text="Goodbye." action="End" target="goblin_surrenders" /> </Node>
+		<Node id="goblin_laugh" speaker="Calm Goblin" text="Hah! You are too weak. Leave my sight.">
+			<Choice text="..." action="End" target="goblin_laugh" /></Node>
 		
 		<Node id="reply_1" speaker="Calm Goblin" text="Nice day, isn't it? Watch out for slimes.">
 			<Choice text="Show me your wares." action="UnitShop" target="goblin_shop_01" />
-			<Choice text="Indeed. Farewell." action="End" target="reply_1" />
+			<Choice text="Indeed. Farewell." action="End" target="start" />
 		</Node>
-		<Node id="goblin_surrenders" speaker="Calm Goblin" text="Okay, okay! You win. Here is my gold.">
-			<Choice text="Goodbye." action="End" target="goblin_surrenders" />
-		</Node>
-		<Node id="goblin_laugh" speaker="Calm Goblin" text="Hah! You are too weak. Leave my sight.">
-			<Choice text="..." action="End" target="goblin_laugh" />
-		</Node>
+	
 	</Dialog>
 </Dialogs>

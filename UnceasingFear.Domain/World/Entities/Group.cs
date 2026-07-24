@@ -5,11 +5,12 @@ using UnceasingFear.Domain.Shared;
 using UnceasingFear.Domain.Shared.ValueObjects;
 using UnceasingFear.Domain.World.Enums;
 using UnceasingFear.Domain.World.Events;
+using UnceasingFear.Domain.World.Interfaces;
 using UnceasingFear.Domain.World.ValueObjects;
 
 namespace UnceasingFear.Domain.World.Entities
 {
-    public class Group : Entity
+    public class Group : Entity, IInteractable
     {
         public EntityId Id { get; }
         public Template Template { get; private set; }
@@ -48,19 +49,11 @@ namespace UnceasingFear.Domain.World.Entities
             startPosition: SpawnPosition,
             dialogueTree: DialogueTree
         );
-        public void ChangeSpawn(WorldPosition position)
-            => SpawnPosition = position;
-        public void MoveTo(WorldPosition position) 
-            => CurrentPosition = position;
-        public void SetDialogueTree(DialogueTree tree)
-        {
-            DialogueTree = tree;
-        }
-
-        public void UpdateProfiles(IReadOnlyList<UnitProfile> newProfiles)
-        {
-            Template = new Template(Template.TemplateName, newProfiles);
-        }
+        public void ChangeSpawn(WorldPosition position) => SpawnPosition = position;
+        public void MoveTo(WorldPosition position) => CurrentPosition = position;
+        public void SetDialogueTree(DialogueTree tree) => DialogueTree = tree;
+        public void UpdateProfiles(IReadOnlyList<UnitProfile> newProfiles) => Template = new Template(Template.TemplateName, newProfiles);
+        public IReadOnlyList<UnitProfile> CreateActiveParty() => Template.Profiles.Where(p => p.SlotIndex <= 6).ToList().AsReadOnly();
         public void Defeat()
         {
             IsDefeated = true;

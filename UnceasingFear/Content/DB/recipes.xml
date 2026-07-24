@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Recipes>
+	<Recipe id="simple_hp_remedy">
+		<ingredients>
+			<Item type ="Hearb" name="Hearb" value="1"/>
+			<Item type ="Hearb" name="Hearb" value="1"/>
+		</ingredients >
+		<output>
+			<Item type ="Potion" name="Health Potion" quantity="1" value="1" description="Health Potion" IsStackable="0"/>
+		</output>
+	</Recipe>
+	<Recipe id="sanguis_major">
+		<ingredients >
+			<Identity type ="Any" element="Sanguis" value="Any" />
+			<Identity type ="Any" element="Vigor" value="Any"/>
+		</ingredients >
+		<output>
+			<Identity type ="Major" element="Sanguis" value="Any"/>
+		</output>
+	</Recipe>
+	<Recipe id="sanguis_minor">
+		<ingredients >
+			<Identity type ="Any" element="Sanguis" value="Any"/>
+			<Identity type ="Any" element="Vis" value="Any"/>
+		</ingredients >
+		<output>
+			<Identity type ="Minor" element="Sanguis" value="Any"/>
+		</output>
+	</Recipe>
+	
+</Recipes>
+<!-- Sanguis, Vigor, Vis, Tutamen, Anima, Celeritas, Nihil, None --> 

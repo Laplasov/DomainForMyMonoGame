@@ -42,16 +42,14 @@ namespace UnceasingFear.Persistence.Xml
 
             if (sceneEl == null) return null;
 
-            // ✅ 1. Pre-parse ALL TileMapMetadata from the document into a lookup
             var metadataLookup = doc.Root!.Elements("Scene")
                 .ToDictionary(
                     s => SceneId.From(s.Attribute("id")!.Value),
-                    s => ParseMapData(s, _dataDirectory)
+                    s => ParseMapData(s, _dataDirectory)  // ✅ Pass _dataDirectory
                 );
             Func<string, Group> resolveGroup = (gId) => _groupRepo.GetById(new EntityId(gId));
             Func<string, DialogueTree> resolveDialogue = (dId) => _dialogueRepo.GetById(dId);
 
-            // ✅ 2. Pass the lookup to the scene mapper
             return SceneXmlMapper.FromXml(sceneEl, resolveGroup, resolveDialogue, metadataLookup);
         }
 
@@ -130,46 +128,37 @@ namespace UnceasingFear.Persistence.Xml
             doc.Save(_filePath);
         }
 
-        private static (TileMapMetadata, Collision) ParseMapData(XElement el, string basePath)
+        private static TileMapMetadata ParseMapMetadata(XElement el, string dataDirectory)
         {
-            var sourceAttr = el.Element("TileMapMetadata")?.Attribute("source")?.Value;
-            var layerScale = float.Parse(el.Element("TileMapMetadata")?.Attribute("layerScale")?.Value ?? "1");
+            var sourceAttr = el.Attribute("source")?.Value;
+            var layerScale = float.Parse(el.Attribute("layerScale")?.Value ?? "1");
 
             if (!string.IsNullOrEmpty(sourceAttr))
             {
-                // Resolve TMX path relative to Content root
-                var tmxPath = Path.Combine(basePath, sourceAttr.Replace('\\', '/'));
+                // ✅ FIX: Use AppContext.BaseDirectory to get executable location
+                var baseDirectory = AppContext.BaseDirectory;
+                var tmxPath = Path.Combine(baseDirectory, "Content", "TilesData", Path.GetFileName(sourceAttr));
 
-                // Load metadata from TMX
-                var doc = System.Xml.Linq.XDocument.Load(tmxPath);
+                var doc = XDocument.Load(tmxPath);
                 var mapEl = doc.Root ?? throw new InvalidOperationException($"Invalid TMX: {tmxPath}");
 
-                var metadata = new TileMapMetadata(
+                return new TileMapMetadata(
                     Width: int.Parse(mapEl.Attribute("width")?.Value ?? "0"),
                     Height: int.Parse(mapEl.Attribute("height")?.Value ?? "0"),
                     TileWidth: int.Parse(mapEl.Attribute("tilewidth")?.Value ?? "0"),
                     TileHeight: int.Parse(mapEl.Attribute("tileheight")?.Value ?? "0"),
                     LayerScale: layerScale
                 );
-
-                // ✅ Parse collision from same TMX
-                var collision = ParseCollisionFromTmx(tmxPath, metadata.Width, metadata.Height);
-
-                return (metadata, collision);
             }
 
-            // Fallback to inline metadata (backward compatibility)
-            var metaEl = el.Element("TileMapMetadata");
-            var fallbackMeta = new TileMapMetadata(
-                Width: int.Parse(metaEl?.Attribute("width")?.Value ?? "0"),
-                Height: int.Parse(metaEl?.Attribute("height")?.Value ?? "0"),
-                TileWidth: int.Parse(metaEl?.Attribute("tileWidth")?.Value ?? "0"),
-                TileHeight: int.Parse(metaEl?.Attribute("tileHeight")?.Value ?? "0"),
+            return new TileMapMetadata(
+                Width: int.Parse(el.Attribute("width")?.Value ?? "0"),
+                Height: int.Parse(el.Attribute("height")?.Value ?? "0"),
+                TileWidth: int.Parse(el.Attribute("tileWidth")?.Value ?? "0"),
+                TileHeight: int.Parse(el.Attribute("tileHeight")?.Value ?? "0"),
                 LayerScale: layerScale
             );
-            return (fallbackMeta, new Collision(new bool[fallbackMeta.Height, fallbackMeta.Width]));
         }
-
         private static Collision ParseCollisionFromTmx(string tmxPath, int width, int height)
         {
             if (!File.Exists(tmxPath))
@@ -201,7 +190,42 @@ namespace UnceasingFear.Persistence.Xml
             }
             return new Collision(grid);
         }
+        private static (TileMapMetadata, Collision) ParseMapData(XElement el, string basePath)
+        {
+            var sourceAttr = el.Element("TileMapMetadata")?.Attribute("source")?.Value;
+            var layerScale = float.Parse(el.Element("TileMapMetadata")?.Attribute("layerScale")?.Value ?? "1");
 
+            if (!string.IsNullOrEmpty(sourceAttr))
+            {
+                // ✅ FIX: Use basePath which should already include AppContext.BaseDirectory
+                var tmxPath = Path.Combine(basePath, "TilesData", Path.GetFileName(sourceAttr));
+
+                var doc = System.Xml.Linq.XDocument.Load(tmxPath);
+                var mapEl = doc.Root ?? throw new InvalidOperationException($"Invalid TMX: {tmxPath}");
+
+                var metadata = new TileMapMetadata(
+                    Width: int.Parse(mapEl.Attribute("width")?.Value ?? "0"),
+                    Height: int.Parse(mapEl.Attribute("height")?.Value ?? "0"),
+                    TileWidth: int.Parse(mapEl.Attribute("tilewidth")?.Value ?? "0"),
+                    TileHeight: int.Parse(mapEl.Attribute("tileheight")?.Value ?? "0"),
+                    LayerScale: layerScale
+                );
+
+                var collision = ParseCollisionFromTmx(tmxPath, metadata.Width, metadata.Height);
+
+                return (metadata, collision);
+            }
+
+            var metaEl = el.Element("TileMapMetadata");
+            var fallbackMeta = new TileMapMetadata(
+                Width: int.Parse(metaEl?.Attribute("width")?.Value ?? "0"),
+                Height: int.Parse(metaEl?.Attribute("height")?.Value ?? "0"),
+                TileWidth: int.Parse(metaEl?.Attribute("tileWidth")?.Value ?? "0"),
+                TileHeight: int.Parse(metaEl?.Attribute("tileHeight")?.Value ?? "0"),
+                LayerScale: layerScale
+            );
+            return (fallbackMeta, new Collision(new bool[fallbackMeta.Height, fallbackMeta.Width]));
+        }
 
     }
 }

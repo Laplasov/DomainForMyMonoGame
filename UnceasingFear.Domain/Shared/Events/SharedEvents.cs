@@ -17,5 +17,6 @@ namespace UnceasingFear.Domain.Shared.Events
         public record struct DialogueStartedEvent(string Speaker, string Text, IReadOnlyList<DialogueChoice> Choices) : IDomainEvent;
         public record struct DialogueAdvancedEvent(string Speaker, string Text, IReadOnlyList<DialogueChoice> Choices) : IDomainEvent;
         public record struct DialogueEndEvent() : IDomainEvent;
+        public record struct CauldronOpenedEvent() : IDomainEvent;
     }
 }

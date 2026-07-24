@@ -10,4 +10,5 @@ namespace UnceasingFear.Domain.Shared.Enums
     public enum CostType { HP, SP, Item, Cooldown }
     public enum StatType { Physic, Defense, Magic, Speed, MaxHP, MaxSP, None }
     public enum StatusEffectType { None, Poison, Stun, Buff }
+    public enum InheritableType { Base, Inheritable, Sealed}
 }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Abilities>
-    <Ability id="base_attack" name="BaseAttack" description="Simple attack"
-                range="Melee" target="Enemy">
+    <Ability id="base_attack" name="BaseAttack" description="Simple attack" range="Melee" target="Enemy" inheritability="Base">
+		<Identity element="Any" type="Any" tier="Any"/>
         <Scales>
 			<Scale stat="Physic" percentage="1.0"/>
 		</Scales>
@@ -10,8 +10,7 @@
 		</Costs>
         <StatusEffects />
     </Ability>
-<Ability id="mara_touch" name="MaraTouch" description="devastator"
-                range="Range" target="Enemy">
+<Ability id="mara_touch" name="MaraTouch" description="devastator" range="Range" target="Enemy" inheritability="Sealed">
         <Scales>
 			<Scale stat="Physic" percentage="10.0"/>
 		</Scales>

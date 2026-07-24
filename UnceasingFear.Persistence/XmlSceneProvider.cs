@@ -11,20 +11,25 @@ namespace UnceasingFear.Persistence
     {
         private readonly XmlSceneRepository _sceneRepo;
         private readonly Dictionary<string, Scene> _sceneCache = new();
-        public XmlSceneProvider(string dataDirectory)
+        public XmlSceneProvider(string dataDirectory, XmlAbilityRepository abilityRepo)
         {
-            var abilitiesFile = Path.Combine(dataDirectory, "abilities.xml");
-            var templatesFile = Path.Combine(dataDirectory, "templates.xml");
-            var groupsFile = Path.Combine(dataDirectory, "groups.xml");
-            var scenesFile = Path.Combine(dataDirectory, "scenes.xml");
-            var dialogsFile = Path.Combine(dataDirectory, "dialogs.xml");
+            var baseDirectory = AppContext.BaseDirectory;
+            var fullDataDirectory = Path.Combine(baseDirectory, dataDirectory);
 
-            var abilityRepo = new XmlAbilityRepository(abilitiesFile);
+            //var abilitiesFile = Path.Combine(fullDataDirectory, "abilities.xml");
+            var templatesFile = Path.Combine(fullDataDirectory, "templates.xml");
+            var groupsFile = Path.Combine(fullDataDirectory, "groups.xml");
+            var scenesFile = Path.Combine(fullDataDirectory, "scenes.xml");
+            var dialogsFile = Path.Combine(fullDataDirectory, "dialogs.xml");
+
+            //var abilityRepo = new XmlAbilityRepository(abilitiesFile);
             var templateRepo = new XmlTemplateRepository(templatesFile, abilityRepo);
             var groupRepo = new XmlGroupRepository(groupsFile, templateRepo);
-            var dialogueRepo = new XmlDialogueRepository(dialogsFile);
-            _sceneRepo = new XmlSceneRepository(scenesFile, groupRepo, dialogueRepo, dataDirectory);
 
+            // ✅ Inject template repository delegate
+            var dialogueRepo = new XmlDialogueRepository(dialogsFile, name => templateRepo.GetById(name));
+
+            _sceneRepo = new XmlSceneRepository(scenesFile, groupRepo, dialogueRepo, fullDataDirectory);
         }
 
         public Scene? GetById(SceneId id)

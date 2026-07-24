@@ -2,7 +2,7 @@
 <Templates>
     <Template name="Player">
         <Profiles>
-            <UnitProfile name="Player">
+            <UnitProfile name="Player" element="Nihil" type="Apex" tier="1">
 				<Tier value="1"/>
                 <Stats maxHp="21" maxSp="10" physic="5" defense="3" magic="1" speed="15" />
                 <Abilities>
@@ -19,7 +19,7 @@
     </Template>
     <Template name="Slime">
 			<Profiles>
-				<UnitProfile name="Slime">
+				<UnitProfile name="Slime" element="Sanguis" type="Minor" tier="1">
 					<Tier value="1"/>
 					<Stats maxHp="20" maxSp="10" physic="5" defense="3" magic="1" speed="15" />
 					<Abilities>
@@ -35,7 +35,7 @@
 		</Template>
     <Template name="Goblin">
         <Profiles>
-            <UnitProfile name="Goblin">
+            <UnitProfile name="Goblin" element="Sanguis" type="Major" tier="1">
 				<Tier value="1"/>
                 <Stats maxHp="20" maxSp="10" physic="5" defense="3" magic="1" speed="15" />
                 <Abilities>

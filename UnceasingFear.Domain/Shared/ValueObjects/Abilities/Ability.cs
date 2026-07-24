@@ -19,11 +19,14 @@ namespace UnceasingFear.Domain.Shared.ValueObjects.Abilities
         public IReadOnlyList<Scale> Scales { get; }
         public IReadOnlyList<Cost> Costs { get; }
         public IReadOnlyList<Status> StatusEffects { get; }
+        public InheritableType Inheritability { get; }
+
         private Ability(string id, string name, string description,
                    TargetRange range, Target target,
                    List<Scale> scales,
                    List<Cost> costs,
-                   List<Status> statusEffects)
+                   List<Status> statusEffects,
+                   InheritableType inheritability)
         {
             Id = id; 
             Name = name; 
@@ -33,13 +36,15 @@ namespace UnceasingFear.Domain.Shared.ValueObjects.Abilities
             Scales = scales; 
             Costs = costs; 
             StatusEffects = statusEffects;
+            Inheritability = inheritability;
         }
 
         public static Ability Create(string id, string name, string description,
             TargetRange range, Target target,
             IEnumerable<Scale> scales,
             IEnumerable<Cost> costs,
-            IEnumerable<Status> statusEffects)
+            IEnumerable<Status> statusEffects,
+             InheritableType inheritability)
         {
             if (string.IsNullOrWhiteSpace(id)) 
                 throw new ArgumentException("Id required");
@@ -54,7 +59,9 @@ namespace UnceasingFear.Domain.Shared.ValueObjects.Abilities
                 target,
                 scales?.ToList() ?? new(),
                 costs?.ToList() ?? new(),
-                statusEffects?.ToList() ?? new());
+                statusEffects?.ToList() ?? new(),
+                inheritability
+                );
         }
         public AbilityEffect CalculateEffect(UnitStats stats)
         {

@@ -15,9 +15,12 @@ namespace UnceasingFear.Domain.World.Aggregates
 
         private readonly List<SceneTransition> _transitions = new();
         private readonly List<Group> _groups = new();
+        private readonly List<WorldObject> _objects = new();
 
         public IReadOnlyList<SceneTransition> Transitions => _transitions.AsReadOnly();
         public IReadOnlyList<Group> Groups => _groups.AsReadOnly();
+        public IReadOnlyList<WorldObject> Objects => _objects.AsReadOnly();
+
         public TileMapMetadata MapMetadata { get; }
         public Collision Collision { get; }
         public Scene(SceneId id, TileMapMetadata mapMetadata, Collision collision)
@@ -38,6 +41,10 @@ namespace UnceasingFear.Domain.World.Aggregates
             => _groups.Add(group);
         public void RemoveGroup(EntityId id)
             => _groups.RemoveAll(g => g.Id == id);
+        public void AddObject(WorldObject obj) 
+            => _objects.Add(obj);
+        public void RemoveObject(EntityId id)
+           => _objects.RemoveAll(g => g.Id == id);
 
         public void PlayerEntered(WorldPosition position)
             => AddDomainEvent(new PlayerEnteredSceneEvent(Id, position));
@@ -67,6 +74,13 @@ namespace UnceasingFear.Domain.World.Aggregates
             var worldPos = MapMetadata.TileToWorld(tile);
             return _groups.FirstOrDefault(g =>
                 MapMetadata.WorldToTile(g.CurrentPosition) == tile);
+        }
+
+        public WorldObject? FindObjectAtTile(TileCoord tile)
+        {
+            var worldPos = MapMetadata.TileToWorld(tile);
+            return _objects.FirstOrDefault(o =>
+                MapMetadata.WorldToTile(o.CurrentPosition) == tile);
         }
     }
 }

@@ -5,18 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnceasingFear.Domain.Shared.ValueObjects;
+using UnceasingFear.Domain.World.ValueObjects;
 
 namespace UnceasingFear.Persistence.Xml.Mappers
 {
     public static class DialogueXmlMapper
     {
-        public static DialogueTree FromXml(XElement el)
+        public static DialogueTree FromXml(XElement el, Func<string, Template> resolveTemplate)
         {
             var id = el.Attribute("id")!.Value;
-            var nodes = el.Elements("Node").Select(NodeFromXml).ToList();
+            var nodes = el.Elements("Node")
+                          .Select(x => NodeFromXml(x, resolveTemplate))
+                          .ToList();
 
             var startNode = nodes.FirstOrDefault(n => n.Id == "start");
-            if (startNode.Id == null)
+            if (string.IsNullOrEmpty(startNode.Id))
             {
                 startNode = nodes.FirstOrDefault();
             }
@@ -24,17 +27,20 @@ namespace UnceasingFear.Persistence.Xml.Mappers
             return new DialogueTree(id, startNode, nodes);
         }
 
-        private static DialogueNode NodeFromXml(XElement el)
+
+        private static DialogueNode NodeFromXml(XElement el, Func<string, Template> resolveTemplate)
         {
             var id = el.Attribute("id")!.Value;
             var speaker = el.Attribute("speaker")?.Value ?? string.Empty;
             var text = el.Attribute("text")?.Value ?? string.Empty;
-            var choices = el.Elements("Choice").Select(ChoiceFromXml).ToList();
+            var choices = el.Elements("Choice")
+                            .Select(x => ChoiceFromXml(x, resolveTemplate))
+                            .ToList();
 
             return new DialogueNode(id, speaker, text, choices);
         }
 
-        private static DialogueChoice ChoiceFromXml(XElement el)
+        private static DialogueChoice ChoiceFromXml(XElement el, Func<string, Template> resolveTemplate)
         {
             var text = el.Attribute("text")!.Value;
             var actionStr = el.Attribute("action")!.Value;
@@ -54,7 +60,22 @@ namespace UnceasingFear.Persistence.Xml.Mappers
                 .Select(ItemFromXml)
                 .ToList() ?? new List<Item>();
 
-            return new DialogueChoice(text, action, target, receiveItems, conditions);
+            // ✅ NEW: Parse ReciveUnits by resolving Templates to extract their Profiles
+            var receiveUnits = el.Element("ReciveUnits")?
+                .Elements("Unit")
+                .Select(u =>
+                {
+                    var templateName = u.Attribute("template")!.Value;
+                    var template = resolveTemplate(templateName);
+
+                    // We just need the UnitProfile struct out of it to give to the player
+                    // Reset its ID/Slot since it will be added fresh later by TakeUnit logic
+                    return template.Profiles.FirstOrDefault() with { SlotIndex = 0 };
+                })
+                .Where(p => !string.IsNullOrEmpty(p.Name))
+                .ToList() ?? new List<UnitProfile>();
+
+            return new DialogueChoice(text, action, target, receiveItems, receiveUnits, conditions);
         }
 
         private static Item ItemFromXml(XElement el)
